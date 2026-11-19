@@ -3,11 +3,10 @@ export function mountPortraitReveal(stage, hero) {
   if (!stage || !hero) return;
   const front = stage.querySelector('.hero-portrait');
   const back = stage.querySelector('.hero-rider');
-  const button = stage.querySelector('#persona-toggle');
   const canvas = document.createElement('canvas');
   canvas.className = 'hero-reveal';
   canvas.setAttribute('aria-hidden', 'true');
-  stage.insertBefore(canvas, button);
+  stage.append(canvas);
   const mask = document.createElement('canvas');
   const buffer = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
@@ -19,18 +18,12 @@ export function mountPortraitReveal(stage, hero) {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const LIFE = 1100;
   const stamps = [];
-  let width = 0, height = 0, dpr = 1, ready = false, pinned = false;
+  let width = 0, height = 0, dpr = 1, ready = false;
   let previous = null, activeTouch = null, frame = 0, inView = true;
   let lastMove = performance.now(), autoLast = null, autoTime = 0, lastFrame = 0;
 
   function schedule() {
     if (!frame && ready && inView && !document.hidden) frame = requestAnimationFrame(render);
-  }
-  function label() {
-    button.textContent = pinned ? '回到日常的我 ↗' : coarse.matches ? '划过照片，发现另一面 ↗' : '鼠标划过，发现另一面 ↗';
-    button.setAttribute('aria-pressed', String(pinned));
-    button.setAttribute('aria-label', pinned ? '恢复本人照片与鼠标撕裂效果' : '显示完整骑手造型');
-    button.title = '在半身像上移动鼠标或手指，撕开骑手造型；点击可切换完整造型。';
   }
   function resize() {
     const rect = front.getBoundingClientRect();
@@ -60,7 +53,7 @@ export function mountPortraitReveal(stage, hero) {
     if (stamps.length > 400) stamps.splice(0, stamps.length - 400);
   }
   function pointerTo(event) {
-    if (!ready || pinned || !event.isPrimary || event.target.closest('button,a,input,select,textarea')) return;
+    if (!ready || !event.isPrimary || event.target.closest('button,a,input,select,textarea')) return;
     const rect = front.getBoundingClientRect();
     const point = {x: event.clientX - rect.left, y: event.clientY - rect.top};
     if (point.x < 0 || point.x > width || point.y < 0 || point.y > height) { previous = null; return; }
@@ -100,7 +93,7 @@ export function mountPortraitReveal(stage, hero) {
     if (!ready || !width || !height) return;
     const delta = Math.min((now - (lastFrame || now)) / 1000, .05);
     lastFrame = now;
-    if (!pinned && coarse.matches && !reduced.matches && now - lastMove > 2500) {
+    if (coarse.matches && !reduced.matches && now - lastMove > 2500) {
       autoTime += delta;
       const x = width * (.5 + Math.sin(autoTime * 1.3) * .28);
       const y = height * (.32 + Math.sin(autoTime * .9 + 1) * .22);
@@ -113,7 +106,6 @@ export function mountPortraitReveal(stage, hero) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.globalCompositeOperation = 'source-over';
     ctx.clearRect(0, 0, width, height);
-    if (pinned) { drawImage(ctx, back); return; }
     drawImage(ctx, front);
     if (stamps.length) {
       maskCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -143,14 +135,6 @@ export function mountPortraitReveal(stage, hero) {
     }
     if (stamps.length || (coarse.matches && !reduced.matches)) schedule();
   }
-  button.addEventListener('click', () => {
-    pinned = !pinned;
-    stamps.length = 0;
-    clearPointer();
-    lastMove = performance.now();
-    label();
-    schedule();
-  });
   const observer = new ResizeObserver(resize);
   observer.observe(front);
   const visibility = new IntersectionObserver(entries => {
@@ -163,7 +147,7 @@ export function mountPortraitReveal(stage, hero) {
     if (document.hidden) { cancelAnimationFrame(frame); frame = 0; }
     else { lastFrame = 0; schedule(); }
   });
-  for (const query of [coarse, reduced]) query.addEventListener('change', () => { label(); schedule(); });
+  for (const query of [coarse, reduced]) query.addEventListener('change', schedule);
 
   Promise.all([front.decode(), back.decode()]).then(() => {
     ready = true;
@@ -172,12 +156,10 @@ export function mountPortraitReveal(stage, hero) {
     frame = 0;
     render(performance.now());
     stage.classList.add('reveal-ready');
-    label();
   }).catch(() => {
     // Keep the original photograph visible if decoding fails.
     canvas.remove();
     observer.disconnect();
     visibility.disconnect();
-    button.hidden = true;
   });
 }

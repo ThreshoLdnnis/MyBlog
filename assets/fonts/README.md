@@ -45,3 +45,9 @@ font-weight: 400;
 三个源字体都采用 SIL Open Font License 1.1，许可原文分别为 `NotoSerifSC-OFL.txt`、`InstrumentSerif-OFL.txt`、`Caveat-OFL.txt`。派生文件经过 fontTools 子集化、WOFF2 压缩；中文变量轴收窄到 400–700，Caveat 固定为 400。派生字体的内部 family / full / PostScript 名称已改为 Journal 系列，保留原作者、版权、商标与许可记录。
 
 `build-editorial-fonts.py` 可从已锁定的官方提交重建字体。需要 Python、fontTools 与 Brotli；脚本只写本目录，原始大型 TTF 留在内存，不随站点部署。新增大量原来未收录的文字后可以重建，以纳入 core；普通 GB2312 汉字也会由补充片直接显示。
+
+## 首页自我介绍
+
+`journal-intro-hand.woff2` 由 [小赖字体 v3.126 的 Xiaolai-Regular.ttf](https://github.com/lxgw/kose-font/releases/tag/v3.126) 派生，CSS 家族名为 `Journal Intro Hand`。使用 fontTools 保留首页介绍四处文案所需的 37 个字符，重命名内部字体家族后转为 WOFF2（8,288 字节），其余字符通过页面字体栈回退。源 TTF 的 SHA-256 为 `e2f68daf0e72777a8cf58bc83de1b98634b251e537ddbfca24b0ae50d1802da2`。
+
+原始许可见 [Xiaolai-OFL.txt](./Xiaolai-OFL.txt)。派生字体同样采用 SIL Open Font License 1.1。

@@ -25,7 +25,6 @@ body[data-page] { min-width: 280px; }
 
 .site-header .brand { flex: 0 0 auto; gap: 13px; }
 .site-header .brand-mark { font-size: 30px; }
-.site-header .brand > span:last-child { font-size: 9px; letter-spacing: .07em; }
 .site-header .top-nav {
   display: flex;
   align-items: stretch;
@@ -91,13 +90,10 @@ main#page-content {
 #page-content > .section-pad > .section-heading { margin-bottom: 32px; }
 
 /* Keep all portrait layers on the original shared positioning system. */
-body[data-page="me"] .hero { padding-top: 18px; }
-body[data-page="me"] .hero-eyebrow { margin-bottom: 19px; }
+body[data-page="me"] .hero { padding-top: clamp(28px, 2.65vw, 40px); }
 body[data-page="me"] .hero h1 { font-size: clamp(80px, 14.9vw, 238px); }
 body[data-page="me"] .hero-stage { height: clamp(390px, 31vw, 500px); }
 body[data-page="me"] .hero-copy { padding-top: 32px; padding-bottom: 28px; }
-body[data-page="me"] .hero-aside { padding-top: 28px; padding-bottom: 28px; }
-body[data-page="me"] .hero-bottom { padding-top: 13px; padding-bottom: 13px; }
 
 .profile-links { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 28px; }
 .profile-links a {
@@ -275,17 +271,14 @@ html[data-turn="back"]::view-transition-new(journal-page) { animation-name: jour
 @media (min-width: 1100px) {
   body[data-page="works"] #page-content > .works,
   body[data-page="life"] #page-content > .life,
-  body[data-page="journal"] #page-content > .journal,
   body[data-page="collection"] #page-content > .collection,
   body[data-page="honors"] #page-content > .honors { padding-top: 28px; padding-bottom: 32px; }
   body[data-page="works"] #page-content .works > .section-kicker,
   body[data-page="life"] #page-content .life > .section-kicker,
-  body[data-page="journal"] #page-content .journal > .section-kicker,
   body[data-page="collection"] #page-content .collection > .section-kicker,
   body[data-page="honors"] #page-content .honors > .section-kicker { margin-bottom: 23px; }
   body[data-page="works"] #page-content .works > .section-heading,
   body[data-page="life"] #page-content .life > .section-heading,
-  body[data-page="journal"] #page-content .journal > .section-heading,
   body[data-page="collection"] #page-content .collection > .section-heading,
   body[data-page="honors"] #page-content .honors > .section-heading { margin-bottom: 24px; }
   body[data-page="works"] .works > .section-heading h2 { font-size: clamp(36px, 3.3vw, 50px); }
@@ -332,7 +325,6 @@ html[data-turn="back"]::view-transition-new(journal-page) { animation-name: jour
   :root { --journal-header-height: 106px; --journal-footer-height: 88px; }
   .site-header { grid-template-rows: 59px 47px; gap: 0 15px; }
   .site-header .brand { gap: 12px; }
-  .site-header .brand > span:last-child { display: block; font-size: 8px; line-height: 1.45; }
   .site-header .brand-mark { font-size: 27px; }
   .site-header .header-end { gap: 12px; }
   .site-header .live-label { display: flex; font-size: 7px; letter-spacing: .08em; }
@@ -344,13 +336,10 @@ html[data-turn="back"]::view-transition-new(journal-page) { animation-name: jour
   #page-content > .section-pad { padding-top: 30px; padding-bottom: 42px; }
   #page-content > .section-pad > .section-kicker { margin-bottom: 27px; }
   #page-content > .section-pad > .section-heading { margin-bottom: 25px; }
-  body[data-page="me"] .hero { padding-top: 17px; }
-  body[data-page="me"] .hero-eyebrow { margin-bottom: 17px; }
+  body[data-page="me"] .hero { padding-top: 25px; }
   body[data-page="me"] .hero h1 { font-size: 15.2vw; }
   body[data-page="me"] .hero-stage { height: 470px; }
   body[data-page="me"] .hero-copy { padding: 27px 0 0; }
-  body[data-page="me"] .hero-aside { padding: 0; }
-  body[data-page="me"] .hero-bottom { padding-top: 12px; padding-bottom: 12px; }
   .profile-links { gap: 7px; margin-top: 24px; }
   .profile-links a { min-height: 34px; padding: 7px 13px; font-size: 10px; }
   .route-room-shell { min-height: 500px; }

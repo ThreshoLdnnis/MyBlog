@@ -2,6 +2,7 @@ import { initialContent, projects } from './content.js';
 import { mountCabinet } from './cabinet/cabinet.js';
 import { mountPortraitReveal } from './portrait-reveal.js';
 import { mountNameParticles } from './name-particles.js';
+import { mountHeroStickers } from './hero-stickers.js';
 import { pages, mountPageNavigation } from './page-navigation.js';
 
 const $ = (s, root=document) => root.querySelector(s);
@@ -13,7 +14,7 @@ const safeURL = url => {if(typeof url!=='string'||!url.trim())return '';try{cons
 const safeImage = value => typeof value==='string' && (/^data:image\/(jpeg|png|webp);base64,[a-zA-Z0-9+/=]+$/.test(value)||/^assets\/[a-zA-Z0-9_./-]+$/.test(value)) ? value : '';
 let content=structuredClone(initialContent), saved=new Set(), workFilter='全部', timeFilter='全部', collectFilter='全部';
 let pageNavigation;
-const moduleInfo={map:{title:'猪的世界足迹',path:'modules/map.html'},music:{title:'Music of Love · 音乐墙',path:'modules/music.html'},books:{title:'老猪的读书角',path:'modules/books.html'}};
+const moduleInfo={map:{title:'猪的世界足迹',path:'modules/map.html'},music:{title:'Music of Love · 音乐墙',path:'modules/music.html'},books:{title:'猪的读书角',path:'modules/books.html'}};
 const contentKinds=['timeline','honors','collections','posts'];
 function validEntry(x){return x && typeof x==='object' && typeof x.id==='string' && typeof x.title==='string' && ['body','date','category','subtitle','excerpt','image','url','module'].every(k=>x[k]===undefined||typeof x[k]==='string');}
 function validContent(c){return c && typeof c==='object' && c.profile && typeof c.profile.name==='string' && contentKinds.every(k=>Array.isArray(c[k])&&c[k].length<=500&&c[k].every(validEntry)) && (c.trash===undefined||(Array.isArray(c.trash)&&c.trash.length<=2000&&c.trash.every(x=>x&&contentKinds.includes(x.kind)&&validEntry(x.entry))));}
@@ -22,7 +23,13 @@ function persist(next){if(!validContent(next)){toast('未保存：每类最多 5
 let toastTimer;
 function toast(message){$('#toast').textContent=message;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),3500);}
 function setFilter(group,value){$$('button',group).forEach(b=>{const on=b.dataset.filter===value;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on));});}
-function renderProfile(){ $('[data-display-name]').textContent=content.profile.name.toUpperCase(); document.title=content.profile.name.toUpperCase()+' — 生活，持续创作中。'; $$('[data-profile]').forEach(el=>el.textContent=content.profile[el.dataset.profile]||'');$('#profile-github').href=safeURL(content.profile.github)||'https://github.com/ThreshoLdnnis'; pageNavigation?.refreshTitle(); }
+function renderProfile() {
+  $('[data-display-name]').textContent = content.profile.name.toUpperCase();
+  $$('[data-profile]').forEach(el => el.textContent = content.profile[el.dataset.profile] || '');
+  $('#profile-github').href = safeURL(content.profile.github) || 'https://github.com/ThreshoLdnnis';
+  if (pageNavigation) pageNavigation.refreshTitle();
+  else document.title = content.profile.name;
+}
 function renderWorks(){const list=projects.filter(p=>workFilter==='全部'||p.type===workFilter);$('#works-grid').innerHTML=list.map(p=>`<article class="work-card"><button class="work-visual" data-project="${esc(p.id)}" aria-label="查看作品：${esc(p.title)}"><span class="work-number">${p.number} / ${esc(p.year)}</span>${p.image?`<img src="${esc(p.image)}" alt="${esc(p.title)}作品预览" loading="lazy">`:`<span class="wordmark-cover ${p.id==='cook'?'cook':''}">${p.id==='cook'?'CookIdea.':'LINGYU.'}</span>`}<span class="work-arrow" aria-hidden="true">↗</span></button><div class="work-info"><h3>${esc(p.title)}</h3><span>${esc(p.tag)}</span></div><p>${esc(p.description)}</p></article>`).join('');}
 function renderTimeline(){const list=content.timeline.filter(x=>timeFilter==='全部'||x.category===timeFilter);$('#timeline-list').innerHTML=list.length?list.map(x=>`<article class="timeline-row"><span class="timeline-date">${esc(x.date)}</span><span class="timeline-category">${esc(x.category)}</span><div><h3>${esc(x.title)}</h3><p>${esc(x.subtitle)}</p><details><summary>展开这个篇章</summary><p>${esc(x.body)}</p></details></div><button class="tiny-edit" data-edit="timeline" data-id="${esc(x.id)}" aria-label="编辑：${esc(x.title)}">↗</button></article>`).join(''):`<div class="empty-state"><h3>下一段故事，留给未来。</h3><button class="text-button" data-edit="timeline">添加一个篇章 ＋</button></div>`;}
 function renderCollections(){const q=$('#collection-search').value.trim().toLocaleLowerCase();const list=content.collections.filter(x=>(collectFilter==='全部'||x.category===collectFilter)&&`${x.title} ${x.subtitle} ${x.body}`.toLocaleLowerCase().includes(q));$('#collection-grid').innerHTML=list.length?list.map(x=>{const img=safeImage(x.image);return `<article class="find-card ${img?'':'textual'}">${img?`<img src="${esc(img)}" alt="${esc(x.title)}" loading="lazy">`:''}<span class="find-category">${esc(x.category)} / GOOD FIND</span><h3>${esc(x.title)}</h3><p>${esc(x.subtitle)}</p><div class="find-footer"><button data-collection="${esc(x.id)}">打开收藏 ↗</button><button data-save="${esc(x.id)}" class="${saved.has(x.id)?'saved':''}" aria-label="${saved.has(x.id)?'取消标记':'标记喜欢'}：${esc(x.title)}" aria-pressed="${saved.has(x.id)}">${saved.has(x.id)?'已喜欢':'喜欢 ＋'}</button></div></article>`;}).join(''):`<div class="empty-state"><h3>${q?'没有找到这份收藏。':'这个抽屉，等一份新的心动。'}</h3><p>${q?'试试其他关键词，或者切换分类。':'探店、地点、物品或一句话，都值得被好好留下。'}</p><button class="text-button" data-edit="collections">添加收藏 ＋</button></div>`;}
@@ -35,7 +42,14 @@ let dialogTrigger;
 let editorGeneration=0;
 editorDialog.addEventListener('close',()=>{editorGeneration++;});
 function openDialog(dialog){dialogTrigger=document.activeElement;dialog.showModal();}
-function closeDialog(dialog){dialog.close();if(dialogTrigger?.isConnected)dialogTrigger.focus();}
+function closeDialog(dialog) {
+  dialog.close();
+  if (dialogTrigger?.isConnected && !dialogTrigger.closest('[hidden]')) {
+    dialogTrigger.focus();
+  } else {
+    $('#page-content').focus({preventScroll:true});
+  }
+}
 function openModule(key){const page=pages.find(p=>p.module===key);if(page)pageNavigation.navigate(page.id);}
 $$('.dialog-close').forEach(b=>b.addEventListener('click',()=>closeDialog(b.closest('dialog'))));
 [detailDialog,editorDialog].forEach(d=>d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeDialog(d);}}));
@@ -80,17 +94,17 @@ $('#timeline-filters').addEventListener('click',e=>{const b=e.target.closest('[d
 $('#collection-filters').addEventListener('click',e=>{const b=e.target.closest('[data-filter]');if(b){collectFilter=b.dataset.filter;setFilter(e.currentTarget,collectFilter);renderCollections();}});
 $('#collection-search').addEventListener('input',renderCollections);
 $('#manage-content').addEventListener('click',openManager);
-$('#index-links').innerHTML=pages.map(({id,title},i)=>`<a href="#/${id}"><small>${String(i+1).padStart(2,'0')}</small>${title}</a>`).join('');
+$('#index-links').innerHTML=pages.map(({id,title})=>`<a href="#/${id}">${title}</a>`).join('');
 function toggleIndex(force){const expanded=force??$('#index-panel').hidden;$('#index-panel').hidden=!expanded;$('#index-toggle').setAttribute('aria-expanded',String(expanded));$('#index-toggle').setAttribute('aria-label',expanded?'关闭全部章节':'打开全部章节');}
 $('#index-toggle').addEventListener('click',()=>toggleIndex());$('#index-links').addEventListener('click',e=>{if(e.target.closest('a'))toggleIndex(false);});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')toggleIndex(false);});
 document.addEventListener('click',e=>{if(!e.target.closest('#index-panel,#index-toggle'))toggleIndex(false);});
-$('#credits-button').addEventListener('click',()=>{$('#detail-content').innerHTML=`<span class="eyebrow">ABOUT THIS JOURNAL</span><h2>一本持续更新的生活手册。</h2><div class="credit-text">设计融合已有 Fashion Web 系列的大字排版、本人造型切换，以及 Orbit 的空间感与纸张质感。
-欢迎页复用 <a href="https://github.com/ThreshoLdnnis/MovingSpider" target="_blank" rel="noopener noreferrer">MovingSpider</a> 的跳蛛收藏场景，点击进入后开启手册。素材与字体声明见 <a href="welcome/THIRD_PARTY_NOTICES.md" target="_blank" rel="noopener noreferrer">欢迎页来源说明</a>。
+$('#credits-button').addEventListener('click',()=>{$('#detail-content').innerHTML=`<h2>关于本站</h2><div class="credit-text">设计融合已有 Fashion Web 系列的大字排版、本人造型切换，以及 Orbit 的空间感与纸张质感。
+欢迎页复用 <a href="https://github.com/ThreshoLdnnis/MovingSpider" target="_blank" rel="noopener noreferrer">MovingSpider</a> 的跳蛛收藏场景。素材与字体声明见 <a href="welcome/THIRD_PARTY_NOTICES.md" target="_blank" rel="noopener noreferrer">欢迎页来源说明</a>。
 旅行地图、音乐墙和读书角直接集成原作。音乐墙预置封面与歌词；播放需要添加你自己的音频。
 个人介绍与经历依据已有个人资料整理；荣誉未虚构，手办默认展示灵感样例。两篇站点手记为本次网站制作撰写的开场内容，可自行编辑。
 主站内容保存在当前浏览器，不会自动同步到其他设备。内容管理支持导出和导入。
-字体：Anton、Instrument Sans、Noto Serif SC、Instrument Serif 与 Caveat；自托管字库与许可见 <a href="assets/fonts/README.md" target="_blank" rel="noopener noreferrer">字体说明</a>。图片与素材来源保存在 <a href="assets/sources.json" target="_blank" rel="noopener noreferrer">素材来源清单</a>；手办图片为 POP MART 官方商品参考图，原作者及品牌保留权利。
+字体：Anton、Instrument Sans、Noto Serif SC、Instrument Serif、Caveat 与小赖字体；自托管字库与许可见 <a href="assets/fonts/README.md" target="_blank" rel="noopener noreferrer">字体说明</a>。图片与素材来源保存在 <a href="assets/sources.json" target="_blank" rel="noopener noreferrer">素材来源清单</a>；手办图片为 POP MART 官方商品参考图，原作者及品牌保留权利。
 Made with curiosity, for Mofarigano.</div>`;openDialog(detailDialog);});
 $('#current-year').textContent=new Intl.DateTimeFormat('en',{year:'numeric',timeZone:'Asia/Shanghai'}).format(new Date());
 renderAll();
@@ -101,6 +115,7 @@ function prepareJournalMedia() {
   for (const image of $$('img[data-src]', stage)) image.src = image.dataset.src;
   mountPortraitReveal(stage, $('#intro'));
   mountNameParticles($('[data-display-name]'), $('#intro'));
+  mountHeroStickers($('#hero-stickers'));
   mountCabinet($('#cabinet'));
 }
 

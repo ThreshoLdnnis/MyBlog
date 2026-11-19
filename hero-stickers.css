@@ -1,0 +1,68 @@
+.hero { position: relative; }
+
+.hero-stickers {
+  position: absolute;
+  inset: clamp(24px, 2.1vw, 38px) clamp(16px, 2vw, 34px) clamp(17px, 2.2vw, 34px) auto;
+  width: min(33%, 390px);
+  z-index: 3;
+  user-select: none;
+}
+
+.hero-sticker {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  transform: translate(calc(-50% + var(--wind-x, 0px)), calc(-50% + var(--wind-y, 0px)))
+    rotate(calc(var(--tilt) + var(--wind-angle, 0deg)));
+  transition: transform 390ms cubic-bezier(.22, .65, .32, 1.12);
+  filter: drop-shadow(1px 3px 2px #33221b32);
+  pointer-events: none;
+}
+
+.hero-sticker-crop {
+  position: relative;
+  display: block;
+  aspect-ratio: var(--crop-ratio);
+  clip-path: var(--outline);
+}
+
+.hero-sticker-crop img {
+  position: absolute;
+  display: block;
+  max-width: none;
+}
+
+.hero-sticker[data-sticker="tomato"] { --x: 26%; --y: 38%; --size: 25%; --tilt: -12deg; }
+.hero-sticker[data-sticker="free"] { --x: 65%; --y: 10%; --size: 42%; --tilt: 9deg; }
+.hero-sticker[data-sticker="play"] { --x: 83%; --y: 24%; --size: 19%; --tilt: -9deg; }
+.hero-sticker[data-sticker="green-label"] { --x: 55%; --y: 96%; --size: 48%; --tilt: -6deg; }
+.hero-sticker[data-sticker="blue-label"] { --x: 64%; --y: 69%; --size: 43%; --tilt: -8deg; }
+.hero-sticker[data-sticker="latte"] { --x: 84%; --y: 48%; --size: 25%; --tilt: 9deg; }
+.hero-sticker[data-sticker="burger-cat"] { --x: 43%; --y: 56%; --size: 29%; --tilt: 7deg; }
+.hero-sticker[data-sticker="chef-dog"] { --x: 84%; --y: 83%; --size: 27%; --tilt: 9deg; }
+.hero-sticker[data-sticker="durian-cat"] { --x: 30%; --y: 81%; --size: 29%; --tilt: -11deg; }
+
+@media (max-width: 700px) {
+  .hero-stickers {
+    position: relative;
+    inset: auto;
+    width: min(100%, 420px);
+    height: clamp(248px, 75vw, 314px);
+    margin: 16px auto 14px;
+  }
+
+  .hero-sticker[data-sticker="tomato"] { --x: 13%; --y: 20%; --size: 21%; }
+  .hero-sticker[data-sticker="free"] { --x: 40%; --y: 11%; --size: 30%; }
+  .hero-sticker[data-sticker="play"] { --x: 58%; --y: 29%; --size: 17%; }
+  .hero-sticker[data-sticker="green-label"] { --x: 49%; --y: 91%; --size: 49%; }
+  .hero-sticker[data-sticker="blue-label"] { --x: 48%; --y: 56%; --size: 37%; }
+  .hero-sticker[data-sticker="latte"] { --x: 85%; --y: 34%; --size: 21%; }
+  .hero-sticker[data-sticker="burger-cat"] { --x: 18%; --y: 46%; --size: 25%; }
+  .hero-sticker[data-sticker="chef-dog"] { --x: 83%; --y: 78%; --size: 26%; }
+  .hero-sticker[data-sticker="durian-cat"] { --x: 19%; --y: 79%; --size: 23%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-sticker { transition: none; }
+}

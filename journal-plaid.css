@@ -10,6 +10,7 @@
   --journal-tint: #e7ebf1;
   --journal-accent-light: #ffa9ae;
   --journal-cloth: url("assets/journal-plaid.webp");
+  --journal-star-cloth: url("assets/journal-star-plaid.webp");
   --sheet-inset: clamp(16px, 4.5vw, 80px);
   --sheet-gap: clamp(12px, 1.75vw, 26px);
   --journal-page-height: calc(100svh - var(--journal-header-height) - var(--journal-footer-height) - var(--sheet-gap) * 2);
@@ -27,9 +28,17 @@ html.welcome-open:has(.welcome-gate.is-entering) body#home {
   background-image: var(--journal-cloth);
 }
 
+body .site-header,
+.site-footer {
+  background-color: #352217;
+  background-image: linear-gradient(#160e0966, #160e0952), var(--journal-star-cloth);
+  background-size: 100% 100%, clamp(360px, 47vw, 720px) auto;
+  background-repeat: no-repeat, repeat-x;
+}
+
 body .site-header {
   color: var(--paper);
-  background: var(--journal-navy);
+  background-position: center, center 2.5%;
   border-bottom-color: #ffffff4d;
   box-shadow: 0 6px 20px #101a3650;
 }
@@ -43,7 +52,6 @@ body .site-header .top-nav a:nth-child(n)[aria-current="page"] { color: var(--pa
   color: var(--journal-accent-light);
 }
 
-.site-header .brand .brand-caption,
 body .site-header .top-nav .nav-en { color: #bdc6d6; }
 
 .site-header .brand:hover .brand-wordmark,
@@ -75,9 +83,7 @@ body[data-page="me"] #page-content .hero h1 {
   font-size: clamp(30px, 16.45cqi, 238px);
 }
 
-.hero-eyebrow > span:first-child,
-.section-kicker > span:first-child,
-.hero-aside .issue-label { color: var(--orange); }
+.section-kicker > span:first-child { color: var(--orange); }
 
 .portrait-backdrop {
   background-color: #c4cad8;
@@ -88,11 +94,9 @@ body[data-page="me"] #page-content .hero h1 {
   box-shadow: 0 8px 22px #17223a23;
 }
 
-.persona-toggle,
 .skip-link,
 .primary-button:hover,
 .circle-link:hover .arrow-disc { color: var(--white); }
-.persona-toggle:hover { color: var(--white); background-color: #892233; }
 
 #page-content > :is(.works, .toys) { background: var(--journal-tint); }
 .honor-empty { background: var(--journal-tint); }
@@ -116,7 +120,7 @@ body[data-page="me"] #page-content .hero h1 {
 .tool-groups p { color: #c1cad9; }
 
 .site-footer {
-  background: var(--journal-navy);
+  background-position: center, center 64%;
   border-top-color: #ffffff4d;
 }
 .site-footer .footer-bottom { color: #d3dae6; }
@@ -126,8 +130,6 @@ body[data-page="me"] #page-content .hero h1 {
 @media (max-width: 700px) {
   :root { --sheet-inset: clamp(8px, 2.5vw, 16px); }
   main#page-content { --gutter: 16px; }
-  .hero-copy p { max-width: 46vw; line-height: 1.8; }
   .hero .portrait-stage { right: -6px; }
-  .site-header .brand .brand-caption,
   .site-footer .footer-bottom { font-size: 9px; }
 }

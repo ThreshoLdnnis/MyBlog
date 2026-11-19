@@ -16,7 +16,7 @@ export const initialContent = {
   collections: [
     {id:'c1',category:'工具',title:'GitHub',subtitle:'把想法，做成可以分享的东西。',url:'https://github.com/ThreshoLdnnis',body:'我的公开作品与代码，从产品到视觉实验。',image:'',featured:true},
     {id:'c2',category:'地点',title:'莫斯科',subtitle:'红场与城市记忆',url:'',body:'来自「猪的世界足迹」的已有收藏。打开旅行地图，继续探索这座城市。',image:'assets/travel-preview.png',module:'map'},
-    {id:'c3',category:'物品',title:'一本值得反复翻开的书',subtitle:'老猪精选书籍 · 51 本',url:'',body:'文学、心理、成长、投资与科学。把书从立体书架抽出来，慢慢读。',image:'assets/books-preview.jpg',module:'books'},
+    {id:'c3',category:'物品',title:'一本值得反复翻开的书',subtitle:'猪的读书角 · 51 本',url:'',body:'文学、心理、成长、投资与科学。把书从立体书架抽出来，慢慢读。',image:'assets/books-preview.jpg',module:'books'},
     {id:'c4',category:'语录',title:'保持好奇，缓慢生长。',subtitle:'写给这个持续更新的小站',url:'',body:'这里不急着给自己下定义。研究、创造，也允许偶尔停下来。',image:''},
     {id:'c5',category:'说说',title:'生活，正在收藏中。',subtitle:'站点开场白',url:'',body:'一个地方存放作品，另一个角落存放喜欢。现在，它们有了同一个家。',image:''},
     {id:'c6',category:'音乐',title:'鲜花',subtitle:'回春丹 · 来自我的音乐墙',url:'',body:'一张封面，一段反复回来的旋律。',image:'assets/music-preview.jpg',module:'music'}
@@ -29,7 +29,7 @@ export const initialContent = {
 
 export const projects = [
   {id:'music',title:'Music of Love',type:'生活空间',year:'2026',number:'01',image:'assets/music-preview.jpg',description:'让封面有形状，让旋律有归处。Three.js 立体唱片与歌词手记。',module:'music',tag:'INTERACTIVE / MUSIC'},
-  {id:'books',title:'老猪的读书角',type:'生活空间',year:'2026',number:'02',image:'assets/books-preview.jpg',description:'51 本书，51 个可以走进去的世界。可抽取、可翻阅的立体书架。',module:'books',tag:'3D / READING'},
+  {id:'books',title:'猪的读书角',type:'生活空间',year:'2026',number:'02',image:'assets/books-preview.jpg',description:'51 本书，51 个可以走进去的世界。可抽取、可翻阅的立体书架。',module:'books',tag:'3D / READING'},
   {id:'orbit',title:'Orbit · 星际漫游',type:'视觉实验',year:'2026',number:'03',image:'assets/projects/orbit.jpg',description:'将影像环绕成一颗可以触及的星球，用拖动与镜头推进探索空间。',url:'https://github.com/ThreshoLdnnis/WebDesign10-PhotoBall',tag:'EXPERIMENT / SPACE'},
   {id:'ronin',title:'RoninX · 神经边界',type:'视觉实验',year:'2026',number:'04',image:'assets/projects/roninx.jpg',description:'机械、留白与聚光。藏在光线后面的另一种面貌。',url:'https://github.com/ThreshoLdnnis/WebDesign6-RoninX',tag:'EXPERIMENT / MOTION'},
   {id:'lingyu',title:'Lingyu · 领屿',type:'产品设计',year:'持续迭代',number:'05',image:'',description:'独立设计与开发的学生成长平台。双语界面、内容管理、权限与响应式体验。',url:'https://github.com/ThreshoLdnnis/Qsinghua-TencentSmaker',tag:'PRODUCT / EDUCATION'},
