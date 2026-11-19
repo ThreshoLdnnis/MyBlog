@@ -9,11 +9,26 @@ function mountWelcomeGate(dialog) {
   let leaving = false;
   let returnFocus = null;
   let exitAnimation = null;
+  let journalReady;
+
+  function prepareJournal() {
+    if (journalReady) return journalReady;
+    const styles = document.querySelector('#journal-styles').content.cloneNode(true);
+    const styleLoads = [...styles.querySelectorAll('link')].map(link => new Promise(resolve => {
+      link.addEventListener('load', resolve, {once:true});
+      link.addEventListener('error', resolve, {once:true});
+    }));
+    document.head.append(styles);
+    journalReady = Promise.allSettled([...styleLoads, import('./app.js')]);
+    return journalReady;
+  }
 
   async function enter() {
     if (!dialog.open || leaving) return;
     leaving = true;
     enterButton.disabled = true;
+    dialog.setAttribute('aria-busy', 'true');
+    await prepareJournal();
     dialog.classList.add('is-entering');
     document.dispatchEvent(new Event('journal:entering'));
     if (!reduced.matches) {
@@ -28,6 +43,7 @@ function mountWelcomeGate(dialog) {
     frame = null;
     dialog.close();
     dialog.hidden = true;
+    dialog.removeAttribute('aria-busy');
     exitAnimation?.cancel();
     exitAnimation = null;
     document.documentElement.classList.remove('welcome-open');
@@ -64,6 +80,10 @@ function mountWelcomeGate(dialog) {
     const initialFrame = host.querySelector('.welcome-frame');
     frame = initialFrame || document.createElement('iframe');
     if (!initialFrame) {
+      try {
+        const theme = localStorage.getItem('movingspider-theme');
+        document.documentElement.dataset.theme = ['blue','rose','silver','original'].includes(theme) ? theme : 'blue';
+      } catch {}
       frame.className = 'welcome-frame';
       frame.title = 'MovingSpider · Mofarigano 欢迎页';
       frame.src = 'welcome/index.html';
@@ -77,6 +97,7 @@ function mountWelcomeGate(dialog) {
     if (scene?.documentElement?.hasAttribute('data-welcome-ready') || scene?.readyState === 'complete') {
       revealScene(mountedFrame);
     }
+    if (scene?.documentElement?.dataset.ready === 'true') void prepareJournal();
   }
 
   enterButton.addEventListener('click', enter);
@@ -84,6 +105,7 @@ function mountWelcomeGate(dialog) {
   addEventListener('message', event => {
     if (event.origin !== location.origin || event.source !== frame?.contentWindow) return;
     if (event.data?.type === 'mofarigano:welcome-ready') revealScene(frame);
+    if (event.data?.type === 'mofarigano:spider-ready') void prepareJournal();
     if (event.data?.type === 'mofarigano:enter') void enter();
   });
   reduced.addEventListener('change', () => {

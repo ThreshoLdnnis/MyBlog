@@ -1,14 +1,29 @@
 <!doctype html>
-<html lang="zh-CN" class="welcome-open">
+<html lang="zh-CN" class="welcome-open" data-theme="blue">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#edeae3">
   <meta name="description" content="朱飞阳的个人生活手册。量化研究、产品设计、旅行足迹，以及值得反复打开的音乐、书籍与收藏。">
   <title>MOFARIGANO — 生活，持续创作中。</title>
-  <link rel="icon" href="assets/portrait.jpg"><link rel="preload" href="assets/fonts/anton.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="icon" href="assets/portrait.jpg">
+  <script>
+    try {
+      const savedTheme = localStorage.getItem('movingspider-theme');
+      if (['blue', 'silver', 'rose', 'original'].includes(savedTheme)) document.documentElement.dataset.theme = savedTheme;
+    } catch {}
+  </script>
+  <link rel="stylesheet" href="welcome/texture-previews.css">
   <script type="module" src="welcome-gate.js"></script>
-  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="cabinet/cabinet.css"><link rel="stylesheet" href="page-navigation.css">
-  <link rel="stylesheet" href="assets/fonts/editorial-fonts.css"><link rel="stylesheet" href="typography.css"><link rel="stylesheet" href="navigation-polish.css"><link rel="stylesheet" href="name-particles.css"><link rel="stylesheet" href="welcome-gate.css">
+  <link rel="stylesheet" href="welcome-gate.css">
+  <template id="journal-styles">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="cabinet/cabinet.css">
+    <link rel="stylesheet" href="page-navigation.css">
+    <link rel="stylesheet" href="assets/fonts/editorial-fonts.css">
+    <link rel="stylesheet" href="typography.css">
+    <link rel="stylesheet" href="navigation-polish.css">
+    <link rel="stylesheet" href="name-particles.css">
+  </template>
 </head>
 <body id="home">
 <a class="skip-link" href="#page-content">跳转到主要内容</a>
@@ -97,6 +112,5 @@
 <dialog aria-label="内容详情" id="detail-dialog" class="detail-dialog"><button class="dialog-close" aria-label="关闭详情">×</button><div id="detail-content"></div></dialog>
 <dialog aria-label="编辑个人网站内容" id="editor-dialog" class="editor-dialog"><button class="dialog-close" aria-label="关闭编辑器">×</button><div id="editor-content"></div></dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="module" src="app.js"></script>
 <noscript><p class="noscript">请开启 JavaScript 以浏览互动内容，也可直接打开 <a href="modules/map.html">旅行地图</a>、<a href="modules/music.html">音乐墙</a> 和 <a href="modules/books.html">读书角</a>。</p></noscript>
 </body></html>

@@ -1,5 +1,6 @@
 html.welcome-open,
 html.welcome-open body { overflow: hidden; overscroll-behavior: none; }
+html.welcome-open:not(:has(.welcome-gate.is-entering)) body > :not(.welcome-gate) { display: none; }
 
 .welcome-gate {
   position: fixed;
@@ -15,7 +16,7 @@ html.welcome-open body { overflow: hidden; overscroll-behavior: none; }
   border: 0;
   overflow: hidden;
   color: #fff;
-  background: #174b9e;
+  background: var(--surface, #174b9e) var(--texture-preview, none) center / cover no-repeat;
 }
 .welcome-gate[hidden] { display: none; }
 .welcome-gate::backdrop { background: transparent; }
@@ -32,7 +33,7 @@ html.welcome-open body { overflow: hidden; overscroll-behavior: none; }
   align-items: center;
   justify-content: center;
   gap: 32px;
-  background: #174b9e radial-gradient(ellipse at 54% 36%, #2456a5, #12418e);
+  color: var(--texture-ink, #fff);
 }
 .welcome-fallback[hidden] { display: none; }
 .welcome-fallback h2 {
@@ -52,5 +53,5 @@ html.welcome-open body { overflow: hidden; overscroll-behavior: none; }
   background: #ffffff12;
   cursor: pointer;
 }
-.welcome-fallback button:focus-visible { outline: 2px solid white; outline-offset: 6px; }
+.welcome-fallback button:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
 .welcome-fallback noscript { max-width: 25em; padding: 0 24px; font-size: 14px; line-height: 1.7; }

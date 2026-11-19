@@ -6,6 +6,6 @@
   "scripts": {
     "dev": "node server.mjs",
     "start": "node server.mjs",
-    "check": "node --check app.js && node --check page-navigation.js && node --check portrait-reveal.js && node --check name-particles.js && node --check content.js && node --check server.mjs && node --check welcome-gate.js && node --check welcome/enter.js && node --check welcome/src/theme.js && node --check welcome/src/ui.js && node --check welcome/src/silk.js && node --check welcome/src/spider.js"
+    "check": "node --check app.js && node --check page-navigation.js && node --check portrait-reveal.js && node --check name-particles.js && node --check content.js && node --check server.mjs && node --check welcome-gate.js && node --check welcome/src/theme.js && node --check welcome/src/ui.js && node --check welcome/src/silk.js && node --check welcome/src/spider.js"
   }
 }

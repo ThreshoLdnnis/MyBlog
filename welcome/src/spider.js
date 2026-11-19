@@ -462,7 +462,6 @@
     document.documentElement.style.cursor='auto';document.body.style.cursor='auto';
     const photoPromise=loadImage(FOUND_ASSETS.spider,'high');
     const headPromise=loadImage(FOUND_ASSETS.idle,'low');
-    const flyPromise=loadImage(FOUND_ASSETS.fly);
     const photo=await photoPromise;
     if(photo)rig=createRig(photo);
     collectNudges();resize({sampleSilk:false});
@@ -486,6 +485,8 @@
       if(!image.complete)image.addEventListener('load',refreshObjects,{once:true});
     }
     requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      document.dispatchEvent(new Event('found:spider-ready'));
+      if (window.parent !== window) window.parent.postMessage({type:'mofarigano:spider-ready'}, location.origin);
       silk.resize(W,H,DPR);
       new ResizeObserver(()=>resize()).observe(document.querySelector('.page')||document.body);
       refreshObjects();
@@ -497,7 +498,7 @@
         const samples=eyes.map(([x,y,r])=>{const p=cctx.getImageData(Math.round(x),Math.round(y-r-4),1,1).data;return [Math.round(p[0]*.82),Math.round(p[1]*.78),Math.round(p[2]*.75)];});
         idleSamples=samples;idle=c;
       }).catch(()=>{});
-      void flyPromise.then(flyPhoto=>{
+      void loadImage(FOUND_ASSETS.fly,'low').then(flyPhoto=>{
         if(!flyPhoto)return;
         flyRig=createFly(flyPhoto);
         document.documentElement.style.removeProperty('cursor');document.body.style.removeProperty('cursor');

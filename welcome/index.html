@@ -7,6 +7,17 @@
   <meta name="description" content="Mofarigano 的欢迎页：随蜘蛛探索收藏，再进入个人生活手册。">
   <title>Welcome！ · Mofarigano</title>
   <link rel="preload" href="assets/spider.webp" as="image" fetchpriority="high">
+  <link rel="preload" href="src/silk.js" as="script" fetchpriority="high">
+  <link rel="preload" href="src/spider.js" as="script" fetchpriority="high">
+  <script>
+    try {
+      const requestedTheme = new URLSearchParams(location.search).get('theme');
+      const savedTheme = localStorage.getItem('movingspider-theme');
+      const theme = [requestedTheme, savedTheme].find(value => ['blue', 'silver', 'rose', 'original'].includes(value));
+      if (theme) document.documentElement.dataset.theme = theme;
+    } catch {}
+  </script>
+  <link rel="stylesheet" href="texture-previews.css">
   <style>
     @font-face{font-family:Inter;font-style:normal;font-weight:400 600;font-display:swap;src:url('assets/inter-latin.woff2') format('woff2')}
     :root{--blue:#1129e2;--ink:#fff;--ink-70:rgba(255,255,255,.7);--glass:rgba(255,255,255,.1);--u:min(calc(100vw / 2000),calc(100dvh / 1125));color-scheme:dark}
@@ -30,14 +41,12 @@
       .mug{display:block;left:6vw;top:40%;width:calc(110 * var(--u))}.ibook{display:block;right:3vw;top:39%;width:calc(130 * var(--u))}.book{right:4vw;top:49%;bottom:auto;width:calc(130 * var(--u))}
       .player{--u:min(calc(100vw / 780),calc(100dvh / 1570),.72px);left:16px;top:49%;bottom:auto}.shirt{width:calc(150 * var(--u));height:auto;margin-left:calc(-75 * var(--u))}
     }
-    :root{--surface:#174b9e;--background-image:none;--theme-blue-image:url('assets/backgrounds/blue.webp');--theme-rose-image:url('assets/backgrounds/rose.webp');--theme-silver-image:url('assets/backgrounds/silver.webp')}
-    :root[data-theme=original]{--surface:#1129e2;--background-image:none}
-    :root[data-theme=blue]{--surface:#174b9e;--background-image:var(--theme-blue-image)}
-    :root[data-theme=rose]{--surface:#633547;--background-image:var(--theme-rose-image)}
-    :root[data-theme=silver]{--surface:#e5e5e5;--background-image:var(--theme-silver-image);--ink:#252a33;--ink-70:rgba(37,42,51,.7);color-scheme:light}
-    body{background-color:var(--surface);background-image:var(--background-image);background-size:cover;background-position:center;background-repeat:no-repeat}
+    :root[data-theme=silver]{--ink:#252a33;--ink-70:rgba(37,42,51,.7);color-scheme:light}
+    body.welcome-page{isolation:isolate;background-color:var(--surface);background-image:var(--texture-preview);background-size:cover;background-position:center;background-repeat:no-repeat}
+    .welcome-page::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:var(--texture-full,none) center/cover no-repeat;opacity:0}
+    [data-texture-ready] .welcome-page::before{opacity:1;transition:opacity 240ms ease-out}
     button:focus-visible,a:focus-visible,input:focus-visible{outline-color:var(--ink)}
-    .drawer{color:var(--ink);background:var(--surface);background-image:var(--background-image);background-size:cover;background-position:center}
+    .drawer{color:var(--ink);background:var(--surface);background-image:var(--texture-full,var(--texture-preview));background-size:cover;background-position:center}
     .drawer-search{color:var(--ink);border-bottom-color:currentColor}
     :root[data-theme=silver] .drawer{border-left-color:rgba(37,42,51,.2)}
     .theme-switcher{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:4;display:flex;gap:2px;padding:5px;border:1px solid rgba(255,255,255,.3);border-radius:999px;background:rgba(18,22,40,.24);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
@@ -50,13 +59,13 @@
     :root[data-theme=silver] .theme-switcher{background:rgba(255,255,255,.58);border-color:rgba(37,42,51,.22)}
     @media (hover:hover){.theme-button:hover::before{transform:scale(1.12)}}
     @media (max-aspect-ratio:1/1){.theme-switcher{right:max(8px,env(safe-area-inset-right));bottom:max(8px,env(safe-area-inset-bottom))}}
-    @media (prefers-reduced-motion:reduce){.theme-button::before{transition:none}}
+    @media (prefers-reduced-motion:reduce){.theme-button::before,[data-texture-ready] .welcome-page::before{transition:none}}
   </style>
-  <script src="src/theme.js"></script>
   <link rel="stylesheet" href="welcome.css">
+  <script src="src/silk.js" fetchpriority="high" defer></script>
+  <script src="src/spider.js" fetchpriority="high" defer></script>
+  <script src="src/theme.js" defer></script>
   <script src="src/ui.js" defer></script>
-  <script src="src/silk.js" defer></script>
-  <script src="src/spider.js" defer></script>
 </head>
 <body class="welcome-page">
   <main class="page" aria-label="Welcome！">
@@ -69,24 +78,24 @@
         </div>
       </header>
       <h1 class="found" data-web-anchor aria-label="Welcome！"><span>Welc</span><span class="letter-o">o</span><span>me</span><span class="exclamation">！</span></h1>
-      <img decoding="async" class="object mug" id="object-mug" data-web-anchor src="assets/mug.webp" width="241" height="220" alt="A ceramic mug with Main Character written on it" draggable="false">
-      <img decoding="async" class="object book" id="object-book" data-web-anchor src="assets/book.webp" width="293" height="322" alt="A pink book and an iPod in a transparent glass sleeve" draggable="false">
-      <img decoding="async" class="object collection-item" id="object-ipod-blue" data-web-anchor data-added data-tilt="-9" data-archive-name="透明蓝色 iPod" data-keywords="蓝色 透明 音乐 播放器 ipod blue music" style="--x:26%;--y:7%;--w:145;--tilt:-9deg;--mx:5%;--my:7%;--mw:90" src="assets/cutouts/ipod-blue.webp" alt="透明蓝色 iPod" draggable="false">
-      <img decoding="async" class="object collection-item" id="object-ipod-purple" data-web-anchor data-added data-tilt="7" data-archive-name="紫色宝石 iPod" data-keywords="紫色 宝石 音乐 播放器 ipod purple music" style="--x:43%;--y:5%;--w:145;--tilt:7deg;--mx:36%;--my:5%;--mw:93" src="assets/cutouts/ipod-purple.webp" alt="紫色宝石 iPod" draggable="false">
-      <img decoding="async" class="object collection-item" id="object-ipod-pearl" data-web-anchor data-added data-tilt="-6" data-archive-name="珠光渐变 iPod" data-keywords="珠光 渐变 音乐 播放器 ipod pearl music IU" style="--x:59%;--y:9%;--w:145;--tilt:-6deg;--mx:69%;--my:8%;--mw:90" src="assets/cutouts/ipod-pearl.webp" alt="珠光渐变 iPod" draggable="false">
-      <img decoding="async" class="object collection-item" id="object-anime" data-web-anchor data-added data-tilt="-7" data-archive-name="白发女孩插画" data-keywords="白发 女孩 插画 二次元 anime illustration girl" style="--x:4%;--y:9%;--w:190;--tilt:-7deg;--mx:3%;--my:64%;--mw:100" src="assets/cutouts/anime.webp" alt="白发女孩插画" draggable="false">
-      <img decoding="async" class="object collection-item" id="object-doll" data-web-anchor data-added data-tilt="9" data-archive-name="香奈儿穿搭玩偶" data-keywords="玩偶 娃娃 香奈儿 doll chanel fashion" style="--x:73%;--y:5%;--w:165;--tilt:9deg;--mx:30%;--my:63%;--mw:98" src="assets/cutouts/doll.webp" alt="香奈儿穿搭玩偶" draggable="false">
-      <img decoding="async" class="object collection-item" id="object-sneaker" data-web-anchor data-added data-tilt="-12" data-archive-name="深蓝色 Polo 运动鞋" data-keywords="鞋 球鞋 运动鞋 蓝色 polo sneaker shoe" style="--x:32%;--y:69%;--w:260;--tilt:-12deg;--mx:32%;--my:21%;--mw:170" src="assets/cutouts/sneaker.webp" alt="深蓝色 Polo 运动鞋" draggable="false">
-      <img decoding="async" class="object collection-item" id="object-blue-drink" data-web-anchor data-added data-tilt="7" data-archive-name="蓝色冰沙饮品" data-keywords="蓝色 冰沙 饮品 奶茶 blue drink smoothie" style="--x:21%;--y:76%;--w:95;--tilt:7deg;--mx:20%;--my:83%;--mw:62" src="assets/cutouts/blue-drink.webp" alt="蓝色冰沙饮品" draggable="false">
-      <img decoding="async" class="object collection-item" id="object-perfume" data-web-anchor data-added data-tilt="11" data-archive-name="黑色香水瓶链条包" data-keywords="香水 瓶 包 香奈儿 黑色 perfume bag chanel" style="--x:88%;--y:9%;--w:145;--tilt:11deg;--mx:56%;--my:65%;--mw:92" src="assets/cutouts/perfume.webp" alt="黑色香水瓶链条包" draggable="false">
-      <img decoding="async" class="object collection-item" id="object-frappe" data-web-anchor data-added data-tilt="-10" data-archive-name="巧克力奶油星冰乐" data-keywords="星巴克 咖啡 巧克力 奶油 frappe starbucks coffee drink" style="--x:62%;--y:73%;--w:130;--tilt:-10deg;--mx:3%;--my:83%;--mw:83" src="assets/cutouts/frappe.webp" alt="巧克力奶油星冰乐" draggable="false">
-      <img decoding="async" class="object collection-item" id="object-money-bag" data-web-anchor data-added data-tilt="8" data-archive-name="美金符号钱袋" data-keywords="钱袋 钱 美元 money cash bag" style="--x:34%;--y:80%;--w:170;--tilt:8deg;--mx:60%;--my:84%;--mw:84" src="assets/cutouts/money-bag.webp" alt="美金符号钱袋" draggable="false">
-      <img decoding="async" class="object collection-item" id="object-earbuds" data-web-anchor data-added data-tilt="-11" data-archive-name="耳机收纳盒" data-keywords="耳机 收纳盒 有线 音乐 earbuds earphones music" style="--x:6%;--y:75%;--w:230;--tilt:-11deg;--mx:78%;--my:64%;--mw:106" src="assets/cutouts/earbuds.webp" alt="耳机收纳盒" draggable="false">
-      <img decoding="async" class="object collection-item" id="object-pink-drink" data-web-anchor data-added data-tilt="8" data-archive-name="粉色冰饮" data-keywords="粉色 奶茶 饮品 pink tea drink" style="--x:91%;--y:70%;--w:130;--tilt:8deg;--mx:82%;--my:83%;--mw:66" src="assets/cutouts/pink-drink.webp" alt="粉色冰饮" draggable="false">
-      <img decoding="async" class="object collection-item" id="object-apple" data-web-anchor data-added data-tilt="-8" data-archive-name="贴纸红苹果" data-keywords="苹果 红色 水果 星星 apple red fruit sticker" style="--x:7%;--y:49%;--w:210;--tilt:-8deg;--mx:7%;--my:49%;--mw:110" src="assets/cutouts/apple.webp" alt="贴纸红苹果" draggable="false">
-      <img decoding="async" class="object collection-item" id="object-crosses" data-web-anchor data-added data-tilt="10" data-archive-name="黑粉双色十字饰品" data-keywords="十字 黑色 粉色 饰品 cross crosses black pink chrome" style="--x:81%;--y:32%;--w:175;--tilt:10deg;--mx:76%;--my:39%;--mw:85" src="assets/cutouts/crosses.webp" alt="黑粉双色十字饰品" draggable="false">
-      <img decoding="async" class="object collection-item" id="object-silver-heart" data-web-anchor data-added data-tilt="-9" data-archive-name="银色心形挂件" data-keywords="银色 心形 挂件 刻字 heart silver pendant forever" style="--x:49%;--y:78%;--w:190;--tilt:-9deg;--mx:40%;--my:86%;--mw:95" src="assets/cutouts/silver-heart.webp" alt="银色心形挂件" draggable="false">
-      <img decoding="async" class="object collection-item" id="object-chrome-emblem" data-web-anchor data-added data-tilt="7" data-archive-name="Chrome Hearts 圆形徽标" data-keywords="克罗心 圆形 徽标 贴纸 chrome hearts emblem logo sticker" style="--x:23%;--y:54%;--w:170;--tilt:7deg;--mx:41%;--my:45%;--mw:90" src="assets/cutouts/chrome-emblem.webp" alt="Chrome Hearts 圆形徽标" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object mug" id="object-mug" data-web-anchor src="assets/mug.webp" width="241" height="220" alt="A ceramic mug with Main Character written on it" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object book" id="object-book" data-web-anchor src="assets/book.webp" width="293" height="322" alt="A pink book and an iPod in a transparent glass sleeve" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object collection-item" id="object-ipod-blue" data-web-anchor data-added data-tilt="-9" data-archive-name="透明蓝色 iPod" data-keywords="蓝色 透明 音乐 播放器 ipod blue music" style="--x:26%;--y:7%;--w:145;--tilt:-9deg;--mx:5%;--my:7%;--mw:90" src="assets/cutouts/ipod-blue.webp" alt="透明蓝色 iPod" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object collection-item" id="object-ipod-purple" data-web-anchor data-added data-tilt="7" data-archive-name="紫色宝石 iPod" data-keywords="紫色 宝石 音乐 播放器 ipod purple music" style="--x:43%;--y:5%;--w:145;--tilt:7deg;--mx:36%;--my:5%;--mw:93" src="assets/cutouts/ipod-purple.webp" alt="紫色宝石 iPod" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object collection-item" id="object-ipod-pearl" data-web-anchor data-added data-tilt="-6" data-archive-name="珠光渐变 iPod" data-keywords="珠光 渐变 音乐 播放器 ipod pearl music IU" style="--x:59%;--y:9%;--w:145;--tilt:-6deg;--mx:69%;--my:8%;--mw:90" src="assets/cutouts/ipod-pearl.webp" alt="珠光渐变 iPod" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object collection-item" id="object-anime" data-web-anchor data-added data-tilt="-7" data-archive-name="白发女孩插画" data-keywords="白发 女孩 插画 二次元 anime illustration girl" style="--x:4%;--y:9%;--w:190;--tilt:-7deg;--mx:3%;--my:64%;--mw:100" src="assets/cutouts/anime.webp" alt="白发女孩插画" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object collection-item" id="object-doll" data-web-anchor data-added data-tilt="9" data-archive-name="香奈儿穿搭玩偶" data-keywords="玩偶 娃娃 香奈儿 doll chanel fashion" style="--x:73%;--y:5%;--w:165;--tilt:9deg;--mx:30%;--my:63%;--mw:98" src="assets/cutouts/doll.webp" alt="香奈儿穿搭玩偶" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object collection-item" id="object-sneaker" data-web-anchor data-added data-tilt="-12" data-archive-name="深蓝色 Polo 运动鞋" data-keywords="鞋 球鞋 运动鞋 蓝色 polo sneaker shoe" style="--x:32%;--y:69%;--w:260;--tilt:-12deg;--mx:32%;--my:21%;--mw:170" src="assets/cutouts/sneaker.webp" alt="深蓝色 Polo 运动鞋" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object collection-item" id="object-blue-drink" data-web-anchor data-added data-tilt="7" data-archive-name="蓝色冰沙饮品" data-keywords="蓝色 冰沙 饮品 奶茶 blue drink smoothie" style="--x:21%;--y:76%;--w:95;--tilt:7deg;--mx:20%;--my:83%;--mw:62" src="assets/cutouts/blue-drink.webp" alt="蓝色冰沙饮品" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object collection-item" id="object-perfume" data-web-anchor data-added data-tilt="11" data-archive-name="黑色香水瓶链条包" data-keywords="香水 瓶 包 香奈儿 黑色 perfume bag chanel" style="--x:88%;--y:9%;--w:145;--tilt:11deg;--mx:56%;--my:65%;--mw:92" src="assets/cutouts/perfume.webp" alt="黑色香水瓶链条包" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object collection-item" id="object-frappe" data-web-anchor data-added data-tilt="-10" data-archive-name="巧克力奶油星冰乐" data-keywords="星巴克 咖啡 巧克力 奶油 frappe starbucks coffee drink" style="--x:62%;--y:73%;--w:130;--tilt:-10deg;--mx:3%;--my:83%;--mw:83" src="assets/cutouts/frappe.webp" alt="巧克力奶油星冰乐" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object collection-item" id="object-money-bag" data-web-anchor data-added data-tilt="8" data-archive-name="美金符号钱袋" data-keywords="钱袋 钱 美元 money cash bag" style="--x:34%;--y:80%;--w:170;--tilt:8deg;--mx:60%;--my:84%;--mw:84" src="assets/cutouts/money-bag.webp" alt="美金符号钱袋" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object collection-item" id="object-earbuds" data-web-anchor data-added data-tilt="-11" data-archive-name="耳机收纳盒" data-keywords="耳机 收纳盒 有线 音乐 earbuds earphones music" style="--x:6%;--y:75%;--w:230;--tilt:-11deg;--mx:78%;--my:64%;--mw:106" src="assets/cutouts/earbuds.webp" alt="耳机收纳盒" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object collection-item" id="object-pink-drink" data-web-anchor data-added data-tilt="8" data-archive-name="粉色冰饮" data-keywords="粉色 奶茶 饮品 pink tea drink" style="--x:91%;--y:70%;--w:130;--tilt:8deg;--mx:82%;--my:83%;--mw:66" src="assets/cutouts/pink-drink.webp" alt="粉色冰饮" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object collection-item" id="object-apple" data-web-anchor data-added data-tilt="-8" data-archive-name="贴纸红苹果" data-keywords="苹果 红色 水果 星星 apple red fruit sticker" style="--x:7%;--y:49%;--w:210;--tilt:-8deg;--mx:7%;--my:49%;--mw:110" src="assets/cutouts/apple.webp" alt="贴纸红苹果" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object collection-item" id="object-crosses" data-web-anchor data-added data-tilt="10" data-archive-name="黑粉双色十字饰品" data-keywords="十字 黑色 粉色 饰品 cross crosses black pink chrome" style="--x:81%;--y:32%;--w:175;--tilt:10deg;--mx:76%;--my:39%;--mw:85" src="assets/cutouts/crosses.webp" alt="黑粉双色十字饰品" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object collection-item" id="object-silver-heart" data-web-anchor data-added data-tilt="-9" data-archive-name="银色心形挂件" data-keywords="银色 心形 挂件 刻字 heart silver pendant forever" style="--x:49%;--y:78%;--w:190;--tilt:-9deg;--mx:40%;--my:86%;--mw:95" src="assets/cutouts/silver-heart.webp" alt="银色心形挂件" draggable="false">
+      <img decoding="async" fetchpriority="low" class="object collection-item" id="object-chrome-emblem" data-web-anchor data-added data-tilt="7" data-archive-name="Chrome Hearts 圆形徽标" data-keywords="克罗心 圆形 徽标 贴纸 chrome hearts emblem logo sticker" style="--x:23%;--y:54%;--w:170;--tilt:7deg;--mx:41%;--my:45%;--mw:90" src="assets/cutouts/chrome-emblem.webp" alt="Chrome Hearts 圆形徽标" draggable="false">
     </div>
     <canvas id="web-canvas" class="web-layer" aria-hidden="true"></canvas>
     <div class="over" aria-hidden="true"><div class="found"><span>Welc</span><span class="letter-o">o</span><span>me</span><span class="exclamation">！</span></div></div>
@@ -96,7 +105,26 @@
       <button class="theme-button" type="button" data-theme-choice="blue" aria-label="切换到蓝色织物主题" aria-pressed="false" title="蓝色织物主题"></button>
     </div>
   </main>
-  <script src="enter.js"></script>
+  <script>
+    /* No timer or automatic navigation: the visitor explicitly opens the journal. */
+    (() => {
+      'use strict';
+      const button = document.getElementById('enter-journal');
+      const embedded = window.parent !== window;
+      if (!embedded) button.querySelector('span').textContent = '进入主站';
+      button.addEventListener('click', () => {
+        if (embedded) {
+          window.parent.postMessage({type:'mofarigano:enter'}, location.origin);
+        } else {
+          location.assign('../');
+        }
+      });
+      // Only the scene markup and entry control are needed to display this frame.
+      // Images and the spider can finish independently after the first paint.
+      document.documentElement.setAttribute('data-welcome-ready', '');
+      if (embedded) window.parent.postMessage({type:'mofarigano:welcome-ready'}, location.origin);
+    })();
+  </script>
   <dialog id="cabinet-drawer" class="drawer" aria-labelledby="drawer-title" data-no-spider>
     <button class="drawer-close" aria-label="Close drawer"><svg viewBox="0 0 28 28" fill="none" aria-hidden="true"><path d="m6 6 16 16M22 6 6 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
     <h2 id="drawer-title" class="sr-only">Archive</h2><div id="drawer-content"></div>
