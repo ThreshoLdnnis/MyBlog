@@ -1,0 +1,133 @@
+/* The journal is set on the supplied woven plaid, with opaque reading sheets. */
+:root {
+  --paper: #f5f5f2;
+  --white: #fdfdfa;
+  --ink: #18253d;
+  --muted: #57637a;
+  --line: #c2c9d3;
+  --orange: #a92c3f;
+  --journal-navy: #17223a;
+  --journal-tint: #e7ebf1;
+  --journal-accent-light: #ffa9ae;
+  --journal-cloth: url("assets/journal-plaid.webp");
+  --sheet-inset: clamp(16px, 4.5vw, 80px);
+  --sheet-gap: clamp(12px, 1.75vw, 26px);
+  --journal-page-height: calc(100svh - var(--journal-header-height) - var(--journal-footer-height) - var(--sheet-gap) * 2);
+}
+
+body#home {
+  background-color: var(--journal-navy);
+  background-position: center top;
+  background-size: clamp(350px, 48vw, 640px) auto;
+}
+
+/* Keep the new wallpaper out of the MovingSpider entrance's request queue. */
+html:not(.welcome-open) body#home,
+html.welcome-open:has(.welcome-gate.is-entering) body#home {
+  background-image: var(--journal-cloth);
+}
+
+body .site-header {
+  color: var(--paper);
+  background: var(--journal-navy);
+  border-bottom-color: #ffffff4d;
+  box-shadow: 0 6px 20px #101a3650;
+}
+
+.site-header .brand,
+.site-header .brand .brand-wordmark,
+body .site-header .top-nav a:nth-child(n),
+body .site-header .top-nav a:nth-child(n)[aria-current="page"] { color: var(--paper); }
+
+.site-header .brand .brand-mark {
+  color: var(--journal-accent-light);
+}
+
+.site-header .brand .brand-caption,
+body .site-header .top-nav .nav-en { color: #bdc6d6; }
+
+.site-header .brand:hover .brand-wordmark,
+body .site-header .top-nav a:nth-child(n):hover .nav-cn,
+body .site-header .top-nav a:nth-child(n)[aria-current="page"] .nav-en,
+.site-header .header-end .icon-btn:hover { color: var(--journal-accent-light); }
+
+body .site-header .top-nav a:nth-child(n)::after { background: var(--journal-accent-light); }
+.site-header .header-end .menu-lines { border-color: currentColor; }
+.site-header .header-end .icon-btn,
+body .site-header .top-nav { border-color: #ffffff38; }
+.site-header .top-nav a:focus-visible,
+.site-header :is(.brand, .icon-btn):focus-visible { outline-color: var(--journal-accent-light); }
+
+.index-panel { --orange: var(--journal-accent-light); }
+
+main#page-content {
+  width: min(calc(100% - 2 * var(--sheet-inset)), 1680px);
+  margin: var(--sheet-gap) auto;
+  background: var(--paper);
+  border: 1px solid #ffffffa8;
+  border-radius: 4px;
+  box-shadow: 0 10px 32px #111d3d66;
+  --gutter: clamp(24px, 3.6vw, 66px);
+}
+
+#page-content > .hero { container-type: inline-size; }
+body[data-page="me"] #page-content .hero h1 {
+  font-size: clamp(30px, 16.45cqi, 238px);
+}
+
+.hero-eyebrow > span:first-child,
+.section-kicker > span:first-child,
+.hero-aside .issue-label { color: var(--orange); }
+
+.portrait-backdrop {
+  background-color: #c4cad8;
+  background-image: var(--journal-cloth);
+  background-size: clamp(230px, 28vw, 400px) auto;
+  background-position: center;
+  border: 1px solid #17223a33;
+  box-shadow: 0 8px 22px #17223a23;
+}
+
+.persona-toggle,
+.skip-link,
+.primary-button:hover,
+.circle-link:hover .arrow-disc { color: var(--white); }
+.persona-toggle:hover { color: var(--white); background-color: #892233; }
+
+#page-content > :is(.works, .toys) { background: var(--journal-tint); }
+.honor-empty { background: var(--journal-tint); }
+.honor-empty > strong { color: #7a88a0; }
+.find-card { border: 1px solid var(--line); }
+.find-card.textual:nth-child(3n+1) { background: #e9edf5; }
+.find-card.textual:nth-child(3n+2) { background: #f2e7e9; }
+.find-card.textual:nth-child(3n+3) { background: #e7ebec; }
+
+.cabinet {
+  --cab-paper: var(--paper);
+  --cab-ink: var(--ink);
+  --cab-orange: var(--orange);
+}
+.cabinet .cabinet-object { background: var(--white); }
+.cabinet .cabinet-object img,
+.cabinet .cabinet-dialog { background: var(--journal-tint); }
+
+.tools { --orange: var(--journal-accent-light); }
+.tools .section-kicker > span:last-child,
+.tool-groups p { color: #c1cad9; }
+
+.site-footer {
+  background: var(--journal-navy);
+  border-top-color: #ffffff4d;
+}
+.site-footer .footer-bottom { color: #d3dae6; }
+.site-footer a:hover,
+.site-footer button:hover { color: var(--journal-accent-light); }
+
+@media (max-width: 700px) {
+  :root { --sheet-inset: clamp(8px, 2.5vw, 16px); }
+  main#page-content { --gutter: 16px; }
+  .hero-copy p { max-width: 46vw; line-height: 1.8; }
+  .hero .portrait-stage { right: -6px; }
+  .site-header .brand .brand-caption,
+  .site-footer .footer-bottom { font-size: 9px; }
+}
