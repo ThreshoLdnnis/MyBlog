@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="hero-stickers.css">
     <link rel="stylesheet" href="journal-book.css">
     <link rel="stylesheet" href="journal-book-interaction.css">
+    <link rel="stylesheet" href="life-timeline.css">
   </template>
 </head>
 <body id="home">
@@ -78,9 +79,9 @@
   </section>
 
   <section class="life section-pad" id="life" hidden>
-    <div class="section-heading"><h2>走过的路，<br><span class="serif">都算数。</span></h2><div><p>学习、工作、创造，和那些平凡的日常。<br>不是一份简历，是仍在书写的故事。</p><button class="text-button" data-edit="timeline">记下一个新篇章 ＋</button></div></div>
-    <div class="filter-row" id="timeline-filters" aria-label="筛选时间轴"><button class="active" data-filter="全部" aria-pressed="true">全部篇章</button><button data-filter="生活" aria-pressed="false">生活</button><button data-filter="学习" aria-pressed="false">学习</button><button data-filter="工作" aria-pressed="false">工作</button><button data-filter="创业" aria-pressed="false">创业</button></div>
-    <div class="timeline" id="timeline-list"></div>
+    <div class="section-heading life-intro"><h2>生活</h2><button class="text-button" data-edit="timeline">记下一段 ＋</button></div>
+    <div class="filter-row" id="timeline-filters" aria-label="筛选时间轴" hidden><button class="active" data-filter="全部" aria-pressed="true">全部</button><button data-filter="生活" aria-pressed="false">生活</button><button data-filter="学习" aria-pressed="false">学习</button><button data-filter="工作" aria-pressed="false">工作</button><button data-filter="创业" aria-pressed="false">创业</button></div>
+    <div id="timeline-list"></div>
   </section>
 
   <section class="travel route-room" id="travel" aria-label="旅行足迹" hidden><div class="route-room-shell"></div></section>

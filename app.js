@@ -4,6 +4,7 @@ import { mountPortraitReveal } from './portrait-reveal.js';
 import { mountNameParticles } from './name-particles.js';
 import { mountHeroStickers } from './hero-stickers.js';
 import { mountJournalBook } from './journal-book.js';
+import { renderLifeTimeline } from './life-timeline.js';
 import { pages, mountPageNavigation } from './page-navigation.js';
 
 const $ = (s, root=document) => root.querySelector(s);
@@ -33,7 +34,14 @@ function renderProfile() {
   else document.title = content.profile.name;
 }
 function renderWorks(){const list=projects.filter(p=>workFilter==='全部'||p.type===workFilter);$('#works-grid').innerHTML=list.map(p=>`<article class="work-card"><button class="work-visual" data-project="${esc(p.id)}" aria-label="查看作品：${esc(p.title)}"><span class="work-number">${p.number} / ${esc(p.year)}</span>${p.image?`<img src="${esc(p.image)}" alt="${esc(p.title)}作品预览" loading="lazy">`:`<span class="wordmark-cover ${p.id==='cook'?'cook':''}">${p.id==='cook'?'CookIdea.':'LINGYU.'}</span>`}<span class="work-arrow" aria-hidden="true">↗</span></button><div class="work-info"><h3>${esc(p.title)}</h3><span>${esc(p.tag)}</span></div><p>${esc(p.description)}</p></article>`).join('');}
-function renderTimeline(){const list=content.timeline.filter(x=>timeFilter==='全部'||x.category===timeFilter);$('#timeline-list').innerHTML=list.length?list.map(x=>`<article class="timeline-row"><span class="timeline-date">${esc(x.date)}</span><span class="timeline-category">${esc(x.category)}</span><div><h3>${esc(x.title)}</h3><p>${esc(x.subtitle)}</p><details><summary>展开这个篇章</summary><p>${esc(x.body)}</p></details></div><button class="tiny-edit" data-edit="timeline" data-id="${esc(x.id)}" aria-label="编辑：${esc(x.title)}">↗</button></article>`).join(''):`<div class="empty-state"><h3>下一段故事，留给未来。</h3><button class="text-button" data-edit="timeline">添加一个篇章 ＋</button></div>`;}
+function renderTimeline() {
+  const entries = content.timeline.filter(entry => !initialContent.timeline.some(sample =>
+    Object.keys(entry).length === Object.keys(sample).length &&
+    Object.entries(sample).every(([key, value]) => entry[key] === value)
+  ));
+  $('#timeline-filters').hidden = !entries.length;
+  renderLifeTimeline($('#timeline-list'), entries, timeFilter);
+}
 function renderCollections(){const q=$('#collection-search').value.trim().toLocaleLowerCase();const list=content.collections.filter(x=>(collectFilter==='全部'||x.category===collectFilter)&&`${x.title} ${x.subtitle} ${x.body}`.toLocaleLowerCase().includes(q));$('#collection-grid').innerHTML=list.length?list.map(x=>{const img=safeImage(x.image);return `<article class="find-card ${img?'':'textual'}">${img?`<img src="${esc(img)}" alt="${esc(x.title)}" loading="lazy">`:''}<span class="find-category">${esc(x.category)} / GOOD FIND</span><h3>${esc(x.title)}</h3><p>${esc(x.subtitle)}</p><div class="find-footer"><button data-collection="${esc(x.id)}">打开收藏 ↗</button><button data-save="${esc(x.id)}" class="${saved.has(x.id)?'saved':''}" aria-label="${saved.has(x.id)?'取消标记':'标记喜欢'}：${esc(x.title)}" aria-pressed="${saved.has(x.id)}">${saved.has(x.id)?'已喜欢':'喜欢 ＋'}</button></div></article>`;}).join(''):`<div class="empty-state"><h3>${q?'没有找到这份收藏。':'这个抽屉，等一份新的心动。'}</h3><p>${q?'试试其他关键词，或者切换分类。':'探店、地点、物品或一句话，都值得被好好留下。'}</p><button class="text-button" data-edit="collections">添加收藏 ＋</button></div>`;}
 function renderHonors(){$('#honor-grid').innerHTML=content.honors.length?content.honors.map(x=>`<article class="honor-card"><span>${esc(x.date)} / ${esc(x.category||'荣誉')}</span><h3>${esc(x.title)}</h3><p>${esc(x.subtitle)}</p><p>${esc(x.body)}</p><button class="text-button" data-edit="honors" data-id="${esc(x.id)}">编辑荣誉 ↗</button></article>`).join(''):`<div class="honor-empty"><strong>01.</strong><div><h3>把努力的回响，收藏在这里。</h3><p>这里留给真实的奖项、证书与里程碑。<br>第一份荣誉，由你亲自写下。</p></div><button class="underlined-link" data-edit="honors">记录我的第一份荣誉 ↗</button></div>`;}
 function renderAll(postId){renderProfile();renderWorks();renderTimeline();renderCollections();renderHonors();diary.setPosts(content.posts, postId);}
