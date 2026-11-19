@@ -1,8 +1,9 @@
-import { initialContent, projects } from './content.js';
+import { initialContent, journalIllustrations, projects } from './content.js';
 import { mountCabinet } from './cabinet/cabinet.js';
 import { mountPortraitReveal } from './portrait-reveal.js';
 import { mountNameParticles } from './name-particles.js';
 import { mountHeroStickers } from './hero-stickers.js';
+import { mountJournalBook } from './journal-book.js';
 import { pages, mountPageNavigation } from './page-navigation.js';
 
 const $ = (s, root=document) => root.querySelector(s);
@@ -14,6 +15,7 @@ const safeURL = url => {if(typeof url!=='string'||!url.trim())return '';try{cons
 const safeImage = value => typeof value==='string' && (/^data:image\/(jpeg|png|webp);base64,[a-zA-Z0-9+/=]+$/.test(value)||/^assets\/[a-zA-Z0-9_./-]+$/.test(value)) ? value : '';
 let content=structuredClone(initialContent), saved=new Set(), workFilter='全部', timeFilter='全部', collectFilter='全部';
 let pageNavigation;
+const diary = mountJournalBook($('#journal'), journalIllustrations);
 const moduleInfo={map:{title:'猪的世界足迹',path:'modules/map.html'},music:{title:'Music of Love · 音乐墙',path:'modules/music.html'},books:{title:'猪的读书角',path:'modules/books.html'}};
 const contentKinds=['timeline','honors','collections','posts'];
 function validEntry(x){return x && typeof x==='object' && typeof x.id==='string' && typeof x.title==='string' && ['body','date','category','subtitle','excerpt','image','url','module'].every(k=>x[k]===undefined||typeof x[k]==='string');}
@@ -34,8 +36,7 @@ function renderWorks(){const list=projects.filter(p=>workFilter==='全部'||p.ty
 function renderTimeline(){const list=content.timeline.filter(x=>timeFilter==='全部'||x.category===timeFilter);$('#timeline-list').innerHTML=list.length?list.map(x=>`<article class="timeline-row"><span class="timeline-date">${esc(x.date)}</span><span class="timeline-category">${esc(x.category)}</span><div><h3>${esc(x.title)}</h3><p>${esc(x.subtitle)}</p><details><summary>展开这个篇章</summary><p>${esc(x.body)}</p></details></div><button class="tiny-edit" data-edit="timeline" data-id="${esc(x.id)}" aria-label="编辑：${esc(x.title)}">↗</button></article>`).join(''):`<div class="empty-state"><h3>下一段故事，留给未来。</h3><button class="text-button" data-edit="timeline">添加一个篇章 ＋</button></div>`;}
 function renderCollections(){const q=$('#collection-search').value.trim().toLocaleLowerCase();const list=content.collections.filter(x=>(collectFilter==='全部'||x.category===collectFilter)&&`${x.title} ${x.subtitle} ${x.body}`.toLocaleLowerCase().includes(q));$('#collection-grid').innerHTML=list.length?list.map(x=>{const img=safeImage(x.image);return `<article class="find-card ${img?'':'textual'}">${img?`<img src="${esc(img)}" alt="${esc(x.title)}" loading="lazy">`:''}<span class="find-category">${esc(x.category)} / GOOD FIND</span><h3>${esc(x.title)}</h3><p>${esc(x.subtitle)}</p><div class="find-footer"><button data-collection="${esc(x.id)}">打开收藏 ↗</button><button data-save="${esc(x.id)}" class="${saved.has(x.id)?'saved':''}" aria-label="${saved.has(x.id)?'取消标记':'标记喜欢'}：${esc(x.title)}" aria-pressed="${saved.has(x.id)}">${saved.has(x.id)?'已喜欢':'喜欢 ＋'}</button></div></article>`;}).join(''):`<div class="empty-state"><h3>${q?'没有找到这份收藏。':'这个抽屉，等一份新的心动。'}</h3><p>${q?'试试其他关键词，或者切换分类。':'探店、地点、物品或一句话，都值得被好好留下。'}</p><button class="text-button" data-edit="collections">添加收藏 ＋</button></div>`;}
 function renderHonors(){$('#honor-grid').innerHTML=content.honors.length?content.honors.map(x=>`<article class="honor-card"><span>${esc(x.date)} / ${esc(x.category||'荣誉')}</span><h3>${esc(x.title)}</h3><p>${esc(x.subtitle)}</p><p>${esc(x.body)}</p><button class="text-button" data-edit="honors" data-id="${esc(x.id)}">编辑荣誉 ↗</button></article>`).join(''):`<div class="honor-empty"><strong>01.</strong><div><h3>把努力的回响，收藏在这里。</h3><p>这里留给真实的奖项、证书与里程碑。<br>第一份荣誉，由你亲自写下。</p></div><button class="underlined-link" data-edit="honors">记录我的第一份荣誉 ↗</button></div>`;}
-function renderPosts(){$('#post-list').innerHTML=content.posts.length?content.posts.map(x=>`<button class="post-row" data-post="${esc(x.id)}"><span class="post-meta">${esc(x.date)}<span>${esc(x.category)}</span></span><span class="post-title">${esc(x.title)}<span class="post-excerpt">${esc(x.excerpt)}</span></span><span class="post-time">${Math.max(1,Math.ceil((x.body||'').length/350))} MIN READ</span><span class="post-arrow" aria-hidden="true">↗</span></button>`).join(''):`<div class="empty-state"><h3>还没有手记。</h3><button class="text-button" data-edit="posts">写下第一篇 ＋</button></div>`;}
-function renderAll(){renderProfile();renderWorks();renderTimeline();renderCollections();renderHonors();renderPosts();}
+function renderAll(postId){renderProfile();renderWorks();renderTimeline();renderCollections();renderHonors();diary.setPosts(content.posts, postId);}
 
 const detailDialog=$('#detail-dialog'), editorDialog=$('#editor-dialog');
 let dialogTrigger;
@@ -67,7 +68,7 @@ $('#editor-content').innerHTML=`<span class="eyebrow">MAKE IT YOURS / 写下自�
 if(editorDialog.open)editorDialog.scrollTop=0;else openDialog(editorDialog);
 $('#content-form').addEventListener('submit',async e=>{e.preventDefault();const form=e.currentTarget;const data=new FormData(form);const value={...current};for(const [key,,type] of schema.fields){if(type!=='file')value[key]=String(data.get(key)||'').trim();}if(value.title!==undefined&&!value.title){toast('请填写标题。');return;}if(value.url && !/^https?:\/\//i.test(value.url)){toast('请使用以 https:// 或 http:// 开头的网址。');return;}if(kind==='profile'&&value.github&&!/^https?:\/\//i.test(value.github)){toast('请输入完整 GitHub 网址。');return;}
 const file=data.get('image');if(file instanceof File&&file.size){if(file.size>2*1024*1024||!['image/jpeg','image/png','image/webp'].includes(file.type)){toast('请选择 2 MB 以内的 JPG、PNG 或 WebP 图片。');return;}try{value.image=await readImage(file);}catch{toast('图片无法读取，请换一张图片。');return;}}
-if(generation!==editorGeneration||!editorDialog.open)return;const next=structuredClone(content);if(kind==='profile')next.profile=value;else{value.id=id||crypto.randomUUID();const index=next[kind].findIndex(x=>x.id===id);if(index>=0)next[kind][index]=value;else next[kind].unshift(value);}if(persist(next)){renderAll();closeDialog(editorDialog);toast('已保存，新的故事已经在这里。');}});
+if(generation!==editorGeneration||!editorDialog.open)return;const next=structuredClone(content);if(kind==='profile')next.profile=value;else{value.id=id||crypto.randomUUID();const index=next[kind].findIndex(x=>x.id===id);if(index>=0)next[kind][index]=value;else next[kind].unshift(value);}if(persist(next)){renderAll(kind==='posts'?value.id:undefined);closeDialog(editorDialog);toast('已保存，新的故事已经在这里。');}});
 $('#delete-entry')?.addEventListener('click',()=>{const next=structuredClone(content);const entry=next[kind].find(x=>x.id===id);next.trash=[...(next.trash||[]),{kind,entry}];next[kind]=next[kind].filter(x=>x.id!==id);if(persist(next)){renderAll();closeDialog(editorDialog);toast('已移到回收站，可在内容管理中恢复。');}});
 }
 function readImage(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>{const img=new Image();img.onload=()=>resolve(r.result);img.onerror=reject;img.src=r.result;};r.onerror=reject;r.readAsDataURL(file);});}
@@ -81,7 +82,6 @@ $('#restore-entry').addEventListener('click',()=>{const next=structuredClone(con
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
 if(d.module)openModule(d.module);
 if(d.project){const p=projects.find(x=>x.id===d.project);if(p){if(p.module)openModule(p.module);else showArticle(p,'project');}}
-if(d.post){const p=content.posts.find(x=>x.id===d.post);if(p)showArticle(p,'posts');}
 if(d.collection){const c=content.collections.find(x=>x.id===d.collection);if(c)showArticle(c,'collections');}
 if(d.edit)openEditor(d.edit,d.id);
 if(d.managerEdit)openEditor(d.managerEdit,d.id);

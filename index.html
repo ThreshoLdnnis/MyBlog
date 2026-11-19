@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="name-particles.css">
     <link rel="stylesheet" href="journal-plaid.css">
     <link rel="stylesheet" href="hero-stickers.css">
+    <link rel="stylesheet" href="journal-book.css">
+    <link rel="stylesheet" href="journal-book-interaction.css">
   </template>
 </head>
 <body id="home">
@@ -104,7 +106,47 @@
 
   <section class="honors section-pad" id="honors" hidden><div class="section-heading"><h2>每一步，<span class="serif">都有回响。</span><span class="heading-note" aria-hidden="true">The little wins.</span></h2><button class="text-button" data-edit="honors">添加一份荣誉 ＋</button></div><div id="honor-grid"></div></section>
 
-  <section class="journal section-pad" id="journal" hidden><div class="section-heading"><h2>最近，<span class="serif">写了些什么。</span></h2><button class="text-button" data-edit="posts">写一篇手记 ＋</button></div><div id="post-list"></div></section>
+  <section class="diary" id="journal" aria-label="手记" data-diary-state="closed" hidden>
+    <div class="diary-closed" data-diary-closed>
+      <button class="diary-cover-button" type="button" data-diary-open aria-controls="diary-reader" aria-expanded="false">
+        <span class="diary-cover" aria-hidden="true"></span>
+        <span class="diary-cover-action">打开手记</span>
+      </button>
+    </div>
+    <div class="diary-reader" id="diary-reader" data-diary-reader hidden>
+      <div class="diary-spread" data-diary-spread>
+        <nav class="diary-contents" aria-labelledby="diary-contents-title">
+          <h2 id="diary-contents-title">目录</h2>
+          <ol class="diary-toc" data-diary-list></ol>
+        </nav>
+        <article class="diary-page" aria-labelledby="diary-story-title" data-diary-page>
+          <header class="diary-page-header">
+            <p class="diary-meta" data-diary-meta></p>
+            <h2 id="diary-story-title" data-diary-title tabindex="-1"></h2>
+            <p class="diary-excerpt" data-diary-excerpt hidden></p>
+          </header>
+          <div class="diary-article-body" data-diary-body></div>
+          <img class="diary-page-art" data-diary-art alt="" decoding="async" hidden>
+        </article>
+      </div>
+      <div class="diary-controls">
+        <button type="button" class="diary-utility" data-diary-close>合上手记</button>
+        <div class="diary-pager" aria-label="翻阅手记">
+          <button type="button" data-diary-prev aria-label="上一页"><span aria-hidden="true">‹</span></button>
+          <span class="diary-page-number" data-diary-number></span>
+          <button type="button" data-diary-next aria-label="下一页"><span aria-hidden="true">›</span></button>
+        </div>
+        <div class="diary-actions">
+          <button type="button" class="diary-utility" data-edit="posts" data-diary-edit hidden>编辑本页</button>
+          <button type="button" class="diary-write" data-edit="posts">写一页 <span aria-hidden="true">＋</span></button>
+        </div>
+      </div>
+      <label class="diary-mobile-index">目录
+        <select data-diary-jump></select>
+      </label>
+    </div>
+    <p class="sr-only" data-diary-status role="status" aria-live="polite"></p>
+  </section>
 </main>
 <footer class="site-footer"><div class="footer-bottom"><span>© <span id="current-year">2026</span> <span data-profile="name">Mofarigano</span></span><div><button id="replay-intro">重播开场</button><button id="manage-content">内容管理</button><button id="credits-button">关于本站</button><a href="https://github.com/ThreshoLdnnis" target="_blank" rel="noopener noreferrer">GITHUB ↗</a></div></div></footer>
 <div id="route-status" class="sr-only" role="status" aria-live="polite"></div>

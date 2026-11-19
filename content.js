@@ -27,6 +27,17 @@ export const initialContent = {
   ]
 };
 
+export const journalIllustrations = [
+  {id:'illustration-01', title:'亮着灯的窗', image:'assets/journal-book/page-01.webp', alt:'星空下亮着不同颜色灯光的窗户，旁边写着发生在各户人家里的故事。'},
+  {id:'illustration-02', title:'星空下的草地', image:'assets/journal-book/page-02.webp', alt:'草地上的人们在星穹下各有所思，星星旁写着他们经历的事。'},
+  {id:'illustration-03', title:'另一生的蝴蝶', image:'assets/journal-book/page-03.webp', alt:'两只白色蝴蝶在草丛间，图中文字：Maybe in another life? Yeah.'},
+  {id:'illustration-04', title:'月下的黑猫与乌鸦', image:'assets/journal-book/page-04.webp', alt:'月下的黑猫与乌鸦在树枝上对话：are we cursed? only in their stories'},
+  {id:'illustration-05', title:'深夜里的灯火', image:'assets/journal-book/page-05.webp', alt:'星幕下的街区，窗口的亮光旁写着一个个夜里的片段。'},
+  {id:'illustration-06', title:'生活也可以重启', image:'assets/journal-book/page-06.webp', alt:'蓝色夜空下，一个人与一只猫在屋顶。图中文字：Just kidding… You’re going to get through this.'},
+  {id:'illustration-07', title:'水面上与水面下', image:'assets/journal-book/page-07.webp', alt:'水下的鱼问花上的鸟看到了什么。鸟说：a world that’s empty without you'},
+  {id:'illustration-08', title:'望月时想起你', image:'assets/journal-book/page-08.webp', alt:'心形的月亮照在海面上。图中文字：When I look at the moon, i still think of you'},
+];
+
 export const projects = [
   {id:'music',title:'Music of Love',type:'生活空间',year:'2026',number:'01',image:'assets/music-preview.jpg',description:'让封面有形状，让旋律有归处。Three.js 立体唱片与歌词手记。',module:'music',tag:'INTERACTIVE / MUSIC'},
   {id:'books',title:'猪的读书角',type:'生活空间',year:'2026',number:'02',image:'assets/books-preview.jpg',description:'51 本书，51 个可以走进去的世界。可抽取、可翻阅的立体书架。',module:'books',tag:'3D / READING'},
