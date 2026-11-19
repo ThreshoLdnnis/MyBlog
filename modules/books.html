@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#EDEBE6">
-  <meta name="description" content="老猪精选书籍。一个可以慢慢逛的私人读书角，收录文学、心理、成长、投资与科学书籍。">
-  <title>老猪精选书籍 — 我的读书角</title>
+  <meta name="description" content="猪的读书角。一个可以慢慢逛的私人读书角，收录文学、心理、成长、投资与科学书籍。">
+  <title>猪的读书角</title>
   <style id="embedded-fonts">@font-face {
   font-family: 'Newsreader';
   font-style: normal;
@@ -57,12 +57,11 @@
     button:focus-visible,a:focus-visible { outline:2px solid var(--cobalt); outline-offset:5px; }
     .lbl { font-family:var(--sans); font-weight:600; font-size:10.5px; line-height:1; letter-spacing:.09em; text-transform:uppercase; }
     .box { display:inline-flex; align-items:center; justify-content:center; height:21px; padding:0 8px; border:1px solid var(--rule); white-space:nowrap; }
-    .topbar { position:fixed; inset:0 0 auto; height:84px; padding:0 32px; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; z-index:10; }
+    .topbar { position:fixed; inset:0 0 auto; height:84px; padding:0 32px; display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; gap:20px; z-index:10; }
     .back { justify-self:start; }
-    .brand { color:var(--cobalt); display:flex; flex-direction:column; align-items:center; gap:5px; }
+    .brand { color:var(--ink); display:flex; flex-direction:column; align-items:center; min-width:0; white-space:nowrap; }
     .brand-cn { font-family:"Noto Serif SC",serif; font-size:22px; font-weight:700; letter-spacing:.04em; line-height:1.2; }
-    .brand-en { font-size:9px; font-weight:600; line-height:1; letter-spacing:.34em; padding-left:.34em; }
-    .career { justify-self:end; white-space:nowrap; }
+    .career { justify-self:end; max-width:24em; white-space:normal; text-align:right; text-wrap:balance; }
     .decades { position:fixed; top:calc(50% - var(--H)/2 - 86px); left:50%; transform:translateX(-50%); display:flex; isolation:isolate; z-index:12; }
     .decade { height:23px; padding:0 11px; border:1px solid var(--rule); margin-left:-1px; white-space:nowrap; transition:color .45s var(--ease); }
     .decade:first-of-type { margin-left:0; }
@@ -126,7 +125,7 @@
     @media(max-width:767px) {
       :root { --H:min(60vw,40svh); }
       .topbar { height:64px; padding:0 16px; }
-      .brand-cn { font-size:17px; } .brand-en { font-size:7.5px; }
+      .brand-cn { font-size:17px; }
       .lbl { font-size:9px; } .career { display:none; }
       .decades { top:calc(50% - var(--H)/2 - 70px); }
       .decade { padding:0 7px; font-size:9px; }
@@ -148,8 +147,8 @@
     body { font-family:var(--sans); }
     [hidden] { display:none !important; }
     .brand-cn { font-family:"Reading Serif","Songti SC","SimSun",serif; font-size:24px; letter-spacing:.16em; padding-left:.16em; font-weight:600; }
-    .brand-en { font-size:8px; letter-spacing:.24em; padding-left:.24em; }
-    .career { color:var(--muted); font-weight:500; letter-spacing:.16em; font-size:11px; }
+    .topbar .career { color:var(--muted); font-weight:500; letter-spacing:.08em; font-size:11px; line-height:1.8; }
+    .career span { display:block; }
     .edit-open { justify-self:start; gap:9px; height:26px; }
     .lbl { font-size:11px; letter-spacing:.07em; line-height:1.2; }
     .shelf-eyebrow { position:fixed; top:calc(50% - var(--H)/2 - 116px); left:50%; transform:translateX(-50%); font-size:8px; letter-spacing:.2em; color:var(--muted); white-space:nowrap; }
@@ -225,13 +224,12 @@
     @media(max-width:767px) {
       :root { --H:min(62vw,38svh); }
       .brand-cn { font-size:20px; }
-      .brand-en { font-size:6.5px; }
       .edit-open { font-size:9px; height:24px; padding:0 7px; gap:4px; }
-      .topbar { grid-template-columns:1fr auto 1fr; }
+      .topbar { grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); gap:12px; }
       .topbar>.brand { grid-column:2; }
       .shelf-eyebrow { top:calc(50% - var(--H)/2 - 103px); font-size:7px; }
       .decades { top:calc(50% - var(--H)/2 - 72px); }
-      .decade { padding:0 11px; font-size:10px; }
+      .decade { padding:0 clamp(5px,2.6vw,11px); font-size:10px; }
       .caption { gap:9px; }
       .caption-title { font-size:26px; }
       .caption-subtitle { font-size:11px; }
@@ -243,6 +241,7 @@
       .detail-synopsis { font-size:16px; }
       .detail-reason { font-size:14px; }
       .detail-copy { gap:17px; }
+      .detail-header { height:84px; align-items:flex-end; padding-bottom:10px; }
       .detail-header .brand { margin-top:0; }
       .close { font-size:9px; }
       .editor { width:calc(100vw - 20px); max-height:calc(100svh - 20px); padding:20px 16px; }
@@ -258,6 +257,7 @@
       .editor-submit { justify-content:space-between; }
       .field-row { gap:10px; }
     }
+    @media(max-width:350px) { .topbar .brand-cn { font-size:18px; } }
     @media(max-height:600px) and (min-width:768px) { .detail { padding-top:90px; padding-bottom:30px; overflow-y:auto; } .detail-copy { gap:12px; } .detail-title { font-size:38px; } .detail-synopsis,.detail-reason { font-size:14px; line-height:1.6; } }
 </style>
 </head>
@@ -265,8 +265,8 @@
   <main id="archive">
     <header class="topbar">
       <button class="box lbl edit-open">编辑书架 <span aria-hidden="true">↗</span></button>
-      <div class="brand" aria-label="老猪精选书籍"><span class="brand-cn corner-name">老猪精选书籍</span><span class="brand-en">LAO ZHU'S READING CORNER</span></div>
-      <div class="lbl career">留一点时间，给阅读。</div>
+      <div class="brand" aria-label="猪的读书角"><span class="brand-cn corner-name">猪的读书角</span></div>
+      <div class="lbl career"><span>阿波罗的太阳摇摇欲坠，</span><span>酒神的狂欢不眠不休</span></div>
     </header>
     <div class="shelf-eyebrow lbl">BOOKS TO KEEP CLOSE</div>
     <nav class="decades" aria-label="书籍分类">
@@ -293,7 +293,7 @@
   </main>
   <div class="grain" aria-hidden="true"></div>
   <section class="detail" role="dialog" aria-modal="true" aria-labelledby="detail-title" aria-hidden="true" inert tabindex="-1">
-    <div class="detail-header"><div class="brand"><span class="brand-cn corner-name">老猪精选书籍</span><span class="brand-en">LAO ZHU'S READING CORNER</span></div></div>
+    <div class="detail-header"><div class="brand"><span class="brand-cn corner-name">猪的读书角</span></div></div>
     <button class="box lbl close">返回书架 / CLOSE</button>
     <div class="detail-copy">
       <div class="line-mask"><div class="reveal-line detail-subtitle lbl"></div></div>
@@ -415,9 +415,11 @@ function createBookArt(book, index = 0) {
       return {id,title:str('title',30),author:str('author',50),subtitle:str('subtitle',80),category:categories.includes(b.category)?b.category:'成长',summary:str('summary',500),reason:str('reason',800),read:b.read===true,colors,motif:str('motif',20)||'window',cover,sheet:Number.isInteger(b.sheet)&&b.sheet>=1&&b.sheet<=COVER_SHEETS.length?b.sheet:null,cell:Number.isInteger(b.cell)&&b.cell>=0&&b.cell<9?b.cell:null};
     });
   }
-  let library={name:'老猪精选书籍',books:cleanBooks(DEFAULT_BOOKS)};
+  const DEFAULT_CORNER_NAME='猪的读书角';
+  const cornerName=value=>{const name=String(value||DEFAULT_CORNER_NAME).trim().slice(0,18);return name==='老猪精选书籍'?DEFAULT_CORNER_NAME:name||DEFAULT_CORNER_NAME;};
+  let library={name:DEFAULT_CORNER_NAME,books:cleanBooks(DEFAULT_BOOKS)};
   const defaultCoverById=new Map(DEFAULT_BOOKS.map(book=>[book.id,book.cover]));
-  try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));if(saved&&Array.isArray(saved.books))library={name:String(saved.name||library.name).slice(0,18),books:cleanBooks(saved.books.map(book=>book?.coverDefault===true?{...book,cover:defaultCoverById.get(book.id)||''}:book))};}catch(error){/* A blocked store leaves the default shelf usable. */}
+  try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));if(saved&&Array.isArray(saved.books))library={name:cornerName(saved.name),books:cleanBooks(saved.books.map(book=>book?.coverDefault===true?{...book,cover:defaultCoverById.get(book.id)||''}:book))};}catch(error){/* A blocked store leaves the default shelf usable. */}
   let filter='全部',visible=[],tapes=[],total=0,s=0,T=0,active=0,lastRounded=0;
   let H=0,ws=0,d=0,gap=0,W=innerWidth,shelfY=innerHeight/2;
   let mx=W/2,my=innerHeight/2,cx=mx,cy=my,tiltX=0,tiltY=0,onCover=false,pointerSeen=false,buttonHover=false,hover=-1;
@@ -443,7 +445,7 @@ function createBookArt(book, index = 0) {
   function currentBook(){return visible[active];}
   function currentTape(){return tapes.reduce((a,b)=>Math.abs(relative(b.v))<Math.abs(relative(a.v))?b:a);}
   function updateTab(){for(const tab of tabs){const yes=tab.dataset.category===filter;tab.setAttribute('aria-pressed',String(yes));if(yes){indicator.style.width=tab.offsetWidth+'px';indicator.style.transform=`translateX(${tab.offsetLeft}px)`;}}}
-  function updateBrand(){document.title=library.name+' — 我的读书角';$$('.corner-name').forEach(el=>el.textContent=library.name);$('.topbar .brand').setAttribute('aria-label',library.name);$('.shelf-count').textContent=`${library.books.length} 本藏书 · ${library.books.filter(b=>b.read).length} 本已读`;}
+  function updateBrand(){document.title=library.name;$$('.corner-name').forEach(el=>el.textContent=library.name);$('.topbar .brand').setAttribute('aria-label',library.name);$('.shelf-count').textContent=`${library.books.length} 本藏书 · ${library.books.filter(b=>b.read).length} 本已读`;}
   function setCaption(mask,text,dir,instant=false){
     if(instant||reduced.matches){for(const child of [...mask.children])child.getAnimations().forEach(a=>a.cancel());mask.replaceChildren(Object.assign(document.createElement('span'),{textContent:text}));return;}
     for(const old of [...mask.children]){if(old.dataset.leaving)continue;old.dataset.leaving='true';old.setAttribute('aria-hidden','true');const from=getComputedStyle(old).transform;old.getAnimations().forEach(a=>a.cancel());old.animate([{transform:from==='none'?'translateY(0)':from},{transform:`translateY(${-dir*105}%)`}],{duration:650,easing:'cubic-bezier(.2,.8,.2,1)',fill:'both'}).finished.then(()=>old.remove()).catch(()=>{});}
@@ -515,11 +517,11 @@ function createBookArt(book, index = 0) {
   $('.remove-book').addEventListener('click',()=>{const index=draft.books.findIndex(b=>b.id===editId);draft.books.splice(index,1);editId=draft.books[Math.min(index,draft.books.length-1)]?.id;fillDraft();});
   $('.reset-cover').addEventListener('click',()=>{const b=selectedDraft();if(!b)return;b.cover='';b.sheet=null;b.cell=null;field('cover').value='';$('#cover-file').value='';$('.editor-status').textContent='将使用自动生成的书名封面。';});
   $('#cover-file').addEventListener('change',async event=>{const file=event.target.files?.[0];if(!file)return;if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>2*1024*1024){$('.editor-status').textContent='请选择 2 MB 以内的 JPG、PNG 或 WebP。';event.target.value='';return;}const b=selectedDraft();const id=b.id;try{const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file);});if(!draft)return;const target=draft.books.find(book=>book.id===id);if(!target)return;target.cover=data;target.sheet=null;target.cell=null;if(editId===id){field('cover').value='';$('.editor-status').textContent='封面已选择，保存后生效。';}}catch(error){$('.editor-status').textContent='图片读取失败，请重新选择。';}});
-  function validateDraft(){collectDraft();const invalid=draft.books.find(b=>!b.title.trim()||!b.author.trim());if(invalid){editId=invalid.id;fillDraft();throw new Error('请补齐这本书的书名和作者。');}if(!draft.name.trim())throw new Error('请填写读书角名称。');return {name:draft.name.trim().slice(0,18),books:cleanBooks(draft.books)};}
+  function validateDraft(){collectDraft();const invalid=draft.books.find(b=>!b.title.trim()||!b.author.trim());if(invalid){editId=invalid.id;fillDraft();throw new Error('请补齐这本书的书名和作者。');}if(!draft.name.trim())throw new Error('请填写读书角名称。');return {name:cornerName(draft.name),books:cleanBooks(draft.books)};}
   form.addEventListener('submit',event=>{event.preventDefault();try{const next=validateDraft(),preferred=editId;library=next;const stored=persist();filter='全部';artCache.clear();closeEditor();buildShelf(preferred);toast(stored?'已保存到当前浏览器的书架。':'已更新书架；浏览器无法保存，请导出书单备份。');}catch(error){$('.editor-status').textContent=error.message;}});
   $('.export-books').addEventListener('click',()=>{try{const data=validateDraft(),url=URL.createObjectURL(new Blob([JSON.stringify({version:1,...data},null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=data.name+'-书单.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){$('.editor-status').textContent=error.message;}});
   $('.import-books').addEventListener('click',()=>$('#import-file').click());
-  $('#import-file').addEventListener('change',async event=>{const file=event.target.files?.[0];if(!file)return;try{if(file.size>8*1024*1024)throw new Error('书单文件请控制在 8 MB 以内。');const parsed=JSON.parse(await file.text());draft={name:String(parsed.name||draft.name).slice(0,18),books:cleanBooks(Array.isArray(parsed)?parsed:parsed.books)};editId=draft.books[0]?.id;fillDraft();$('.editor-status').textContent='已载入书单，点击保存后生效。';}catch(error){$('.editor-status').textContent=error instanceof SyntaxError?'文件不是有效的 JSON 书单。':error.message;}event.target.value='';});
+  $('#import-file').addEventListener('change',async event=>{const file=event.target.files?.[0];if(!file)return;try{if(file.size>8*1024*1024)throw new Error('书单文件请控制在 8 MB 以内。');const parsed=JSON.parse(await file.text());draft={name:cornerName(parsed.name||draft.name),books:cleanBooks(Array.isArray(parsed)?parsed:parsed.books)};editId=draft.books[0]?.id;fillDraft();$('.editor-status').textContent='已载入书单，点击保存后生效。';}catch(error){$('.editor-status').textContent=error instanceof SyntaxError?'文件不是有效的 JSON 书单。':error.message;}event.target.value='';});
   document.addEventListener('keydown',event=>{
     if(editor.open)return;
     if(isOpen){if(event.key==='Escape'){event.preventDefault();closeDetail();}if(event.key==='Tab'){const f=[...detail.querySelectorAll('button,a[href]')].filter(el=>!el.disabled),first=f[0],last=f.at(-1);if(event.shiftKey&&(document.activeElement===first||document.activeElement===detail)){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}return;}

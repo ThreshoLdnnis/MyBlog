@@ -1,11 +1,11 @@
 export const pages = [
-  {id:'me', section:'intro', title:'我', subtitle:'A LIFE IN PROGRESS'},
+  {id:'me', section:'intro', title:'我'},
   {id:'works', title:'作品', subtitle:'SELECTED WORKS'},
   {id:'life', title:'生活', subtitle:'LIFE, UNFOLDING'},
   {id:'journal', title:'手记', subtitle:'FIELD NOTES'},
   {id:'travel', title:'足迹', subtitle:'SOMEWHERE ELSE', module:'map', roomTitle:'猪的世界足迹'},
   {id:'music', title:'音乐', subtitle:'THE SOUNDTRACK', module:'music', roomTitle:'Music of Love · 音乐墙'},
-  {id:'books', title:'阅读', subtitle:'SLOW READING CLUB', module:'books', roomTitle:'老猪的读书角'},
+  {id:'books', title:'阅读', subtitle:'SLOW READING CLUB', module:'books', roomTitle:'猪的读书角'},
   {id:'collection', title:'收藏抽屉', subtitle:'THE GOOD FINDS'},
   {id:'toys', title:'手办收藏', subtitle:'SMALL THINGS, BIG JOY'},
   {id:'about', title:'关于我', subtitle:'A LITTLE MORE ABOUT ME'},
@@ -29,7 +29,7 @@ export function mountPageNavigation({getName}) {
   }
   const href = id => '#/' + id;
   function refreshTitle() {
-    if (current) document.title = `${current.title} — ${getName()} · 生活手册`;
+    if (current) document.title = `${current.title} — ${getName()}`;
   }
   function mountRoom(page) {
     const shell = document.querySelector(`#${page.id} .route-room-shell`);
