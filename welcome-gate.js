@@ -1,6 +1,6 @@
 // MovingSpider runs in its own document so its pointer and keyboard handlers
 // cannot affect the journal. Closing the entrance destroys that document.
-export function mountWelcomeGate(dialog) {
+function mountWelcomeGate(dialog) {
   const host = dialog.querySelector('.welcome-scene');
   const fallback = dialog.querySelector('.welcome-fallback');
   const enterButton = dialog.querySelector('#welcome-enter-fallback');
@@ -15,6 +15,7 @@ export function mountWelcomeGate(dialog) {
     leaving = true;
     enterButton.disabled = true;
     dialog.classList.add('is-entering');
+    document.dispatchEvent(new Event('journal:entering'));
     if (!reduced.matches) {
       exitAnimation = dialog.animate([
         {transform:'translateY(0)', opacity:1},
@@ -37,6 +38,18 @@ export function mountWelcomeGate(dialog) {
     document.dispatchEvent(new Event('journal:entered'));
   }
 
+  function revealScene(candidate) {
+    if (!candidate || frame !== candidate || leaving || !dialog.open || fallback.hidden) return;
+    const childButton = candidate.contentDocument?.querySelector('#enter-journal');
+    // Keep the fallback usable if the scene document fails to load.
+    if (!childButton) return;
+    childButton.addEventListener('click', enter);
+    const moveFocus = document.activeElement === enterButton;
+    candidate.classList.add('is-ready');
+    fallback.hidden = true;
+    if (moveFocus) childButton.focus({preventScroll:true});
+  }
+
   function open() {
     if (frame || leaving) return;
     returnFocus = document.activeElement?.closest('#replay-intro') || null;
@@ -48,38 +61,36 @@ export function mountWelcomeGate(dialog) {
     // Upgrade it to a modal dialog for native focus containment and inertness.
     if (dialog.open) dialog.close();
     dialog.showModal();
-    frame = document.createElement('iframe');
-    frame.className = 'welcome-frame';
-    frame.title = 'MovingSpider · Mofarigano 欢迎页';
-    frame.src = 'welcome/index.html';
+    const initialFrame = host.querySelector('.welcome-frame');
+    frame = initialFrame || document.createElement('iframe');
+    if (!initialFrame) {
+      frame.className = 'welcome-frame';
+      frame.title = 'MovingSpider · Mofarigano 欢迎页';
+      frame.src = 'welcome/index.html';
+      host.append(frame);
+    }
     const mountedFrame = frame;
-    mountedFrame.addEventListener('load', () => {
-      if (frame !== mountedFrame || leaving || !dialog.open) return;
-      const childButton = mountedFrame.contentDocument?.querySelector('#enter-journal');
-      // Keep a usable entry button if the scene document could not be served.
-      if (!childButton) return;
-      // The scene's visual scripts may fail independently. Its real button must
-      // still work even if the child entry-message script did not load.
-      childButton.addEventListener('click', enter);
-      const moveFocus = document.activeElement === enterButton;
-      mountedFrame.classList.add('is-ready');
-      fallback.hidden = true;
-      if (moveFocus) childButton.focus({preventScroll:true});
-    }, {once:true});
-    host.replaceChildren(mountedFrame);
+    mountedFrame.addEventListener('load', () => revealScene(mountedFrame), {once:true});
     enterButton.focus({preventScroll:true});
+    // The initial iframe may have already signalled during HTML parsing.
+    const scene = mountedFrame.contentDocument;
+    if (scene?.documentElement?.hasAttribute('data-welcome-ready') || scene?.readyState === 'complete') {
+      revealScene(mountedFrame);
+    }
   }
 
   enterButton.addEventListener('click', enter);
   dialog.addEventListener('cancel', event => event.preventDefault());
   addEventListener('message', event => {
-    if (event.origin === location.origin && event.source === frame?.contentWindow && event.data?.type === 'mofarigano:enter') {
-      void enter();
-    }
+    if (event.origin !== location.origin || event.source !== frame?.contentWindow) return;
+    if (event.data?.type === 'mofarigano:welcome-ready') revealScene(frame);
+    if (event.data?.type === 'mofarigano:enter') void enter();
   });
   reduced.addEventListener('change', () => {
     if (reduced.matches) exitAnimation?.finish();
   });
   open();
-  return {open};
+  document.querySelector('#replay-intro')?.addEventListener('click', open);
 }
+
+mountWelcomeGate(document.querySelector('#welcome-gate'));

@@ -6,14 +6,14 @@
   <meta name="description" content="朱飞阳的个人生活手册。量化研究、产品设计、旅行足迹，以及值得反复打开的音乐、书籍与收藏。">
   <title>MOFARIGANO — 生活，持续创作中。</title>
   <link rel="icon" href="assets/portrait.jpg"><link rel="preload" href="assets/fonts/anton.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/hero/portrait-cutout.png" as="image">
+  <script type="module" src="welcome-gate.js"></script>
   <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="cabinet/cabinet.css"><link rel="stylesheet" href="page-navigation.css">
   <link rel="stylesheet" href="assets/fonts/editorial-fonts.css"><link rel="stylesheet" href="typography.css"><link rel="stylesheet" href="navigation-polish.css"><link rel="stylesheet" href="name-particles.css"><link rel="stylesheet" href="welcome-gate.css">
 </head>
 <body id="home">
 <a class="skip-link" href="#page-content">跳转到主要内容</a>
 <dialog id="welcome-gate" class="welcome-gate" open aria-label="欢迎来到 Mofarigano 的个人网站">
-  <div class="welcome-scene"></div>
+  <div class="welcome-scene"><iframe class="welcome-frame" title="MovingSpider · Mofarigano 欢迎页" src="welcome/index.html"></iframe></div>
   <div class="welcome-fallback"><h2>Welcome！</h2><button type="button" id="welcome-enter-fallback">进入网站 ↗</button><noscript>请开启 JavaScript 以进入网站并体验互动场景。</noscript></div>
 </dialog>
 <header class="site-header">
@@ -38,7 +38,7 @@
     <h1><span data-display-name>MOFARIGANO</span><span class="title-dot">.</span></h1>
     <div class="hero-stage">
       <div class="hero-copy"><span class="eyebrow">HELLO, I'M <span data-profile="alias">老猪 / Timofey</span></span><h2>不止一种身份，<br>不止一种热爱。</h2><p>量化研究者，产品创造者，<br>也是生活的长期收藏家。</p><a class="circle-link" href="#/about"><span>认识我</span><span class="arrow-disc">↗</span></a></div>
-      <div class="portrait-stage" id="portrait-stage"><div class="portrait-backdrop"></div><img class="hero-portrait" src="assets/hero/portrait-cutout.png" alt="朱飞阳的半身人像" width="1093" height="1438" fetchpriority="high"><img class="hero-rider" src="assets/hero/rider-cutout.png" alt="粉色骑手造型" width="1093" height="1438"><button id="persona-toggle" class="persona-toggle" aria-pressed="false">鼠标划过，发现另一面 ↗</button><span class="portrait-caption">A WORK IN PROGRESS, ALWAYS.</span></div>
+      <div class="portrait-stage" id="portrait-stage"><div class="portrait-backdrop"></div><img class="hero-portrait" data-src="assets/hero/portrait-cutout.png" alt="朱飞阳的半身人像" width="1093" height="1438"><img class="hero-rider" data-src="assets/hero/rider-cutout.png" alt="粉色骑手造型" width="1093" height="1438"><button id="persona-toggle" class="persona-toggle" aria-pressed="false">鼠标划过，发现另一面 ↗</button><span class="portrait-caption">A WORK IN PROGRESS, ALWAYS.</span></div>
       <div class="hero-aside"><span class="issue-label">人生不限于<br>标准答案。</span><p class="serif">A life,<br>in progress.</p><div class="aside-line"></div><span class="eyebrow">CURRENTLY INTO</span><div class="interest-line"><span>Quant Research</span><span>01</span></div><div class="interest-line"><span>Making Things</span><span>02</span></div><div class="interest-line"><span>Little Joys</span><span>03</span></div></div>
     </div>
     <div class="hero-bottom"><span>MATHEMATICS × DESIGN × EVERYDAY LIFE</span><span>把生活过成，喜欢的样子。</span><a href="#/works">VIEW SELECTED WORKS ↗</a></div>

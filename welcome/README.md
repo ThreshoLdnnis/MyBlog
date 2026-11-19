@@ -4,13 +4,14 @@
 
 `4adc2796401530794e5e1223fb34c3a4c303bd0d`
 
-本目录从该版本的 `src/page.html` 渲染得到 `index.html`，包含完整的 18 件物品、蓝色织物／银色／粉黑三主题、蜘蛛、蛛丝、苍蝇光标、收藏抽屉与本地搜索。`src/theme.js`、`src/ui.js`、`src/silk.js`、`src/spider.js` 和全部 `assets/` 均原样复制。第三方说明与字体许可保存在本目录，详见 [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)。
+本目录从该版本的 `src/page.html` 渲染得到 `index.html`，包含完整的 18 件物品、蓝色织物／银色／粉黑三主题、蜘蛛、蛛丝、苍蝇光标、收藏抽屉与本地搜索。第三方说明与字体许可保存在本目录，详见 [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)。
 
 ## 与原作的差异
 
 - 模板资源指向本目录下的相对 URL，脚本拆为本地文件。无 CDN、包安装、后端或构建步骤；运行不依赖 MovingSpider 的原目录。
 - 增加 `welcome.css` 和 `enter.js`：在 `Welcome！` 下方加入「进入网站 ↗」胶囊按钮。保留原字标位置和全部场景交互。
-- 按钮位于 DOM 中第一个可聚焦位置，不使用 autofocus；ID 为 `enter-journal`，紧随按钮的脚本立即绑定，无需等待蜘蛛素材加载；有 `data-no-spider`，不触发扑跳，绘制层级高于物件及蛛丝。
+- 按钮位于 DOM 中第一个可聚焦位置，不使用 autofocus；ID 为 `enter-journal`，在场景结构解析后即可进入；有 `data-no-spider`，不触发扑跳，绘制层级高于物件及蛛丝。
+- 主站从 HTML 并行请求欢迎页，场景结构就绪即可显示。贴纸图逐张出现，蜘蛛主图优先取用，跳蛛立即开始下落。完整主题纹理在选择主题时才请求。
 - 只在按钮 click 时操作：嵌入 iframe 时发送 `parent.postMessage({type:'mofarigano:enter'}, location.origin)`；独立打开时按钮显示「进入主站」，在当前标签跳转 `../`。没有倒数或自动进入。
 - 页面语言、标题和描述调整为个人站欢迎页。原作的减少动态效果逻辑保持不变，入口按钮始终可用。
 

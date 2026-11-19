@@ -1,4 +1,3 @@
-import { mountWelcomeGate } from './welcome-gate.js';
 import { initialContent, projects } from './content.js';
 import { mountCabinet } from './cabinet/cabinet.js';
 import { mountPortraitReveal } from './portrait-reveal.js';
@@ -81,14 +80,11 @@ $('#timeline-filters').addEventListener('click',e=>{const b=e.target.closest('[d
 $('#collection-filters').addEventListener('click',e=>{const b=e.target.closest('[data-filter]');if(b){collectFilter=b.dataset.filter;setFilter(e.currentTarget,collectFilter);renderCollections();}});
 $('#collection-search').addEventListener('input',renderCollections);
 $('#manage-content').addEventListener('click',openManager);
-mountPortraitReveal($('#portrait-stage'), $('#intro'));
-mountNameParticles($('[data-display-name]'), $('#intro'));
 $('#index-links').innerHTML=pages.map(({id,title},i)=>`<a href="#/${id}"><small>${String(i+1).padStart(2,'0')}</small>${title}</a>`).join('');
 function toggleIndex(force){const expanded=force??$('#index-panel').hidden;$('#index-panel').hidden=!expanded;$('#index-toggle').setAttribute('aria-expanded',String(expanded));$('#index-toggle').setAttribute('aria-label',expanded?'关闭全部章节':'打开全部章节');}
 $('#index-toggle').addEventListener('click',()=>toggleIndex());$('#index-links').addEventListener('click',e=>{if(e.target.closest('a'))toggleIndex(false);});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')toggleIndex(false);});
 document.addEventListener('click',e=>{if(!e.target.closest('#index-panel,#index-toggle'))toggleIndex(false);});
-$('#replay-intro').addEventListener('click',()=>welcome.open());
 $('#credits-button').addEventListener('click',()=>{$('#detail-content').innerHTML=`<span class="eyebrow">ABOUT THIS JOURNAL</span><h2>一本持续更新的生活手册。</h2><div class="credit-text">设计融合已有 Fashion Web 系列的大字排版、本人造型切换，以及 Orbit 的空间感与纸张质感。
 欢迎页复用 <a href="https://github.com/ThreshoLdnnis/MovingSpider" target="_blank" rel="noopener noreferrer">MovingSpider</a> 的跳蛛收藏场景，点击进入后开启手册。素材与字体声明见 <a href="welcome/THIRD_PARTY_NOTICES.md" target="_blank" rel="noopener noreferrer">欢迎页来源说明</a>。
 旅行地图、音乐墙和读书角直接集成原作。音乐墙预置封面与歌词；播放需要添加你自己的音频。
@@ -97,5 +93,18 @@ $('#credits-button').addEventListener('click',()=>{$('#detail-content').innerHTM
 字体：Anton、Instrument Sans、Noto Serif SC、Instrument Serif 与 Caveat；自托管字库与许可见 <a href="assets/fonts/README.md" target="_blank" rel="noopener noreferrer">字体说明</a>。图片与素材来源保存在 <a href="assets/sources.json" target="_blank" rel="noopener noreferrer">素材来源清单</a>；手办图片为 POP MART 官方商品参考图，原作者及品牌保留权利。
 Made with curiosity, for Mofarigano.</div>`;openDialog(detailDialog);});
 $('#current-year').textContent=new Intl.DateTimeFormat('en',{year:'numeric',timeZone:'Asia/Shanghai'}).format(new Date());
-renderAll();mountCabinet($('#cabinet'));pageNavigation=mountPageNavigation({getName:()=>content.profile.name});
-const welcome=mountWelcomeGate($('#welcome-gate'));
+renderAll();
+pageNavigation=mountPageNavigation({getName:()=>content.profile.name});
+
+function prepareJournalMedia() {
+  const stage = $('#portrait-stage');
+  for (const image of $$('img[data-src]', stage)) image.src = image.dataset.src;
+  mountPortraitReveal(stage, $('#intro'));
+  mountNameParticles($('[data-display-name]'), $('#intro'));
+  mountCabinet($('#cabinet'));
+}
+
+// The journal's larger artwork should not compete with the welcome scene.
+const gate = $('#welcome-gate');
+if (gate.hidden || gate.classList.contains('is-entering')) prepareJournalMedia();
+else document.addEventListener('journal:entering', prepareJournalMedia, {once:true});

@@ -2,12 +2,17 @@
 (() => {
   'use strict';
   const button = document.getElementById('enter-journal');
-  if (window.parent === window) button.querySelector('span').textContent = '进入主站';
+  const embedded = window.parent !== window;
+  if (!embedded) button.querySelector('span').textContent = '进入主站';
   button.addEventListener('click', () => {
-    if (window.parent !== window) {
+    if (embedded) {
       window.parent.postMessage({type:'mofarigano:enter'}, location.origin);
     } else {
       location.assign('../');
     }
   });
+  // Only the scene markup and entry control are needed to display this frame.
+  // Images and the spider can finish independently after the first paint.
+  document.documentElement.setAttribute('data-welcome-ready', '');
+  if (embedded) window.parent.postMessage({type:'mofarigano:welcome-ready'}, location.origin);
 })();

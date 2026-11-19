@@ -10,8 +10,9 @@
   const angleDiff = (a, b) => Math.atan2(Math.sin(a - b), Math.cos(a - b));
   const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
   const makeCanvas = (w, h = w) => Object.assign(document.createElement('canvas'), {width: w, height: h});
-  const loadImage = src => new Promise(resolve => {
-    const im = new Image(); im.onload = () => resolve(im); im.onerror = () => resolve(null); im.src = src;
+  const loadImage = (src, priority = 'auto') => new Promise(resolve => {
+    const im = new Image(); im.decoding = 'async'; im.fetchPriority = priority;
+    im.onload = () => resolve(im); im.onerror = () => resolve(null); im.src = src;
   });
   const silk = new window.FoundSilk();
   let sleepInk = '#fff';
@@ -24,10 +25,12 @@
   const reduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
   let W = innerWidth, H = innerHeight, DPR = 1, K = .196, scale = 1, flySize = 1;
   let lastTime = 0, clock = 0, lastMoved = 0, nudgeSample = 0, suspended = false;
+  const INTRO_DURATION = 1050;
+  let introStartedAt = null;
   const diagnostics = new URLSearchParams(location.search).has('qa');
   const pointer = {x: W * .61, y: H * .57, active: !coarse, hidden: false};
   const spider = {
-    x: W / 2, y: -140, heading: PI / 2, vx: 0, vy: 0, z: 0,
+    x: W / 2, y: H * .18, heading: PI / 2, vx: 0, vy: 0, z: 0,
     size: 1.63, speed: 0, intro: true, introDone: false, jump: null,
     height: 0, land: 0, qt: 0, sleep: 0, quiet: 0, breathe: 0,
     blinkAt: 1.5, blinkTime: -10, blinkSecond: false, frameCount: 0, jumps: 0, wakeHops: 0
@@ -177,7 +180,15 @@
     });
   }
   function resetFeet(){legs.forEach(l=>{l.foot=world(l.rest,1-.38*spider.sleep);l.stepping=false;});}
-  function resize(){
+  function placeIntro(now){
+    const progress=introStartedAt===null?0:clamp((now-introStartedAt)/INTRO_DURATION,0,1);
+    const eased=1-Math.pow(1-progress,3);
+    spider.x=W/2+Math.sin(PI*progress)*5*(1-progress);
+    spider.y=mix(H*.18,H/2,eased);
+    spider.heading=PI/2+Math.sin(TAU*progress)*.025*(1-progress);
+    return progress;
+  }
+  function resize({sampleSilk = true} = {}){
     const previousW=W,previousH=H;W=innerWidth;H=innerHeight;DPR=Math.min(devicePixelRatio||1,2);
     // A new viewport has its own composition; discard pushes from the old one.
     if(W!==previousW||H!==previousH)nudges.forEach(n=>{
@@ -187,14 +198,15 @@
     canvas.width=Math.round(W*DPR);canvas.height=Math.round(H*DPR);canvas.style.width=W+'px';canvas.style.height=H+'px';
     let t=W<=H?clamp(W/480,.78,1.1):H<560?Math.max(.68,H/620):Math.min(W/1440,H/810);
     scale=clamp(t,.6,1.25);spider.size=1.63*scale;K=spider.size*.12;flySize=Math.max(.75,1.05*scale);
-    if(spider.intro){spider.x=W/2;spider.y=-760*K;}else{spider.x=clamp(spider.x/previousW*W,10,W-10);spider.y=clamp(spider.y/previousH*H,10,H-10);}
+    if(spider.intro)placeIntro(performance.now());else{spider.x=clamp(spider.x/previousW*W,10,W-10);spider.y=clamp(spider.y/previousH*H,10,H-10);}
     pointer.x=clamp(pointer.x,0,W);pointer.y=clamp(pointer.y,0,H);
-    silk.resize(W,H,DPR);resetFeet();measureNudgeBoxes();
+    if(sampleSilk)silk.resize(W,H,DPR);
+    resetFeet();measureNudgeBoxes();
     if(spider.intro&&typeof silk.setLiveAnchor==='function')silk.setLiveAnchor(W/2,-2);
   }
   function mouth(){return world({x:360,y:0});}
   function startJump(startled=false){
-    if(spider.jump||fly.caught&&!startled)return;
+    if(!rig||spider.jump||fly.caught&&!startled)return;
     spider.intro=false;spider.introDone=true;spider.qt=0;spider.sleep=0;spider.quiet=0;
     let tx=spider.x,ty=spider.y,heading=spider.heading;
     if(!startled){
@@ -237,17 +249,15 @@
     const vx=(fly.x-ox)/dt,vy=(fly.y-oy)/dt;
     if(Math.hypot(vx,vy)>60)fly.angle+=angleDiff(Math.atan2(vy,vx)+PI/2,fly.angle)*ease(14,dt);
   }
-  function updateSpider(dt){
+  function updateSpider(dt,now){
     spider.land=Math.max(0,spider.land-dt*4);
     spider.breathe+=(3.2-1.8*smooth(spider.sleep))*dt;
     if(spider.intro){
-      const u=clock-3;
-      if(u<0){spider.y=-760*K;return;}
-      if(u<2.3){const v=u/2.3;spider.y=mix(-760*K,H/2,1-Math.pow(1-v,2.4));}
-      else{const v=u-2.3;spider.y=H/2+14*Math.exp(-3.2*v)*Math.sin(6.5*v);}
-      spider.x=W/2+Math.sin(1.8*u)*8*Math.exp(-.5*u);spider.heading=PI/2+Math.sin(u*2.2)*.035;
+      // Entrance timing follows elapsed real time, independent of the capped
+      // physics step, so a slow device does not turn one second into several.
+      const progress=placeIntro(now);
       resetFeet();
-      if(u>3.6){spider.intro=false;spider.introDone=true;spider.land=1;silk.vibrate(spider.x,spider.y,140,2);}
+      if(progress>=1){spider.intro=false;spider.introDone=true;spider.land=1;silk.vibrate(spider.x,spider.y,140,2);}
       return;
     }
     if(spider.jump){
@@ -330,7 +340,7 @@
     const breathe=1+Math.sin(spider.breathe)*(.025+.03*spider.sleep),squash=1-.1*spider.land;
     sctx.save();sctx.translate(0,-52*K);sctx.rotate(spider.z);sctx.scale(breathe*(2-squash),breathe*squash);
     sctx.drawImage(rig.abdomen,-627*K,-548*K,1254*K,1254*K);sctx.restore();
-    const qt=smooth(spider.qt);sctx.globalAlpha=1-.85*qt;
+    const qt=idle?smooth(spider.qt):0;sctx.globalAlpha=1-.85*qt;
     sctx.drawImage(rig.head,-627*K,-600*K,1254*K,1254*K);sctx.globalAlpha=1;
     if(idle&&qt>.001){
       const k=3.3*(.9+.1*qt)*K;
@@ -437,9 +447,9 @@
     const dt=Math.min(.033,Math.max(.001,(now-lastTime)/1000));lastTime=now;
     if(suspended)return;
     clock+=dt;spider.frameCount++;
-    updateFly(dt);updateNudges(dt);updateSpider(dt);updateRest(dt);
+    updateFly(dt);updateNudges(dt);updateSpider(dt,now);updateRest(dt);
     const spin=world({x:-450,y:0});
-    silk.update(dt,clock,spin,pointer,!spider.intro||clock>3);
+    silk.update(dt,clock,spin,pointer,!spider.intro);
     ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
     silk.draw(ctx,clock);drawSpider();
     if(spider.sleep>.1){const p=world({x:260,y:-170});snore(p.x,p.y,scale);if(fly.landed>.8)snore(fly.x+15,fly.y-10,scale*.5);}
@@ -447,24 +457,52 @@
     if(diagnostics&&spider.frameCount%15===0)canvas.dataset.state=JSON.stringify(window.foundDebug.state);
   }
   async function init(){
-    const [photo,head,flyPhoto]=await Promise.all([loadImage(FOUND_ASSETS.spider),loadImage(FOUND_ASSETS.idle),loadImage(FOUND_ASSETS.fly)]);
+    // Fetch optional sprites in parallel, but only the main spider can hold up
+    // its first frame. The native pointer stays available until the fly exists.
+    document.documentElement.style.cursor='auto';document.body.style.cursor='auto';
+    const photoPromise=loadImage(FOUND_ASSETS.spider,'high');
+    const headPromise=loadImage(FOUND_ASSETS.idle,'low');
+    const flyPromise=loadImage(FOUND_ASSETS.fly);
+    const photo=await photoPromise;
     if(photo)rig=createRig(photo);
-    if(head){
-      const c=makeCanvas(308),cctx=c.getContext('2d',{willReadFrequently:true});
-      // Register the replacement face to the source brief's two central eyes.
-      cctx.drawImage(head,92.9,100.37,122.41,122.41);idle=c;
-      idleSamples=eyes.map(([x,y,r])=>{const p=cctx.getImageData(Math.round(x),Math.round(y-r-4),1,1).data;return [Math.round(p[0]*.82),Math.round(p[1]*.78),Math.round(p[2]*.75)];});
-    }
-    if(flyPhoto)flyRig=createFly(flyPhoto);
-    if(!flyRig){document.documentElement.style.cursor='auto';document.body.style.cursor='auto';}
-    await Promise.all([...document.querySelectorAll('.frame img.object')].map(image=>image.decode().catch(()=>{})));
-    collectNudges();resize();
-    new ResizeObserver(resize).observe(document.querySelector('.page')||document.body);
-    document.fonts.ready.then(()=>silk.sampleAnchors());window.addEventListener('load',()=>silk.sampleAnchors());
-    setTimeout(()=>silk.sampleAnchors(),600);
-    if(reduced){spider.intro=false;spider.x=W/2;spider.y=H/2;resetFeet();}
-    lastTime=performance.now();requestAnimationFrame(frame);
+    collectNudges();resize({sampleSilk:false});
+    if(reduced){spider.intro=false;spider.introDone=true;spider.x=W/2;spider.y=H/2;resetFeet();}
+    introStartedAt=lastTime=performance.now();
+    // Paint the visible spider and its suspended thread before contour scans
+    // or optional face/fly assembly. A second animation frame leaves a paint
+    // opportunity before that remaining work begins.
+    const spin=world({x:-450,y:0});
+    silk.update(0,clock,spin,pointer,false);
+    ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
+    silk.draw(ctx,clock);drawSpider();
     document.documentElement.dataset.ready='true';
+    requestAnimationFrame(frame);
+    let layoutFrame=0;
+    const refreshObjects=()=>{
+      if(layoutFrame)return;
+      layoutFrame=requestAnimationFrame(()=>{layoutFrame=0;measureNudgeBoxes();silk.scheduleSample();});
+    };
+    for(const image of document.querySelectorAll('.frame img.object')){
+      if(!image.complete)image.addEventListener('load',refreshObjects,{once:true});
+    }
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      silk.resize(W,H,DPR);
+      new ResizeObserver(()=>resize()).observe(document.querySelector('.page')||document.body);
+      refreshObjects();
+      void headPromise.then(head=>{
+        if(!head)return;
+        const c=makeCanvas(308),cctx=c.getContext('2d',{willReadFrequently:true});
+        // Register the replacement face to the source brief's two central eyes.
+        cctx.drawImage(head,92.9,100.37,122.41,122.41);
+        const samples=eyes.map(([x,y,r])=>{const p=cctx.getImageData(Math.round(x),Math.round(y-r-4),1,1).data;return [Math.round(p[0]*.82),Math.round(p[1]*.78),Math.round(p[2]*.75)];});
+        idleSamples=samples;idle=c;
+      }).catch(()=>{});
+      void flyPromise.then(flyPhoto=>{
+        if(!flyPhoto)return;
+        flyRig=createFly(flyPhoto);
+        document.documentElement.style.removeProperty('cursor');document.body.style.removeProperty('cursor');
+      }).catch(()=>{});
+    }));
   }
   // Read-only diagnostics make animation and standalone-file QA reproducible.
   window.foundDebug={get state(){return {width:W,height:H,scale,K,flySize,ready:!!rig,frames:spider.frameCount,

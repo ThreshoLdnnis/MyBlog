@@ -15,6 +15,7 @@ export const pages = [
 
 export function mountPageNavigation({getName}) {
   const main = document.querySelector('#page-content');
+  const welcomeGate = document.querySelector('#welcome-gate');
   const sections = [...main.children].filter(el => el.tagName === 'SECTION');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const positions = new Map();
@@ -88,7 +89,9 @@ export function mountPageNavigation({getName}) {
       if (active) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     });
-    if (page.module) mountRoom(page);
+    if (page.module && (!welcomeGate.open || welcomeGate.classList.contains('is-entering'))) {
+      mountRoom(page);
+    }
     main.setAttribute('aria-label', page.title);
     refreshTitle();
     scrollTo({top:restore ? positions.get(page.id) || 0 : 0, behavior:'instant'});
@@ -150,6 +153,9 @@ export function mountPageNavigation({getName}) {
     fallbackAnimations.forEach(animation => animation.cancel());
     void drain();
   }
+  document.addEventListener('journal:entering', () => {
+    if (current?.module && !roomCleanup) mountRoom(current);
+  });
   document.addEventListener('click', event => {
     const link = event.target.closest('a[href^="#/"]');
     if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;

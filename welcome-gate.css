@@ -32,7 +32,7 @@ html.welcome-open body { overflow: hidden; overscroll-behavior: none; }
   align-items: center;
   justify-content: center;
   gap: 32px;
-  background: #174b9e url('welcome/assets/backgrounds/blue.webp') center / cover;
+  background: #174b9e radial-gradient(ellipse at 54% 36%, #2456a5, #12418e);
 }
 .welcome-fallback[hidden] { display: none; }
 .welcome-fallback h2 {
