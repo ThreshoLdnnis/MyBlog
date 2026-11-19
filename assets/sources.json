@@ -1,0 +1,150 @@
+{
+  "note": "现有项目封面与已署名参考风景；风景不代表本人拍摄。只进行等比缩小及 JPEG 压缩。",
+  "projects": [
+    {
+      "file": "projects/roninx.jpg",
+      "title": "RoninX · 神经边界",
+      "sourceType": "existing-project-preview",
+      "originalPath": "WebDesign6-RoninX/README-cover.jpg",
+      "projectUrl": "https://github.com/ThreshoLdnnis/WebDesign6-RoninX",
+      "attribution": "朱飞阳 / Timofey 的既有网页设计项目截图；截图中素材归原作者",
+      "changes": "等比缩小至最大宽度 1100 px，JPEG 质量 85",
+      "width": 1100,
+      "height": 811,
+      "bytes": 146856
+    },
+    {
+      "file": "projects/orbit.jpg",
+      "title": "Orbit · PhotoBall",
+      "sourceType": "existing-project-preview",
+      "originalPath": "Orbit/README-cover.jpg",
+      "projectUrl": "https://github.com/ThreshoLdnnis/WebDesign10-PhotoBall",
+      "attribution": "朱飞阳 / Timofey 的既有网页设计项目截图；截图中素材归原作者",
+      "changes": "等比缩小至最大宽度 1100 px，JPEG 质量 85",
+      "width": 1100,
+      "height": 619,
+      "bytes": 75074
+    },
+    {
+      "file": "projects/music.jpg",
+      "title": "Music of Love · 音乐墙",
+      "sourceType": "existing-project-preview",
+      "originalPath": "Music-of-Love/docs/images/cover.jpg",
+      "projectUrl": "https://github.com/ThreshoLdnnis/Music-of-Love",
+      "attribution": "朱飞阳 / Timofey 的既有网页设计项目截图；截图中素材归原作者",
+      "changes": "等比缩小至最大宽度 1100 px，JPEG 质量 85",
+      "width": 920,
+      "height": 675,
+      "bytes": 78234
+    },
+    {
+      "file": "projects/reading.jpg",
+      "title": "老猪精选书籍 · 读书角",
+      "sourceType": "existing-project-preview",
+      "originalPath": "ReadingCorner/preview.jpg",
+      "projectUrl": "",
+      "attribution": "朱飞阳 / Timofey 的既有网页设计项目截图；截图中素材归原作者",
+      "changes": "等比缩小至最大宽度 1100 px，JPEG 质量 85",
+      "width": 1100,
+      "height": 688,
+      "bytes": 79798
+    },
+    {
+      "file": "projects/meowstar.jpg",
+      "title": "Daydream · 超级喵Star",
+      "sourceType": "existing-project-preview",
+      "originalPath": "MeowStar/previews/hero.jpg",
+      "projectUrl": "",
+      "attribution": "朱飞阳 / Timofey 的既有网页设计项目截图；截图中素材归原作者",
+      "changes": "等比缩小至最大宽度 1100 px，JPEG 质量 85",
+      "width": 1100,
+      "height": 688,
+      "bytes": 81882
+    }
+  ],
+  "hero": [
+    {
+      "file": "hero/travel-lisbon.jpg",
+      "theme": "里斯本阿尔法玛红瓦屋顶与河岸，温暖城市明信片",
+      "sourceType": "representative-reference-photo",
+      "isUserPhotography": false,
+      "originalPath": "WebDesign3-LifeMap/work/travel/photos/lisbon.jpg",
+      "attribution": {
+        "file": "lisbon.jpg",
+        "place": "Lisbon, Portugal",
+        "title": "Alfama from the Miradouro of Santa Luzia",
+        "creator": "Miguel Vieira",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Alfama-CCBY.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Alfama-CCBY.jpg",
+        "changes": "Resized and recompressed",
+        "alt": "Terracotta roofs and pale church towers in Lisbon's Alfama district above the Tagus",
+        "objectPosition": "58% center",
+        "width": 1280,
+        "height": 572
+      },
+      "changes": "等比缩小至最大宽度 1100 px，JPEG 质量 85",
+      "width": 1100,
+      "height": 492,
+      "bytes": 121810
+    },
+    {
+      "file": "hero/travel-kyoto.jpg",
+      "theme": "京都清水寺红色三重塔、绿树与远山，建筑与自然",
+      "sourceType": "representative-reference-photo",
+      "isUserPhotography": false,
+      "originalPath": "WebDesign3-LifeMap/work/travel/photos/kyoto.jpg",
+      "attribution": {
+        "file": "kyoto.jpg",
+        "place": "Kyoto, Japan",
+        "title": "Kyoto from Kiyomizu-Dera",
+        "creator": "Ray in Manila",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kyoto_from_Kiyomizu-Dera.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/4/44/Kyoto_from_Kiyomizu-Dera.jpg",
+        "changes": "Resized and recompressed",
+        "alt": "A red pagoda at Kiyomizu-dera overlooks Kyoto and the surrounding hills",
+        "objectPosition": "77% center",
+        "width": 1080,
+        "height": 785
+      },
+      "changes": "等比缩小至最大宽度 1100 px，JPEG 质量 85",
+      "width": 1080,
+      "height": 785,
+      "bytes": 207796
+    },
+    {
+      "file": "hero/portrait-cutout.png",
+      "theme": "朱飞阳本人半身透明抠图",
+      "sourceType": "existing-user-provided-asset",
+      "originalPath": "Fashion Web5/outputs/index.html",
+      "extractedFrom": "img#front",
+      "attribution": "用户在 Fashion Web5 任务中提供并确认使用的图像",
+      "changes": "仅提取内嵌 PNG 原始字节；未改绘",
+      "width": 1093,
+      "height": 1438,
+      "bytes": 1866066
+    },
+    {
+      "file": "hero/rider-cutout.png",
+      "theme": "根据用户提供图像匹配体型的粉色骑手造型",
+      "sourceType": "existing-user-provided-asset",
+      "originalPath": "Fashion Web5/outputs/index.html",
+      "extractedFrom": "back.src",
+      "attribution": "用户在 Fashion Web5 任务中提供并确认使用的图像",
+      "changes": "仅提取内嵌 PNG 原始字节；未改绘",
+      "width": 1093,
+      "height": 1438,
+      "bytes": 1743324
+    }
+  ],
+  "welcome": {
+    "repository": "https://github.com/ThreshoLdnnis/MovingSpider",
+    "commit": "4adc2796401530794e5e1223fb34c3a4c303bd0d",
+    "localCopy": "../welcome/",
+    "changes": "Local resource URLs, explicit Enter button, isolated welcome dialog; no automatic entry.",
+    "notices": "../welcome/THIRD_PARTY_NOTICES.md"
+  }
+}

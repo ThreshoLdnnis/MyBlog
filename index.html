@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN" class="welcome-open">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#edeae3">
+  <meta name="description" content="朱飞阳的个人生活手册。量化研究、产品设计、旅行足迹，以及值得反复打开的音乐、书籍与收藏。">
+  <title>MOFARIGANO — 生活，持续创作中。</title>
+  <link rel="icon" href="assets/portrait.jpg"><link rel="preload" href="assets/fonts/anton.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/hero/portrait-cutout.png" as="image">
+  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="cabinet/cabinet.css"><link rel="stylesheet" href="page-navigation.css">
+  <link rel="stylesheet" href="assets/fonts/editorial-fonts.css"><link rel="stylesheet" href="typography.css"><link rel="stylesheet" href="navigation-polish.css"><link rel="stylesheet" href="name-particles.css"><link rel="stylesheet" href="welcome-gate.css">
+</head>
+<body id="home">
+<a class="skip-link" href="#page-content">跳转到主要内容</a>
+<dialog id="welcome-gate" class="welcome-gate" open aria-label="欢迎来到 Mofarigano 的个人网站">
+  <div class="welcome-scene"></div>
+  <div class="welcome-fallback"><h2>Welcome！</h2><button type="button" id="welcome-enter-fallback">进入网站 ↗</button><noscript>请开启 JavaScript 以进入网站并体验互动场景。</noscript></div>
+</dialog>
+<header class="site-header">
+  <a class="brand" href="#/me" aria-label="Mofarigano，回到首页"><span class="brand-mark">M<span>®</span></span><span class="brand-wordmark" data-profile="name">Mofarigano</span><span class="brand-caption">PERSONAL JOURNAL / 生活手册</span></a>
+  <nav class="top-nav" aria-label="主导航">
+    <a href="#/me"><span class="nav-cn">我</span><span class="nav-en" aria-hidden="true">ME</span></a>
+    <a href="#/works"><span class="nav-cn">作品</span><span class="nav-en" aria-hidden="true">WORKS</span></a>
+    <a href="#/life"><span class="nav-cn">生活</span><span class="nav-en" aria-hidden="true">LIFE</span></a>
+    <a href="#/journal"><span class="nav-cn">手记</span><span class="nav-en" aria-hidden="true">NOTES</span></a>
+    <a href="#/travel"><span class="nav-cn">足迹</span><span class="nav-en" aria-hidden="true">PLACES</span></a>
+    <a href="#/music"><span class="nav-cn">音乐</span><span class="nav-en" aria-hidden="true">MUSIC</span></a>
+    <a href="#/books"><span class="nav-cn">阅读</span><span class="nav-en" aria-hidden="true">BOOKS</span></a>
+    <a href="#/collection"><span class="nav-cn">收藏抽屉</span><span class="nav-en" aria-hidden="true">FINDS</span></a>
+    <a href="#/honors"><span class="nav-cn">荣誉墙</span><span class="nav-en" aria-hidden="true">HONORS</span></a>
+  </nav>
+  <div class="header-end"><button class="icon-btn" id="index-toggle" aria-expanded="false" aria-controls="index-panel" aria-label="打开全部章节"><span class="more-label" aria-hidden="true">INDEX</span><span class="menu-lines"></span></button></div>
+</header>
+<nav id="index-panel" class="index-panel" aria-label="所有章节" hidden><span class="eyebrow">THE INDEX / 目录</span><div id="index-links"></div><button class="text-button" data-edit="profile">编辑个人资料 ↗</button></nav>
+<main id="page-content" tabindex="-1" aria-label="我">
+  <section class="hero" id="intro">
+    <div class="hero-eyebrow"><span>PERSONAL JOURNAL — VOL. 01</span><span>理性思考，感性生活。</span></div>
+    <h1><span data-display-name>MOFARIGANO</span><span class="title-dot">.</span></h1>
+    <div class="hero-stage">
+      <div class="hero-copy"><span class="eyebrow">HELLO, I'M <span data-profile="alias">老猪 / Timofey</span></span><h2>不止一种身份，<br>不止一种热爱。</h2><p>量化研究者，产品创造者，<br>也是生活的长期收藏家。</p><a class="circle-link" href="#/about"><span>认识我</span><span class="arrow-disc">↗</span></a></div>
+      <div class="portrait-stage" id="portrait-stage"><div class="portrait-backdrop"></div><img class="hero-portrait" src="assets/hero/portrait-cutout.png" alt="朱飞阳的半身人像" width="1093" height="1438" fetchpriority="high"><img class="hero-rider" src="assets/hero/rider-cutout.png" alt="粉色骑手造型" width="1093" height="1438"><button id="persona-toggle" class="persona-toggle" aria-pressed="false">鼠标划过，发现另一面 ↗</button><span class="portrait-caption">A WORK IN PROGRESS, ALWAYS.</span></div>
+      <div class="hero-aside"><span class="issue-label">人生不限于<br>标准答案。</span><p class="serif">A life,<br>in progress.</p><div class="aside-line"></div><span class="eyebrow">CURRENTLY INTO</span><div class="interest-line"><span>Quant Research</span><span>01</span></div><div class="interest-line"><span>Making Things</span><span>02</span></div><div class="interest-line"><span>Little Joys</span><span>03</span></div></div>
+    </div>
+    <div class="hero-bottom"><span>MATHEMATICS × DESIGN × EVERYDAY LIFE</span><span>把生活过成，喜欢的样子。</span><a href="#/works">VIEW SELECTED WORKS ↗</a></div>
+  </section>
+
+  <section class="about section-pad" id="about" hidden>
+    <div class="section-kicker"><span>10 / ABOUT ME</span><span>一个人的，自我介绍</span></div>
+    <div class="about-layout"><div><span class="orange-label">多面，但始终是我。</span><h2>以理性探索，<br><span class="serif">以热爱创造。</span></h2><a class="underlined-link" id="profile-github" href="https://github.com/ThreshoLdnnis" target="_blank" rel="noopener noreferrer">在 GitHub 找到我 ↗</a></div><div class="about-detail"><h3>你好，我是 <span data-profile="chineseName">朱飞阳</span>。</h3><p class="lead" data-profile="intro"></p><p data-profile="bio"></p><div class="about-tags"><span>数学与应用数学</span><span>量化研究</span><span>金融 AI</span><span>产品设计</span></div><div class="about-note"><img src="assets/portrait.jpg" alt="朱飞阳头像" width="48" height="48" loading="lazy"><p>键盘之外：网球、羽毛球、徒步、摄影，<br>还有一场说走就走的旅行。</p><span class="signature">Mofarigano.</span></div></div></div>
+    <nav class="profile-links" aria-label="更多关于我"><a href="#/stack">我的技术栈 ↗</a><a href="#/honors">荣誉与里程碑 ↗</a><a href="#/toys">看看我的手办 ↗</a></nav>
+  </section>
+
+  <section class="works section-pad" id="works" hidden>
+    <div class="section-kicker"><span>02 / SELECTED WORKS</span><span>从想法，到眼前</span></div>
+    <div class="section-heading"><h2>创造的<span class="serif">痕迹。</span><span class="heading-note" aria-hidden="true">Ideas, made real.</span></h2><p>产品、研究与一些不设限的视觉实验。<br>每一个，都是好奇心留下的形状。</p></div>
+    <div class="filter-row" id="work-filters" aria-label="筛选作品"><button class="active" data-filter="全部" aria-pressed="true">全部作品 <small>06</small></button><button data-filter="产品设计" aria-pressed="false">产品设计</button><button data-filter="视觉实验" aria-pressed="false">视觉实验</button><button data-filter="生活空间" aria-pressed="false">生活空间</button></div>
+    <div class="works-grid" id="works-grid"></div>
+  </section>
+
+  <section class="life section-pad" id="life" hidden>
+    <div class="section-kicker"><span>03 / LIFE, UNFOLDING</span><span>生活没有单行道</span></div>
+    <div class="section-heading"><h2>走过的路，<br><span class="serif">都算数。</span></h2><div><p>学习、工作、创造，和那些平凡的日常。<br>不是一份简历，是仍在书写的故事。</p><button class="text-button" data-edit="timeline">记下一个新篇章 ＋</button></div></div>
+    <div class="filter-row" id="timeline-filters" aria-label="筛选时间轴"><button class="active" data-filter="全部" aria-pressed="true">全部篇章</button><button data-filter="生活" aria-pressed="false">生活</button><button data-filter="学习" aria-pressed="false">学习</button><button data-filter="工作" aria-pressed="false">工作</button><button data-filter="创业" aria-pressed="false">创业</button></div>
+    <div class="timeline" id="timeline-list"></div>
+  </section>
+
+  <section class="travel route-room" id="travel" aria-label="旅行足迹" hidden><div class="route-room-shell"></div></section>
+
+  <section class="listening route-room" id="music" aria-label="音乐墙" hidden><div class="route-room-shell"></div></section>
+
+  <section class="reading route-room" id="books" aria-label="读书角" hidden><div class="route-room-shell"></div></section>
+
+  <section class="toys section-pad" id="toys" hidden>
+    <div class="section-kicker"><span>09 / SMALL THINGS, BIG JOY</span><span>大人的小小快乐</span></div>
+    <div class="section-heading"><h2>欢迎来到，<span class="serif">玩心收藏室。</span></h2><p>为可爱留一个位置。<br>让每一个小小的它，都有自己的舞台。</p></div>
+    <div id="cabinet"></div>
+  </section>
+
+  <section class="collection section-pad" id="collection" hidden>
+    <div class="section-kicker"><span>08 / THE GOOD FINDS</span><span>收藏，让喜欢有迹可循</span></div>
+    <div class="section-heading"><h2>我的<span class="serif">宝藏抽屉。</span></h2><button class="primary-button light" data-edit="collections">收藏一份心动 <span>＋</span></button></div>
+    <div class="collection-toolbar"><div class="filter-row" id="collection-filters" aria-label="筛选收藏"><button class="active" data-filter="全部" aria-pressed="true">全部</button><button data-filter="探店" aria-pressed="false">宝藏探店</button><button data-filter="工具" aria-pressed="false">实用工具</button><button data-filter="地点" aria-pressed="false">地点</button><button data-filter="物品" aria-pressed="false">物品</button><button data-filter="语录" aria-pressed="false">语录</button><button data-filter="说说" aria-pressed="false">说说</button><button data-filter="音乐" aria-pressed="false">音乐</button></div><label class="search-field"><span>搜索</span><input id="collection-search" type="search" placeholder="找一份喜欢…" aria-label="搜索收藏"></label></div>
+    <div class="collection-grid" id="collection-grid"></div>
+  </section>
+
+  <section class="tools section-pad" id="stack" hidden>
+    <div class="section-kicker"><span>11 / THE TOOLBOX</span><span>把想法变成现实的伙伴</span></div>
+    <div class="toolbox-layout"><h2>好奇心是引擎。<br><span class="serif">这些是工具。</span></h2><div class="tool-groups"><div><span>01 / RESEARCH</span><h3>用数据，寻找答案。</h3><p>Python / SQL / pandas / DuckDB<br>scikit-learn / LightGBM / SHAP</p></div><div><span>02 / BUILD</span><h3>用代码，构建体验。</h3><p>TypeScript / React / Next.js / Three.js<br>FastAPI / PostgreSQL / Tailwind CSS</p></div><div><span>03 / COLLABORATE</span><h3>和团队，一起做好。</h3><p>研究设计 / 任务规划 / PR Review<br>可复现实验 / 测试与交付 / 技术文档</p></div></div></div>
+  </section>
+
+  <section class="honors section-pad" id="honors" hidden><div class="section-kicker"><span>12 / MILESTONES</span><span>值得记住的，高光时刻</span></div><div class="section-heading"><h2>每一步，<span class="serif">都有回响。</span><span class="heading-note" aria-hidden="true">The little wins.</span></h2><button class="text-button" data-edit="honors">添加一份荣誉 ＋</button></div><div id="honor-grid"></div></section>
+
+  <section class="journal section-pad" id="journal" hidden><div class="section-kicker"><span>04 / FIELD NOTES</span><span>观察、思考与碎碎念</span></div><div class="section-heading"><h2>最近，<span class="serif">写了些什么。</span></h2><button class="text-button" data-edit="posts">写一篇手记 ＋</button></div><div id="post-list"></div></section>
+</main>
+<footer class="site-footer"><div class="footer-bottom"><span>© <span id="current-year">2026</span> <span data-profile="name">Mofarigano</span> · 生活，持续创作中。</span><div><button id="replay-intro">重播开场</button><button id="manage-content">内容管理</button><button id="credits-button">关于本站</button><a href="https://github.com/ThreshoLdnnis" target="_blank" rel="noopener noreferrer">GITHUB ↗</a></div></div></footer>
+<div id="route-status" class="sr-only" role="status" aria-live="polite"></div>
+<dialog aria-label="内容详情" id="detail-dialog" class="detail-dialog"><button class="dialog-close" aria-label="关闭详情">×</button><div id="detail-content"></div></dialog>
+<dialog aria-label="编辑个人网站内容" id="editor-dialog" class="editor-dialog"><button class="dialog-close" aria-label="关闭编辑器">×</button><div id="editor-content"></div></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="app.js"></script>
+<noscript><p class="noscript">请开启 JavaScript 以浏览互动内容，也可直接打开 <a href="modules/map.html">旅行地图</a>、<a href="modules/music.html">音乐墙</a> 和 <a href="modules/books.html">读书角</a>。</p></noscript>
+</body></html>

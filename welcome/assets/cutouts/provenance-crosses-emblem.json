@@ -1,0 +1,67 @@
+{
+  "tool": "built-in image_gen",
+  "mode": "background-extraction",
+  "crossesCleanup": {
+    "asset": "crosses",
+    "prompt": "Use case: background-extraction cleanup. Input image 1 is the exact edit target: the already cut-out pair of overlapping glossy black and pink crosses. Make ONLY this tiny correction: remove any disconnected white or pale background specks/debris outside the object silhouette, especially in the small transparent concave space immediately to the LEFT of the small pink cross, between its upper-left arm and its leftmost arm. That empty concavity must be clean actual transparency, not white remnants. Also clean any thin exterior white fringe outside the contours. Preserve every part of both crosses including their exact shapes, glossy highlights, colors, orientation, relative positions, tiny bottom markings and all existing object edges; do not erase legitimate object highlights. Do not redraw, restyle, sharpen or recreate anything. Preserve existing transparent alpha and the complete object with a small transparent margin.",
+    "generated": "exec-4535a0e7-7a5a-4499-95c1-9f0faa9f8b48.png",
+    "purpose": "Remove tiny disconnected pale background remnants in the pink cross concavity."
+  },
+  "correction": {
+    "asset": "chrome-emblem",
+    "prompt": "Use case: precise-object-edit / background-extraction. Edit this existing transparent white-filled Chrome Hearts sticker ONLY at the small bottom gap BETWEEN the two curled lower scroll/lobe ends. Remove the small excess white bridge/white tab that currently extends down between the two bottom lobes, so that the transparent exterior background enters this gap from below, creating a shallow clean concave notch between the scrolls. The opaque white circular sticker interior must stop at the bottom circular arc ABOVE the lowest scroll tips, rather than protrude below them. Keep both lower lobes/scrolls completely intact, with their white interior and black outlines. Preserve ALL other existing pixels: every blackletter, central cross/flower, circular outlines, white sticker interior above that small bottom gap, registered mark, dimensions and orientation. Do not redraw the emblem, change any lettering, change line weights, create new artwork, or turn its white interior transparent. Exterior stays actual transparent alpha. This is a tiny correction only to the excess white bridge between the lower scrolls.",
+    "generated": "exec-b87cb578-ffc2-4735-b821-11582a6d34ae.png",
+    "purpose": "Remove excess exterior white bridge between bottom lobes while retaining opaque white sticker interior."
+  },
+  "normalization": "Crop to alpha > 1 bounds with 3px allowance, resize proportionally to max edge 650px, WebP quality 94, retain alpha and generated original PNG.",
+  "assets": [
+    {
+      "name": "crosses",
+      "input": "../incoming/55cd223e31c51be894aadebaf4f306fc.jpg",
+      "prompt": "Use case: background-extraction. Input image 1 is the exact edit target. Remove ONLY the plain white exterior background to actual transparent alpha, preserving the original two overlapping glossy ornamental crosses exactly: a large glossy black cross upright, and the smaller glossy pale pink cross diagonally overlapping in front. Preserve the EXACT original shape, orientation, overlap, dimensions/proportions, surface highlights, shadows on the objects, black and pink colors, all fine details and any tiny existing markings. Do not redraw, restyle, repaint, redesign, enhance or recreate the crosses. Do not separate or reposition the crosses. Keep the complete silhouettes, all pointed and curved tips intact. Transparent background outside their combined silhouette, including concave cutouts around arms. No white rectangle, no new border, no artificial shadow, no checkerboard painted in. Output a faithful photographic cutout of this exact supplied image with a small transparent margin.",
+      "generated": "exec-4535a0e7-7a5a-4499-95c1-9f0faa9f8b48.png",
+      "original": "crosses.png",
+      "output": "crosses.webp",
+      "outputSize": [
+        448,
+        650
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "cropBounds": [
+        152,
+        30,
+        1041,
+        1321
+      ],
+      "bytes": 38066,
+      "initialGenerated": "exec-67a35bc3-50a5-41c0-b4dc-bed5a0813eec.png"
+    },
+    {
+      "name": "chrome-emblem",
+      "input": "../incoming/fab44384ec69c2dbab80df4f4dafcef9.jpg",
+      "prompt": "Use case: background-extraction. Input image 1 is the EXACT edit target, an existing black-and-white Chrome Hearts emblem. Extract it as a WHITE-FILLED sticker cutout. Remove ONLY the exterior white page field outside the emblem outer silhouette, to actual transparent alpha. Preserve the entire exact existing original blackletter typography, central ornamental cross/flower, concentric curved black outlines, small registered mark, and both curved bottom lobes/scrolls. CRITICAL: KEEP all WHITE INTERIOR areas within the emblem sticker FULLY OPAQUE WHITE, including the white space around the black letters, within the central circle, and inside the bottom lobes. Do not make it bare black lines on transparency; it must read as an opaque white sticker with black print when placed over a blue background. Trace the outermost black contour around the round emblem and both bottom curved lobes, with the outside field transparent, including the exterior concave gap between the lower lobes. Preserve original shape, proportions, orientation, every original letter and all line geometry EXACTLY; do not redraw, recreate, correct, thicken, or redesign the logo. No new outlines, shadows, or text. Center the complete cutout with a small transparent margin.",
+      "generated": "exec-b87cb578-ffc2-4735-b821-11582a6d34ae.png",
+      "original": "chrome-emblem.png",
+      "output": "chrome-emblem.webp",
+      "outputSize": [
+        603,
+        650
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "cropBounds": [
+        127,
+        147,
+        1069,
+        1162
+      ],
+      "bytes": 96614,
+      "initialGenerated": "exec-9e1f973b-0b0e-42f5-a66f-8c297fc49170.png"
+    }
+  ]
+}

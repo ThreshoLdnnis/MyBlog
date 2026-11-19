@@ -1,0 +1,55 @@
+/* The original composition stays intact; this is its single explicit entry action. */
+.welcome-page .welcome-enter {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  top: calc(547 / 11.25 * 1dvh - 48 * var(--u) + 120 * var(--u) + 20px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 27px;
+  min-width: 176px;
+  min-height: 52px;
+  padding: 13px 25px;
+  border: 1px solid rgba(255, 255, 255, .86);
+  border-radius: 999px;
+  background: #faf9f4;
+  color: #20304a;
+  box-shadow: 0 5px 22px rgba(8, 24, 54, .17), inset 0 1px 0 #fff;
+  transform: translateX(-50%);
+  font-family: Inter, 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.welcome-page .welcome-enter-arrow { font-size: 23px; font-weight: 400; line-height: 1; letter-spacing: 0; }
+.welcome-page .welcome-enter:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+.welcome-page .welcome-enter:active { transform: translate(-50%, 1px); }
+@media (hover: hover) {
+  .welcome-page .welcome-enter:hover { transform: translate(-50%, -3px); box-shadow: 0 9px 30px rgba(8, 24, 54, .23), inset 0 1px 0 #fff; }
+}
+@media (max-aspect-ratio: 1/1) {
+  .welcome-page .welcome-enter {
+    top: calc(33dvh + 55 * var(--u) + 15px);
+    min-width: 170px;
+    min-height: 48px;
+    padding: 12px 23px;
+    gap: 25px;
+    font-size: 13px;
+  }
+  .welcome-page .welcome-enter-arrow { font-size: 21px; }
+}
+@media (min-aspect-ratio: 1/1) and (max-height: 560px) {
+  .welcome-page .welcome-enter { min-width: 158px; min-height: 44px; padding: 10px 21px; font-size: 12px; }
+  .welcome-page .welcome-enter-arrow { font-size: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .welcome-page .welcome-enter { transition: none; }
+  .welcome-page .welcome-enter:hover,
+  .welcome-page .welcome-enter:active { transform: translateX(-50%); }
+}

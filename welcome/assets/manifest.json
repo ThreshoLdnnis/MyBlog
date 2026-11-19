@@ -1,0 +1,133 @@
+{
+  "method": "Built-in image_gen.imagegen; transparent background; delivery copies resized with alpha preserved and centered in exact requested aspect ratios.",
+  "note": "Original source HTML and original embedded images were absent from the supplied brief. These are newly generated reconstructions, not original assets.",
+  "delivery": {
+    "mug": {
+      "file": "mug.webp",
+      "width": 482,
+      "height": 440
+    },
+    "book": {
+      "file": "book.webp",
+      "width": 586,
+      "height": 644
+    },
+    "spider": {
+      "file": "spider.webp",
+      "width": 560,
+      "height": 560
+    },
+    "idleHead": {
+      "file": "idle-head.webp",
+      "width": 308,
+      "height": 308
+    },
+    "fly": {
+      "file": "fly.webp",
+      "width": 240,
+      "height": 246
+    }
+  },
+  "landmarks": {
+    "idleHead": {
+      "space": [
+        308,
+        308
+      ],
+      "eyes": [
+        [
+          116,
+          145,
+          32
+        ],
+        [
+          194,
+          145,
+          32
+        ],
+        [
+          62,
+          128,
+          13
+        ],
+        [
+          246,
+          128,
+          13
+        ],
+        [
+          40,
+          134,
+          8
+        ],
+        [
+          269,
+          134,
+          8
+        ]
+      ],
+      "recommendedScale": 1.3
+    },
+    "fly": {
+      "space": [
+        920,
+        945
+      ],
+      "leftWing": [
+        [
+          380,
+          311
+        ],
+        [
+          337,
+          353
+        ],
+        [
+          234,
+          488
+        ],
+        [
+          142,
+          622
+        ],
+        [
+          54,
+          764
+        ],
+        [
+          34,
+          830
+        ],
+        [
+          69,
+          853
+        ],
+        [
+          169,
+          810
+        ],
+        [
+          253,
+          734
+        ],
+        [
+          322,
+          645
+        ],
+        [
+          372,
+          515
+        ],
+        [
+          402,
+          396
+        ]
+      ],
+      "leftHinge": [
+        389,
+        329
+      ],
+      "rightWing": "Mirror leftWing via x = 920 - x"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "name": "doll",
+    "input": "../incoming/6868bac1f7f9f40c4e8f56b8419d5ce5.jpg",
+    "original_generated_path": "exec-d0caf2e6-ead1-486a-85a0-3bc58c2e6ef5.png",
+    "original_png": "doll.png",
+    "webp": "doll.webp",
+    "tool": "built-in image_gen.imagegen",
+    "mode": "edit / background-extraction",
+    "transparent_background": true,
+    "prompt": "Use case: background-extraction. Edit target: the provided existing photograph. Remove ONLY the white background to a genuinely transparent alpha background. Preserve the exact whole blonde articulated doll including every strand of blonde hair, huge brown eyes, black CHANEL headband, ears and wing-like cream neck detail, white outfit, black mini bag, metallic gold chain, left shopping bag and right perfume carton. Keep ALL existing artwork, logos, typography, colors, proportions, pose, texture and lighting exactly as in the source. Do not redraw, redesign, retouch, recolor or add anything. Preserve solid white fabric and white packaging; only background and gaps are transparent. Clean precise object edges with natural anti-aliasing. Isolated complete cutout with a small transparent margin, no floor shadow, no backdrop.",
+    "formatting": "Preserve original generated PNG; crop to alpha bounding box and resize longest edge to at most 650px; WebP quality 94, alpha preserved."
+  },
+  {
+    "name": "sneaker",
+    "input": "../incoming/f8deebef544003aa40501e239b0bf973.jpg",
+    "original_generated_path": "exec-58d48f14-23f5-40f9-be35-9db566b98960.png",
+    "original_png": "sneaker.png",
+    "webp": "sneaker.webp",
+    "tool": "built-in image_gen.imagegen",
+    "mode": "edit / background-extraction",
+    "transparent_background": true,
+    "prompt": "Use case: background-extraction. Edit target: the provided existing side-view sneaker photograph. Remove ONLY its white background to a genuinely transparent alpha background. Preserve this exact navy blue suede Polo low-top shoe in the same side-view pose and direction, cream heel and side stripe, white laces, black polo horse logo, brown gum sole, embossed Polo mark, stitches, suede texture and lighting unchanged. No redesign, recreation, retouching, extra shoe, recoloring, or altered branding. Keep all cream/white regions of the shoe opaque and intact; remove only background outside its outline. Tight clean silhouette with natural anti-aliasing and small transparent margin. No added shadow or surface.",
+    "formatting": "Preserve original generated PNG; crop to alpha bounding box and resize longest edge to at most 650px; WebP quality 94, alpha preserved."
+  },
+  {
+    "name": "blue-drink",
+    "input": "../incoming/bd181dba643a583b3c7ac47877912926.jpg",
+    "original_generated_path": "exec-75c27f94-e320-4b73-869a-5a0c9f18501c.png",
+    "original_png": "blue-drink.png",
+    "webp": "blue-drink.webp",
+    "tool": "built-in image_gen.imagegen",
+    "mode": "edit / background-extraction",
+    "transparent_background": true,
+    "prompt": "Use case: background-extraction. Edit target: the provided exact existing drink photograph. Remove ONLY the plain white background, output true transparent alpha. Keep the complete tall cup of pale blue/green iced drink, condensation and contents, clear dome lid, wooden stirrer extending above the lid, black illustrated person-drinking logo on the cup, all proportions, exact photographed angle, perspective, colors and textures unchanged. Do not recreate or redesign the object. Preserve fine translucent plastic rim and specular highlights naturally; retain the object, not a white background slab. Preserve original detail including light areas of drink and lid; transparent only outside the object silhouette and genuine clear background gaps. No extra shadows, no new backdrop, no text added.",
+    "formatting": "Preserve original generated PNG; crop to alpha bounding box and resize longest edge to at most 650px; WebP quality 94, alpha preserved."
+  },
+  {
+    "name": "perfume",
+    "input": "../incoming/b44b39c8c42bbbb27015dacbd952c980.jpg",
+    "original_generated_path": "exec-b4d6f9db-006a-4434-ae4b-2066d235114f.png",
+    "original_png": "perfume.png",
+    "webp": "perfume.webp",
+    "tool": "built-in image_gen.imagegen",
+    "mode": "edit / background-extraction",
+    "transparent_background": true,
+    "prompt": "Use case: background-extraction. Edit target: provided photograph of a BLACK perfume-bottle-shaped CHANEL bag on a black backdrop. Remove ONLY the surrounding flat black BACKGROUND to genuine transparent alpha. Crucial: preserve the entire DARK BLACK BAG itself as opaque, including its glassy rectangular body, bevels, black rectangular stopper, gold neck, beige CHANEL PARIS front label, and the complete silver/gold chain draped down the right front and looped on the lower right. The object's dark surfaces must NOT become holes. Preserve exact shape, source pose, placement of chain, proportions, artwork, lettering, colors, material, existing highlights, and photographic texture. No redraw, redesign, relighting, additions or cropping of the chain. Remove only backdrop and negative gaps, including inside chain loops, retaining thin metal edges naturally anti-aliased. Small transparent margin around complete cutout; no ground or new shadow.",
+    "formatting": "Preserve original generated PNG; crop to alpha bounding box and resize longest edge to at most 650px; WebP quality 94, alpha preserved."
+  }
+]

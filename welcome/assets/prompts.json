@@ -1,0 +1,37 @@
+[
+  {
+    "name": "spider",
+    "prompt": "Use case: scientific-educational. Asset: one photorealistic jumping spider sprite for a 2D inverse-kinematics animation. Exactly one isolated brown and cream banded jumping spider viewed perfectly TOP-DOWN, body symmetrically centered, head pointing toward BOTTOM of image, abdomen toward TOP. Genuine transparent background. No floor, no drop shadow, no web. Macro photographic texture, fine individual tan hairs, subtle dark brown striped legs, beige abdomen with dark chevron pattern. Geometry is important: in normalized 1254x1254 image space, abdomen ellipse centered (628,345), radius 220x205; head ellipse centered (630,680), radius 172x148; pedipalps centered (545,880) and (712,880), radius 74. Exactly 8 long spread legs, 4 per side. Left leg center lines in top-to-bottom order are hip(490,560) knee(360,420) tip(410,52); hip(480,605) knee(370,580) tip(55,475); hip(460,665) knee(300,690) tip(100,955); hip(470,760) knee(370,830) tip(400,1160). Right legs mirror around x627. Legs must be separated, no overlap, approximately 75 units thick. All feet visible with 4% edge margins. Entire image is the spider, a specimen cutout, not a rendered interface. No text.",
+    "tool": "Built-in image_gen.imagegen",
+    "transparent_background": true,
+    "provenance": "Built-in Imagegen edit; source paths omitted from public package."
+  },
+  {
+    "name": "mug",
+    "prompt": "Use case: product-mockup. Asset type: transparent cut-out collectible for a personal curiosity cabinet website. Single white ceramic coffee mug photographed at a slightly elevated front three-quarter angle, handle to the right, tilted very slightly counterclockwise. Black informal loose handwritten words on the front, exact text on two lines: \"Main\" and \"Character\". Photoreal glazed ceramic, softly lit studio photography, natural subtle shading inside the cup and on its curved body. Entire mug visible, minimal transparent padding, roughly square 241:220 silhouette. Genuine transparent background, no floor, no other objects, no external drop shadow, no watermark.",
+    "tool": "Built-in image_gen.imagegen",
+    "transparent_background": true,
+    "provenance": "Built-in Imagegen edit; source paths omitted from public package."
+  },
+  {
+    "name": "book",
+    "prompt": "Use case: product-mockup. Asset type: transparent cut-out collectible. One pink hardback book with a vintage white click-wheel iPod tucked against its front, inside a clear rectangular glass display sleeve. Book is vivid pale pink with small black editorial typography on cover, title \"Little things\". White iPod has a tiny dark screen, circular light-grey click wheel. Clear glossy sleeve catches slender white highlights on its edges, subtle refractions, rounded edges. Photographed as one curious art collectible from an elevated front three-quarter angle, slightly counterclockwise tilted. Complete object visible with minimal transparent padding, portrait 293:322 composition. Photoreal soft studio lighting, genuine transparent background, no floor, no other objects, no shadow outside object, no watermark.",
+    "tool": "Built-in image_gen.imagegen",
+    "transparent_background": true,
+    "provenance": "Built-in Imagegen edit; source paths omitted from public package."
+  },
+  {
+    "name": "idle-head",
+    "prompt": "Use case: photorealistic-natural. Asset type: isolated transparent cute jumping spider head portrait for animation, only head and tiny fuzzy pedipalps. Circular fuzzy tan-and-cream jumping spider face facing the viewer, warm brown fur with creamy forehead, two large glossy black curious central eyes and four much smaller side eyes, two small round furry pedipalps underneath. Photoreal macro specimen detail, cute and charming, no cartoon, no body, no legs, no web, no floor. Centered in a square frame with head occupying middle 80%. Genuine transparent background. Head frontal and bilaterally symmetric, no tilt, no drop shadow. No text.",
+    "tool": "Built-in image_gen.imagegen",
+    "transparent_background": true,
+    "provenance": "Built-in Imagegen edit; source paths omitted from public package."
+  },
+  {
+    "name": "fly",
+    "prompt": "Use case: scientific-educational. Asset type: one isolated housefly photoreal sprite. Perfectly overhead top-down view, head pointing UP, body vertical centered. Exactly one common house fly with dark metallic grey thorax, red-brown compound eyes, thin black legs, two translucent finely veined wings swept downward and outward symmetrically from upper thorax. Two wings distinctly separated from dark body, isolated so they can be animated. Photograph with visible fine body hairs, subtle natural sheen. Entire fly with all feet and wing tips visible, centered in near-square 920:945 portrait image. Genuine transparent background, no floor, no external drop shadow, no words, no other insects.",
+    "tool": "Built-in image_gen.imagegen",
+    "transparent_background": true,
+    "provenance": "Built-in Imagegen edit; source paths omitted from public package."
+  }
+]

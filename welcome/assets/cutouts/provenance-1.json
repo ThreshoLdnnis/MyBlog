@@ -1,0 +1,38 @@
+{
+  "method": "Built-in image_gen.imagegen edits on user-supplied images; transparent_background true. No newly generated object requested.",
+  "normalization": "Crop around alpha>8 bounding box with 3px padding (pixels preserved), then resize preserving aspect ratio to long edge650, encode WebP quality94. Original Imagegen result retained as PNG.",
+  "assets": [
+    {
+      "name": "ipod-blue",
+      "input": "../incoming/ff06dc4eada001c67d97fd77af9048ab.jpg",
+      "png": "ipod-blue.png",
+      "webp": "ipod-blue.webp",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, not a style reference. Remove ONLY the plain white/light-gray background, floor reflection and background cast shadow to genuine alpha transparency. Preserve the exact blue transparent-shell iPod, including all circuitry, buttons, Chinese screen text, album art, and the white signature printed across the bottom of the device exactly as shown. Keep the subject's existing shape, proportions, orientation, light/shading and details unchanged. Do not regenerate, redraw, restyle, reconstruct, simplify or enhance the subject. White/light-colored regions that belong to the subject must stay opaque, including the screens and white hair. Retain clean antialiased silhouette edges and fine details. No new shadow, no replacement backdrop, no text additions. Return the unchanged subject as a transparent-background cutout.",
+      "source": "Built-in Imagegen edit; source paths omitted from public package."
+    },
+    {
+      "name": "ipod-purple",
+      "input": "../incoming/8d7868d2f6eb53dc2cb1d248504ee004.jpg",
+      "png": "ipod-purple.png",
+      "webp": "ipod-purple.webp",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, not a style reference. Remove ONLY the plain white/light-gray background, floor reflection and background cast shadow to genuine alpha transparency. Preserve the exact lavender iPod, including all stickers and gemstones, purple texture, buttons, Chinese screen text, black album art and tiny 'True music' lettering exactly as shown. Keep the subject's existing shape, proportions, orientation, light/shading and details unchanged. Do not regenerate, redraw, restyle, reconstruct, simplify or enhance the subject. White/light-colored regions that belong to the subject must stay opaque, including the screens and white hair. Retain clean antialiased silhouette edges and fine details. No new shadow, no replacement backdrop, no text additions. Return the unchanged subject as a transparent-background cutout.",
+      "source": "Built-in Imagegen edit; source paths omitted from public package."
+    },
+    {
+      "name": "ipod-pearl",
+      "input": "../incoming/68f91fa6b03c7dcb33fa603a400e3639.jpg",
+      "png": "ipod-pearl.png",
+      "webp": "ipod-pearl.webp",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, not a style reference. Remove ONLY the plain white/light-gray background, floor reflection and background cast shadow to genuine alpha transparency. Preserve the exact pastel pearlescent iPod, including its green-to-pink colors, buttons, 'Celebrity' / 'IU' screen text and the portrait album artwork exactly as shown. Keep the subject's existing shape, proportions, orientation, light/shading and details unchanged. Do not regenerate, redraw, restyle, reconstruct, simplify or enhance the subject. White/light-colored regions that belong to the subject must stay opaque, including the screens and white hair. Retain clean antialiased silhouette edges and fine details. No new shadow, no replacement backdrop, no text additions. Return the unchanged subject as a transparent-background cutout.",
+      "source": "Built-in Imagegen edit; source paths omitted from public package."
+    },
+    {
+      "name": "anime",
+      "input": "../incoming/5b70d0d99a88e2f84e1ae10fb23ee238.jpg",
+      "png": "anime.png",
+      "webp": "anime.webp",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, not a style reference. Remove ONLY the plain white/light-gray background, floor reflection and background cast shadow to genuine alpha transparency. Preserve the exact anime character, all hair strands, facial features, expression, hands and fingers, black clothing, pose, colors, thin line art and original cropped lower edge exactly as shown. Keep the subject's existing shape, proportions, orientation, light/shading and details unchanged. Do not regenerate, redraw, restyle, reconstruct, simplify or enhance the subject. White/light-colored regions that belong to the subject must stay opaque, including the screens and white hair. Retain clean antialiased silhouette edges and fine details. No new shadow, no replacement backdrop, no text additions. Return the unchanged subject as a transparent-background cutout.",
+      "source": "Built-in Imagegen edit; source paths omitted from public package."
+    }
+  ]
+}

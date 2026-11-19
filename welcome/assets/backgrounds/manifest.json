@@ -1,0 +1,57 @@
+{
+  "source": "User-supplied background photographs",
+  "processing": "Format conversion and proportional resize only. No Imagegen, recoloring, texture edits, crop, or content changes. Long edge at most1800px; WebP quality92.",
+  "recommended_css": {
+    "background-size": "cover",
+    "background-position": "center center"
+  },
+  "assets": [
+    {
+      "name": "silver",
+      "source": "originals/silver.jpg",
+      "output": "silver.webp",
+      "original_size": [
+        1199,
+        2094
+      ],
+      "output_size": [
+        1031,
+        1800
+      ],
+      "bytes": 569584,
+      "original_sha256": "d3da7fc8ea6a3dd22583fc12c1906c96f8e858e4e570924eda6dd66c6bccc8eb"
+    },
+    {
+      "name": "rose",
+      "source": "originals/rose.jpg",
+      "output": "rose.webp",
+      "original_size": [
+        1206,
+        2098
+      ],
+      "output_size": [
+        1035,
+        1800
+      ],
+      "bytes": 977968,
+      "original_sha256": "7c279fbb28ead75c0c372411aa24a2867c1fa3f629c471572a4375dac6b00d7a"
+    },
+    {
+      "name": "blue",
+      "source": "originals/blue.jpg",
+      "output": "blue.webp",
+      "original_size": [
+        1176,
+        1833
+      ],
+      "output_size": [
+        1155,
+        1800
+      ],
+      "bytes": 527828,
+      "original_sha256": "bd249895fdadefd674886474b3685b6137a840d932439445b53daf8536db97de"
+    }
+  ],
+  "originals_included": false,
+  "public_package_note": "Only converted WebP backgrounds are included; original photographs are retained locally."
+}

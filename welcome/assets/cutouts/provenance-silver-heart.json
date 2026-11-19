@@ -1,0 +1,12 @@
+{
+  "name": "silver-heart",
+  "input": "../incoming/6b9babe4b53ce390afb48a3399e2232b.jpg",
+  "tool": "built-in image_gen.imagegen",
+  "mode": "edit / background-extraction",
+  "transparent_background": true,
+  "original_generated_path": "exec-a0c58593-ac5c-4e8d-9501-85d3a58fe4e2.png",
+  "original_png": "silver-heart.png",
+  "webp": "silver-heart.webp",
+  "prompt": "Use case: background-extraction. Edit target: the supplied photograph of an ornate silver heart pendant. Remove ONLY the plain black background outside the pendant and the genuine opening inside its top suspension ring, replacing that background with true transparent alpha. Preserve the existing exact photographed object, including the complete heart outline, ornate relief scrollwork, oxidized DARK RECESSES, metallic silver surface texture and highlights, upper metal ring, source angle, proportions, and exact decorative engraved lettering reading 'I dream about being with you Forever'. Important: the black engraving and black recessed areas inside the metal heart MUST remain fully opaque; they are part of the object, NOT background holes. Preserve the source typography exactly: do not retype, redraw, redesign, recolor, relight, beautify, or recreate anything. This is strictly background extraction from the supplied image. Keep clean naturally antialiased edges, complete object with a small transparent margin, no shadow/floor/backdrop added.",
+  "formatting": "Original generated PNG preserved. Crop alpha bounds, resize image to <=644px longest edge, add 3px transparent padding on all sides, encode WebP quality94, alpha preserved."
+}

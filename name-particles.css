@@ -1,0 +1,33 @@
+.name-particle-source.is-name-particle-active { opacity: 0; }
+.name-particle-canvas {
+  position: absolute;
+  z-index: -1;
+  display: block;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+.name-particle-canvas.is-name-particle-active { opacity: 1; visibility: visible; }
+.name-particle-baseline {
+  display: inline-block !important;
+  position: static !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  overflow: hidden !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  vertical-align: baseline !important;
+  pointer-events: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .name-particle-source.is-name-particle-active { opacity: 1; }
+  .name-particle-canvas { display: none; }
+}

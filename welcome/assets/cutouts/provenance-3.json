@@ -1,0 +1,115 @@
+{
+  "tool": "built-in image_gen",
+  "mode": "background-extraction",
+  "normalization": "Preserve generated RGBA PNG. Crop to alpha > 1 bounds with 2px transparent-edge allowance (ignores imperceptible alpha=1 generation speckles), resize proportionally to maximum edge 650px, WebP quality 94; original pixel alpha retained.",
+  "assets": [
+    {
+      "name": "frappe",
+      "input": "../incoming/8c70ae393becdc64c69512872750931e.jpg",
+      "generated": "exec-504198e4-7c86-4a0a-9484-b8cedb471a12.png",
+      "original": "frappe.png",
+      "output": "frappe.webp",
+      "prompt": "Use case: background-extraction. Input image 1 is the edit target, not a style reference. Remove ONLY the white background (and any black image-border line) to produce a clean cutout on actual transparent alpha. Keep the exact photographic chocolate frappé, whipped cream shape, chocolate drizzle, clear cup, white Starbucks siren artwork, black measurement lines, its brown color, original perspective, proportions, and texture. Do not redesign, repaint, relight, rotate, crop off any part, add a shadow, invent details, change logos, or add objects. Keep all original object pixels and fine edges as faithfully as possible. Remove background completely outside the object's silhouette; no white rectangle, white halo, checkerboard painted into the image, or opaque backdrop. Entire isolated object visible, centered with a small transparent margin. This is a photo cutout for a website, not an illustration or new rendering.",
+      "sourceSize": [
+        1280,
+        1229
+      ],
+      "cropBounds": [
+        416,
+        243,
+        862,
+        971
+      ],
+      "outputSize": [
+        398,
+        650
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "bytes": 93442
+    },
+    {
+      "name": "money-bag",
+      "input": "../incoming/cea9727e3c49399459ffff237777d311.jpg",
+      "generated": "exec-44eaafa9-1f62-424c-8127-27a6e6f733c1.png",
+      "original": "money-bag.png",
+      "output": "money-bag.webp",
+      "prompt": "Use case: background-extraction. Input image 1 is the edit target, not a style reference. Remove ONLY the white background (and any black image-border line) to produce a clean cutout on actual transparent alpha. Keep the exact photographic cream canvas money sack, tied rope around its neck, folded and frayed fabric opening, rounded shape, its black spray-painted dollar sign, all fabric wrinkles and original front view. Do not redesign, repaint, relight, rotate, crop off any part, add a shadow, invent details, change logos, or add objects. Keep all original object pixels and fine edges as faithfully as possible. Remove background completely outside the object's silhouette; no white rectangle, white halo, checkerboard painted into the image, or opaque backdrop. Entire isolated object visible, centered with a small transparent margin. This is a photo cutout for a website, not an illustration or new rendering.",
+      "sourceSize": [
+        1135,
+        1386
+      ],
+      "cropBounds": [
+        94,
+        189,
+        1044,
+        1322
+      ],
+      "outputSize": [
+        545,
+        650
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "bytes": 97722
+    },
+    {
+      "name": "earbuds",
+      "input": "../incoming/ee2c90e1eb4d3ee72f6b1819c3aa559f.jpg",
+      "generated": "exec-0ade4a41-cbfe-4e82-8cd8-703b7eb84f62.png",
+      "original": "earbuds.png",
+      "output": "earbuds.webp",
+      "prompt": "Use case: background-extraction. Input image 1 is the edit target, not a style reference. Remove ONLY the white background (and any black image-border line) to produce a clean cutout on actual transparent alpha. Keep the exact photographic gray frosted case with open lid, coiled white wired earbuds and dangling Lightning connector. Keep all cables intact and preserve original perspective, gray colors and the exact printed label: Pretty things, / Coffee, Cookie, Wine, / Cheese, Pizza, / Music, Movie, / Kisses, Hugs & Love. / Net wt. 50g, 1.7 fl oz. Preserve all original text artwork without replacing or correcting it. Transparent background must include open gaps around the wire/connector while retaining translucent plastic. Do not redesign, repaint, relight, rotate, crop off any part, add a shadow, invent details, change logos, or add objects. Keep all original object pixels and fine edges as faithfully as possible. Remove background completely outside the object's silhouette; no white rectangle, white halo, checkerboard painted into the image, or opaque backdrop. Entire isolated object visible, centered with a small transparent margin. This is a photo cutout for a website, not an illustration or new rendering.",
+      "sourceSize": [
+        1058,
+        1487
+      ],
+      "cropBounds": [
+        144,
+        360,
+        947,
+        1195
+      ],
+      "outputSize": [
+        625,
+        650
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "bytes": 77712
+    },
+    {
+      "name": "pink-drink",
+      "input": "../incoming/884cd69f5e92562a38cfe745a5a6cdb5.jpg",
+      "generated": "exec-a611cf73-d452-4a09-9b56-9dda91c47928.png",
+      "original": "pink-drink.png",
+      "output": "pink-drink.webp",
+      "prompt": "Use case: background-extraction. Input image 1 is the edit target, not a style reference. Remove ONLY the white background (and any black image-border line) to produce a clean cutout on actual transparent alpha. Keep the exact photographic pale-pink iced tea cup with clear plastic lid, condensation, ice, its tapered cylindrical shape and original perspective. Preserve every printed black label and the central black flower emblem with its existing white script exactly as in the input. Keep NEW EXPERIENCE OF ORIENTAL TEA legible and unchanged. Do not remove the existing white script on the emblem. Do not redesign, repaint, relight, rotate, crop off any part, add a shadow, invent details, change logos, or add objects. Keep all original object pixels and fine edges as faithfully as possible. Remove background completely outside the object's silhouette; no white rectangle, white halo, checkerboard painted into the image, or opaque backdrop. Entire isolated object visible, centered with a small transparent margin. This is a photo cutout for a website, not an illustration or new rendering.",
+      "sourceSize": [
+        1262,
+        1246
+      ],
+      "cropBounds": [
+        288,
+        148,
+        960,
+        1113
+      ],
+      "outputSize": [
+        453,
+        650
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "bytes": 92332
+    }
+  ]
+}

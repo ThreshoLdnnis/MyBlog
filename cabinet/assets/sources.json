@@ -1,0 +1,38 @@
+[
+  {
+    "id": "skullpanda",
+    "name": "The Timelapse",
+    "page": "https://www.popmart.com/us/products/953",
+    "image": "https://prod-global-biz.popmart.com/globalAdmin/1789106365792_81ef2f0b399ccc8854cf0ca035b3e13d.jpg",
+    "file": "skullpanda.webp",
+    "bytes": 96628,
+    "credit": "POP MART official product photography; illustrative inspiration, not a claim of ownership."
+  },
+  {
+    "id": "hirono",
+    "name": "The Aviator",
+    "page": "https://www.popmart.com/us/products/13/HIRONO-Little-Mischief-Series",
+    "image": "https://prod-global-biz.popmart.com/globalAdmin/1790066604055_c81e728d9d4c2f636f067f89cc14862c.jpg",
+    "file": "hirono.webp",
+    "bytes": 81192,
+    "credit": "POP MART official product photography; illustrative inspiration, not a claim of ownership."
+  },
+  {
+    "id": "dimoo",
+    "name": "Between Dreams and Reality",
+    "page": "https://www.popmart.com/us/products/9557/dimoo-world-into-the-dreamscape-series-figures",
+    "image": "https://prod-global-biz.popmart.com/globalAdmin/1793355030135_09caec91d430cf0c13fe55d261eeb1e2.png",
+    "file": "dimoo.webp",
+    "bytes": 11870,
+    "credit": "POP MART official product photography; illustrative inspiration, not a claim of ownership."
+  },
+  {
+    "id": "labubu",
+    "name": "Soymilk",
+    "page": "https://www.popmart.com/us/products/675/the-monsters-exciting-macaron-vinyl-face-blind-box",
+    "image": "https://prod-global-static.oss-us-east-1.aliyuncs.com/globalAdmin/1719386586865____soymilk____.png",
+    "file": "labubu.webp",
+    "bytes": 10140,
+    "credit": "POP MART official product photography; illustrative inspiration, not a claim of ownership."
+  }
+]

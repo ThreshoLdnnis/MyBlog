@@ -1,0 +1,9 @@
+{
+  "method": "Built-in image_gen.imagegen edit; transparent_background true.",
+  "input": "../incoming/d86925ebef95d3d5727227e7df790591.jpg",
+  "png": "apple.png",
+  "webp": "apple.webp",
+  "prompt": "Use case: background-extraction. The attached image is the EDIT TARGET, not a style reference. Remove ONLY the solid black background outside the apple and its stem to true alpha transparency. Preserve the existing red and yellow apple exactly as photographed, including its asymmetrical silhouette, real skin texture and shine, small blemishes, stem shape and color. Preserve all five small white star stickers and all four white paper strips in their exact positions and warped shapes. Keep the existing handwritten words exactly as they are: 'YOU TOLD ME', 'YOU LOVED ME', 'SO WHY DID YOU', 'GO AWAY?'. Do not recreate, redraw, redesign, enhance, relight, smooth or change the apple, stickers, handwriting or camera angle. Keep black ink in the labels opaque; only exterior background becomes transparent. Clean antialiased edges, no new shadows, no replacement backdrop, no new text. Output the original apple as an otherwise unchanged transparent cutout.",
+  "source": "Built-in Imagegen edit; source paths omitted from public package.",
+  "normalization": "Crop around alpha>8 bounding box with3px padding then resize aspect preserved to longedge650; WebP quality94. Pixels not otherwise modified."
+}

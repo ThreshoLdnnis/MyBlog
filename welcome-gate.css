@@ -1,0 +1,56 @@
+html.welcome-open,
+html.welcome-open body { overflow: hidden; overscroll-behavior: none; }
+
+.welcome-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  color: #fff;
+  background: #174b9e;
+}
+.welcome-gate[hidden] { display: none; }
+.welcome-gate::backdrop { background: transparent; }
+.welcome-scene, .welcome-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.welcome-frame { visibility: hidden; }
+.welcome-frame.is-ready { visibility: visible; }
+.welcome-gate.is-entering { pointer-events: none; }
+.welcome-gate.is-entering .welcome-frame { pointer-events: none; }
+.welcome-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  background: #174b9e url('welcome/assets/backgrounds/blue.webp') center / cover;
+}
+.welcome-fallback[hidden] { display: none; }
+.welcome-fallback h2 {
+  font-family: 'Instrument Sans', system-ui, sans-serif;
+  font-size: clamp(64px, 11vw, 180px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.07em;
+}
+.welcome-fallback button {
+  min-height: 52px;
+  padding: 0 30px;
+  border: 1px solid currentColor;
+  border-radius: 99px;
+  font-size: 14px;
+  color: inherit;
+  background: #ffffff12;
+  cursor: pointer;
+}
+.welcome-fallback button:focus-visible { outline: 2px solid white; outline-offset: 6px; }
+.welcome-fallback noscript { max-width: 25em; padding: 0 24px; font-size: 14px; line-height: 1.7; }

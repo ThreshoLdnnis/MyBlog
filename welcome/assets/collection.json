@@ -1,0 +1,18 @@
+[
+  {"id":"ipod-blue","file":"ipod-blue.webp","name":"透明蓝色 iPod","keywords":"蓝色 透明 音乐 播放器 ipod blue music","x":26,"y":7,"width":145,"tilt":-9,"mobileX":5,"mobileY":7,"mobileWidth":90},
+  {"id":"ipod-purple","file":"ipod-purple.webp","name":"紫色宝石 iPod","keywords":"紫色 宝石 音乐 播放器 ipod purple music","x":43,"y":5,"width":145,"tilt":7,"mobileX":36,"mobileY":5,"mobileWidth":93},
+  {"id":"ipod-pearl","file":"ipod-pearl.webp","name":"珠光渐变 iPod","keywords":"珠光 渐变 音乐 播放器 ipod pearl music IU","x":59,"y":9,"width":145,"tilt":-6,"mobileX":69,"mobileY":8,"mobileWidth":90},
+  {"id":"anime","file":"anime.webp","name":"白发女孩插画","keywords":"白发 女孩 插画 二次元 anime illustration girl","x":4,"y":9,"width":190,"tilt":-7,"mobileX":3,"mobileY":64,"mobileWidth":100},
+  {"id":"doll","file":"doll.webp","name":"香奈儿穿搭玩偶","keywords":"玩偶 娃娃 香奈儿 doll chanel fashion","x":73,"y":5,"width":165,"tilt":9,"mobileX":30,"mobileY":63,"mobileWidth":98},
+  {"id":"sneaker","file":"sneaker.webp","name":"深蓝色 Polo 运动鞋","keywords":"鞋 球鞋 运动鞋 蓝色 polo sneaker shoe","x":32,"y":69,"width":260,"tilt":-12,"mobileX":32,"mobileY":21,"mobileWidth":170},
+  {"id":"blue-drink","file":"blue-drink.webp","name":"蓝色冰沙饮品","keywords":"蓝色 冰沙 饮品 奶茶 blue drink smoothie","x":21,"y":76,"width":95,"tilt":7,"mobileX":20,"mobileY":83,"mobileWidth":62},
+  {"id":"perfume","file":"perfume.webp","name":"黑色香水瓶链条包","keywords":"香水 瓶 包 香奈儿 黑色 perfume bag chanel","x":88,"y":9,"width":145,"tilt":11,"mobileX":56,"mobileY":65,"mobileWidth":92},
+  {"id":"frappe","file":"frappe.webp","name":"巧克力奶油星冰乐","keywords":"星巴克 咖啡 巧克力 奶油 frappe starbucks coffee drink","x":62,"y":73,"width":130,"tilt":-10,"mobileX":3,"mobileY":83,"mobileWidth":83},
+  {"id":"money-bag","file":"money-bag.webp","name":"美金符号钱袋","keywords":"钱袋 钱 美元 money cash bag","x":34,"y":80,"width":170,"tilt":8,"mobileX":60,"mobileY":84,"mobileWidth":84},
+  {"id":"earbuds","file":"earbuds.webp","name":"耳机收纳盒","keywords":"耳机 收纳盒 有线 音乐 earbuds earphones music","x":6,"y":75,"width":230,"tilt":-11,"mobileX":78,"mobileY":64,"mobileWidth":106},
+  {"id":"pink-drink","file":"pink-drink.webp","name":"粉色冰饮","keywords":"粉色 奶茶 饮品 pink tea drink","x":91,"y":70,"width":130,"tilt":8,"mobileX":82,"mobileY":83,"mobileWidth":66},
+  {"id":"apple","file":"apple.webp","name":"贴纸红苹果","keywords":"苹果 红色 水果 星星 apple red fruit sticker","x":7,"y":49,"width":210,"tilt":-8,"mobileX":7,"mobileY":49,"mobileWidth":110},
+  {"id":"crosses","file":"crosses.webp","name":"黑粉双色十字饰品","keywords":"十字 黑色 粉色 饰品 cross crosses black pink chrome","x":81,"y":32,"width":175,"tilt":10,"mobileX":76,"mobileY":39,"mobileWidth":85},
+  {"id":"silver-heart","file":"silver-heart.webp","name":"银色心形挂件","keywords":"银色 心形 挂件 刻字 heart silver pendant forever","x":49,"y":78,"width":190,"tilt":-9,"mobileX":40,"mobileY":86,"mobileWidth":95},
+  {"id":"chrome-emblem","file":"chrome-emblem.webp","name":"Chrome Hearts 圆形徽标","keywords":"克罗心 圆形 徽标 贴纸 chrome hearts emblem logo sticker","x":23,"y":54,"width":170,"tilt":7,"mobileX":41,"mobileY":45,"mobileWidth":90}
+]

@@ -1,0 +1,15 @@
+@import url('./assets/fonts/editorial-fonts.css');
+
+/* Preserve original Latin displays, handwriting, cover art, sizes and masks. */
+html[data-journal-room='music'] :is(.info-title, .music-title, .music-next-title, .music-editor-head h2) {
+  font-family: Display, 'Journal Song', 'Songti SC', SimSun, serif;
+}
+html[data-journal-room='music'] .music-section-head > h2 {
+  font-family: 'Journal Song', 'Songti SC', SimSun, serif;
+}
+html[data-journal-room='books'] .brand-cn {
+  font-family: 'Journal Song', 'Reading Serif', 'Songti SC', SimSun, serif;
+}
+html[data-journal-room='books'] :is(.caption-title, .detail-title, .editor-heading h2, .empty-shelf p) {
+  font-family: Newsreader, 'Journal Song', 'Reading Serif', 'Songti SC', SimSun, serif;
+}
