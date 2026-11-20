@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="journal-book.css">
     <link rel="stylesheet" href="journal-book-interaction.css">
     <link rel="stylesheet" href="life-timeline.css">
+    <link rel="stylesheet" href="about-scrapbook.css">
+    <link rel="stylesheet" href="about-interests.css">
   </template>
 </head>
 <body id="home">
@@ -39,15 +41,15 @@
 <header class="site-header">
   <a class="brand" href="#/me" aria-label="Mofarigano，回到首页"><span class="brand-mark">M<span>®</span></span><span class="brand-wordmark" data-profile="name">Mofarigano</span></a>
   <nav class="top-nav" aria-label="主导航">
-    <a href="#/me"><span class="nav-cn">我</span><span class="nav-en" aria-hidden="true">ME</span></a>
+    <a href="#/me"><span class="nav-cn">我</span><span class="nav-en" aria-hidden="true" lang="zh-CN">知我</span></a>
     <a href="#/works"><span class="nav-cn">奇点</span><span class="nav-en" aria-hidden="true" lang="zh-CN">作品</span></a>
-    <a href="#/life"><span class="nav-cn">生活</span><span class="nav-en" aria-hidden="true">LIFE</span></a>
-    <a href="#/journal"><span class="nav-cn">手记</span><span class="nav-en" aria-hidden="true">NOTES</span></a>
-    <a href="#/travel"><span class="nav-cn">足迹</span><span class="nav-en" aria-hidden="true">PLACES</span></a>
+    <a href="#/life"><span class="nav-cn">观我过往</span><span class="nav-en" aria-hidden="true" lang="zh-CN">历程</span></a>
+    <a href="#/journal"><span class="nav-cn">手账</span><span class="nav-en" aria-hidden="true" lang="zh-CN">随笔</span></a>
+    <a href="#/travel"><span class="nav-cn">足迹</span><span class="nav-en" aria-hidden="true" lang="zh-CN">地图</span></a>
     <a href="#/music"><span class="nav-cn">音乐</span><span class="nav-en" aria-hidden="true">MUSIC</span></a>
-    <a href="#/books"><span class="nav-cn">阅读</span><span class="nav-en" aria-hidden="true">BOOKS</span></a>
-    <a href="#/collection"><span class="nav-cn">收藏抽屉</span><span class="nav-en" aria-hidden="true">FINDS</span></a>
-    <a href="#/honors"><span class="nav-cn">荣誉墙</span><span class="nav-en" aria-hidden="true">HONORS</span></a>
+    <a href="#/books"><span class="nav-cn">阅读</span><span class="nav-en" aria-hidden="true" lang="zh-CN">万卷</span></a>
+    <a href="#/collection"><span class="nav-cn">宝藏抽屉</span><span class="nav-en" aria-hidden="true" lang="zh-CN">魂器</span></a>
+    <a href="#/honors"><span class="nav-cn">战功厅</span><span class="nav-en" aria-hidden="true" lang="zh-CN">荣耀</span></a>
   </nav>
   <div class="header-end"><button class="icon-btn" id="index-toggle" aria-expanded="false" aria-controls="index-panel" aria-label="打开全部章节"><span class="more-label" aria-hidden="true">INDEX</span><span class="menu-lines"></span></button></div>
 </header>
@@ -60,16 +62,43 @@
         <span class="eyebrow">你好，我是<span data-profile="chineseName">朱飞阳</span></span>
         <h2>宇宙在我们的双眸中<br>转身即逝</h2>
         <p>你是我的贝克街221B，<br>所有谜题，答案都是你</p>
-        <a class="circle-link" href="#/about"><span>认识我</span><span class="arrow-disc">↗</span></a>
+        <a class="circle-link hero-about-sticker" href="#/about" aria-label="认识我"><span>认识我</span><span class="arrow-disc" aria-hidden="true">↗</span></a>
       </div>
       <div class="portrait-stage" id="portrait-stage"><div class="portrait-backdrop"></div><img class="hero-portrait" data-src="assets/hero/portrait-cutout.png" alt="朱飞阳的半身人像" width="1093" height="1438"><img class="hero-rider" data-src="assets/hero/rider-cutout.png" alt="粉色骑手造型" width="1093" height="1438"></div>
     </div>
     <div class="hero-stickers" id="hero-stickers" aria-hidden="true"></div>
   </section>
 
-  <section class="about section-pad" id="about" hidden>
-    <div class="about-layout"><div><span class="orange-label">多面，但始终是我。</span><h2>以理性探索，<br><span class="serif">以热爱创造。</span></h2><a class="underlined-link" id="profile-github" href="https://github.com/ThreshoLdnnis" target="_blank" rel="noopener noreferrer">在 GitHub 找到我 ↗</a></div><div class="about-detail"><h3>你好，我是 <span data-profile="chineseName">朱飞阳</span>。</h3><p class="lead" data-profile="intro"></p><p data-profile="bio"></p><div class="about-tags"><span>数学与应用数学</span><span>量化研究</span><span>金融 AI</span><span>产品设计</span></div><div class="about-note"><img src="assets/portrait.jpg" alt="朱飞阳头像" width="48" height="48" loading="lazy"><p>键盘之外：网球、羽毛球、徒步、摄影，<br>还有一场说走就走的旅行。</p><span class="signature">Mofarigano.</span></div></div></div>
-    <nav class="profile-links" aria-label="更多关于我"><a href="#/stack">我的技术栈 ↗</a><a href="#/honors">荣誉与里程碑 ↗</a><a href="#/toys">看看我的手办 ↗</a></nav>
+  <section class="about-scrapbook" id="about" aria-labelledby="about-title" hidden>
+    <div class="about-spread">
+      <div class="about-letter">
+        <h1 class="about-hand" id="about-title">你好，初次见面，<br><span>希望你喜欢我！</span></h1>
+        <p class="about-lead" data-profile="intro"></p>
+        <a class="about-link" id="profile-github" href="https://github.com/ThreshoLdnnis" target="_blank" rel="noopener noreferrer">在 GitHub 找到我 <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="about-binding" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="about-photo-page">
+        <span class="about-spark about-spark-large" aria-hidden="true">✦</span>
+        <span class="about-spark about-spark-small" aria-hidden="true">✧</span>
+        <figure class="about-polaroid">
+          <img src="assets/about-portrait.jpg" alt="蓝色背景中坐在扶手椅上的人物，身旁立着一把长剑" width="210" height="207" loading="lazy" decoding="async">
+          <figcaption data-profile="name">Mofarigano</figcaption>
+        </figure>
+        <span class="about-photo-heart" aria-hidden="true">♥</span>
+      </div>
+    </div>
+    <div class="about-biography" data-profile="bio" data-profile-paragraphs></div>
+
+    <section class="about-tag-board" id="about-tag-board" aria-labelledby="about-tags-title">
+      <div class="about-tag-heading">
+        <h2 class="about-hand" id="about-tags-title">我的标签</h2>
+        <a class="about-link" href="#/stack">看技术栈 <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="about-tag-filters" aria-label="选择标签类别" role="group"></div>
+      <p class="about-tag-status" role="status" aria-atomic="true"></p>
+      <div class="about-tag-content"></div>
+    </section>
+    <section class="about-interests" id="about-interests" aria-label="个人兴趣与表达"></section>
   </section>
 
   <section class="works section-pad" id="works" hidden>

@@ -1,5 +1,74 @@
 .hero { position: relative; }
 
+/* A larger paper-cut invitation; its anchor keeps the normal About navigation. */
+#intro .hero-copy .hero-about-sticker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 17px;
+  min-height: 72px;
+  padding: 10px 17px 10px 25px;
+  margin-top: 30px;
+  border: 2.5px solid #27556e;
+  border-radius: 35% 42% 36% 39% / 48% 54% 46% 52%;
+  background: #fff4dc;
+  color: #27556e;
+  box-shadow: 0 0 0 5px #fffdf4, 5px 7px 0 5px #37647a, 8px 13px 17px #243e4921;
+  font-size: 28px;
+  line-height: 1.1;
+  letter-spacing: .035em;
+  white-space: nowrap;
+  transform: rotate(-5deg);
+  transform-origin: 40% 60%;
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+#intro .hero-about-sticker::before {
+  content: '✦';
+  position: absolute;
+  left: -11px;
+  top: -16px;
+  color: #e2aa49;
+  font: 35px/1 Georgia, serif;
+  -webkit-text-stroke: 1px #79542e;
+  text-shadow: 0 2px 0 #fff9e8;
+  transform: rotate(12deg);
+  pointer-events: none;
+}
+#intro .hero-about-sticker::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  bottom: 1px;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #27556e;
+  border-radius: 50%;
+  background: #fff4dc;
+  pointer-events: none;
+}
+#intro .hero-about-sticker .arrow-disc {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border: 2px solid #27556e;
+  border-radius: 48% 52% 45% 55%;
+  background: #79b4ce;
+  color: #173e55;
+  box-shadow: inset 0 2px 0 #d5e9ee;
+  font-family: var(--font-sans);
+  font-size: 29px;
+  line-height: 1;
+}
+#intro .hero-copy .hero-about-sticker:hover {
+  color: #27556e;
+  transform: translateY(-3px) rotate(-2deg);
+  box-shadow: 0 0 0 5px #fffdf4, 5px 9px 0 5px #37647a, 8px 15px 19px #243e4928;
+}
+#intro .hero-about-sticker:hover .arrow-disc { background: #8cc1d7; color: #173e55; border-color: #27556e; }
+#intro .hero-copy .hero-about-sticker:active { transform: translate(2px, 3px) rotate(-3deg); box-shadow: 0 0 0 5px #fffdf4, 2px 3px 0 5px #37647a; }
+#intro .hero-about-sticker:focus-visible { outline: 3px solid #27556e; outline-offset: 12px; }
+
 .hero-stickers {
   position: absolute;
   inset: clamp(24px, 2.1vw, 38px) clamp(16px, 2vw, 34px) clamp(17px, 2.2vw, 34px) auto;
@@ -44,6 +113,9 @@
 .hero-sticker[data-sticker="durian-cat"] { --x: 30%; --y: 81%; --size: 29%; --tilt: -11deg; }
 
 @media (max-width: 700px) {
+  #intro .hero-copy .hero-about-sticker { min-height: 62px; padding: 8px 13px 8px 20px; gap: 12px; margin-top: 24px; font-size: 24px; }
+  #intro .hero-about-sticker .arrow-disc { flex-basis: 38px; width: 38px; height: 38px; font-size: 25px; }
+  #intro .hero-about-sticker::before { left: -9px; top: -14px; font-size: 30px; }
   .hero-stickers {
     position: relative;
     inset: auto;
@@ -65,4 +137,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero-sticker { transition: none; }
+  #intro .hero-copy .hero-about-sticker { transition: none; }
+  #intro .hero-copy .hero-about-sticker:hover, #intro .hero-copy .hero-about-sticker:active { transform: rotate(-5deg); }
 }

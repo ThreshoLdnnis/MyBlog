@@ -1,0 +1,111 @@
+.about-interests {
+  min-width: 0;
+  margin: clamp(38px, 5vw, 76px) clamp(0px, 1.2vw, 24px) 0;
+  color: var(--about-ink, #293b51);
+}
+.about-interests-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 8px;
+}
+.about-interests-header h2 {
+  margin: 0;
+  font-size: clamp(28px, 3.2vw, 46px);
+  line-height: 1.25;
+  font-weight: 400;
+}
+.about-interests-controls { display: flex; flex-wrap: wrap; gap: 8px; }
+.about-interests-controls button {
+  min-height: 42px;
+  padding: 8px 15px;
+  border: 1.5px solid #48566c;
+  border-radius: 44% 48% 42% 49% / 18% 19% 22% 18%;
+  background: #fffaf0;
+  color: #293b51;
+  box-shadow: 2px 3px 0 #48566c26;
+  font: inherit;
+  font-size: 14px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .18s, transform .18s, box-shadow .18s;
+}
+.about-interests-controls button:hover:not(:disabled) { background: #fce3dc; transform: translateY(-2px); box-shadow: 2px 5px 0 #48566c26; }
+.about-interests-controls button:active:not(:disabled) { transform: translateY(1px); box-shadow: none; }
+.about-interests-controls button:disabled { opacity: .4; cursor: default; }
+.about-interests-controls .about-interests-play { border-style: dashed; background: transparent; box-shadow: none; }
+.about-interests-controls button[hidden] { display: none; }
+.about-interests button:focus-visible,
+.about-interests-track:focus-visible { outline: 3px solid #af4c6a; outline-offset: 5px; }
+.about-interests-track {
+  display: flex;
+  align-items: stretch;
+  gap: 22px;
+  margin: 0;
+  padding: 32px 8px 25px;
+  list-style: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #a9b8c8 #ffffff66;
+  cursor: grab;
+  -webkit-overflow-scrolling: touch;
+}
+.about-interests-track::-webkit-scrollbar { height: 6px; }
+.about-interests-track::-webkit-scrollbar-track { background: #ffffff66; border-radius: 10px; }
+.about-interests-track::-webkit-scrollbar-thumb { background: #a9b8c8; border-radius: 10px; }
+.about-interests-track.is-dragging { cursor: grabbing; }
+.about-interest-card {
+  flex: 0 0 clamp(220px, 23vw, 282px);
+  min-width: 0;
+  position: relative;
+  padding: 10px 10px 18px;
+  border: 1px solid #c1b8a3;
+  border-radius: 9px 13px 8px 11px;
+  background: #fffdf7;
+  box-shadow: 3px 5px 0 #3441540c, 0 8px 18px #3441540b;
+  transform: rotate(var(--interest-tilt));
+  transition: transform .3s, box-shadow .3s;
+  user-select: none;
+}
+.about-interest-card::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 40%;
+  width: 52px;
+  height: 18px;
+  z-index: 1;
+  background: repeating-linear-gradient(100deg, #fff6, #fff6 3px, transparent 3px, transparent 7px), var(--interest-color);
+  border: 1px solid #89775a1a;
+  transform: rotate(-6deg);
+  clip-path: polygon(2% 3%,99% 0,97% 100%,0 94%);
+}
+.about-interest-card:hover { transform: translateY(-5px) rotate(0); box-shadow: 3px 7px 0 #3441540c, 0 13px 22px #34415416; }
+.about-interest-art { aspect-ratio: 4 / 3; overflow: hidden; border-radius: 5px 9px 6px 8px; background: var(--interest-color); }
+.about-interest-art img { display: block; width: 100%; height: 100%; object-fit: contain; transform-origin: 50% 65%; pointer-events: none; }
+.about-interests[data-moving='true'] .about-interest-card.is-in-view .about-interest-art img { animation: about-interest-drift 6s ease-in-out infinite; animation-delay: var(--interest-delay); }
+.about-interest-caption { padding: 17px 9px 0; }
+.about-interest-caption h3 { margin: 0; font: 600 20px/1.5 var(--font-serif, 'Journal Song', serif); color: #293b51; overflow-wrap: anywhere; }
+.about-interest-caption p { margin: 5px 0 0; font: 500 12px/1.6 var(--font-label, sans-serif); letter-spacing: .07em; color: #627084; }
+.about-interests-footer { display: flex; justify-content: space-between; gap: 20px; padding: 12px 8px 0; color: #536176; }
+.about-interests-footer p { margin: 0; font-size: 14px; line-height: 1.6; }
+.about-interests-counter { font: 14px/1.6 var(--font-label, sans-serif); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.about-interests-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@keyframes about-interest-drift {
+  0%,100% { transform: translateY(0) rotate(-.5deg); }
+  50% { transform: translateY(-3px) rotate(.6deg); }
+}
+@media (max-width: 700px) {
+  .about-interests-header { align-items: start; flex-direction: column; gap: 16px; }
+  .about-interests-controls { gap: 7px; }
+  .about-interests-controls button { min-height: 44px; padding: 8px 12px; }
+  .about-interests-track { gap: 17px; padding-top: 26px; }
+  .about-interest-card { flex-basis: min(76vw, 266px); }
+  .about-interest-caption h3 { font-size: 19px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-interests *, .about-interests *::before { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

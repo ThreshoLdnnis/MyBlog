@@ -1,0 +1,392 @@
+@font-face {
+  font-family: "Journal About Hand";
+  src: url("assets/fonts/journal-about-hand.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+body[data-page="about"] main#page-content {
+  border-color: #fff3fa;
+  background: #ec8cb9;
+}
+
+.about-scrapbook {
+  --about-ink: #472639;
+  --about-muted: #604254;
+  --about-rose: #f6c5dd;
+  --about-paper: #fffbfd;
+  --about-line: #e8bad1;
+  --about-pen: "Journal About Hand", "KaiTi", "STKaiti", serif;
+  padding: clamp(13px, 3vw, 50px);
+  color: var(--about-ink);
+  background:
+    linear-gradient(#ffedf530, #fff3f776),
+    #ec8cb9 url("assets/about-pink-fur.jpg") center top / cover no-repeat;
+}
+
+.about-spread {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 61fr) minmax(0, 39fr);
+  overflow: clip;
+  border: 1px solid #cc92ad;
+  border-radius: 17px 24px 18px 29px / 25px 13px 27px 15px;
+  background: var(--about-paper);
+  box-shadow: 0 4px 0 -2px #fae2ed, 0 7px 0 -2px #d2a0ba, 0 15px 32px #4a30572b;
+  isolation: isolate;
+}
+
+.about-letter {
+  align-self: center;
+  padding: clamp(25px, 4vw, 68px) clamp(21px, 4vw, 66px);
+}
+
+.about-hand {
+  font-family: var(--about-pen);
+  font-weight: 400;
+  letter-spacing: -.025em;
+}
+
+#about-title {
+  margin: 0 0 clamp(16px, 2.3vw, 36px);
+  font-size: clamp(34px, 4.58vw, 74px);
+  line-height: 1.12;
+  letter-spacing: -.063em;
+  text-shadow: .02em .02em 0 #e2afc9;
+  overflow-wrap: anywhere;
+}
+
+#about-title span { position: relative; }
+
+#about-title span::after {
+  position: absolute;
+  content: "";
+  z-index: -1;
+  left: -.05em;
+  right: -.065em;
+  bottom: .025em;
+  height: .28em;
+  border-radius: 12% 6% 16% 21% / 25% 41% 19% 43%;
+  background: #f6c7df;
+  rotate: -2deg;
+}
+
+.about-lead,
+.about-biography p {
+  font-size: clamp(14px, 1.38vw, 18px);
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+
+.about-lead { max-width: 34ic; }
+
+.about-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .4em;
+  padding: 3px 0;
+  color: #833861;
+  font-size: .875rem;
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-color: #b55f8a;
+  text-underline-offset: .28em;
+}
+
+.about-letter .about-link {
+  min-height: 38px;
+  margin-top: 18px;
+  padding: 9px 14px;
+  border: 1px solid #dfa6c2;
+  border-radius: 24px 21px 23px 19px;
+  background: #fde8f3;
+  text-decoration: none;
+}
+
+.about-link:hover { color: #5e2646; text-decoration-color: currentColor; }
+.about-letter .about-link:hover { background: var(--about-rose); }
+.about-scrapbook :is(a, button):focus-visible { outline: 2px solid #8e3e6b; outline-offset: 4px; }
+
+.about-photo-page {
+  position: relative;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  min-width: 0;
+  padding: clamp(29px, 4.5vw, 75px) clamp(20px, 4vw, 69px);
+  border-left: 1px solid #e8bcd3;
+  background:
+    radial-gradient(ellipse at 78% 37%, #fff4eca8, transparent 66%),
+    linear-gradient(90deg, #5b3c7318, transparent 9%),
+    radial-gradient(#b9658e60 .7px, transparent .85px) 2px 3px / 12px 12px,
+    #fbe8f1;
+}
+
+.about-polaroid {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 324px);
+  min-width: 0;
+  margin: 0;
+  padding: clamp(8px, 1.1vw, 16px);
+  border: 1px solid #e5d7eb;
+  background: #fffdfb;
+  box-shadow: 3px 9px 23px #53366c38;
+  rotate: -6deg;
+  transition: rotate .35s ease;
+}
+
+.about-polaroid::before {
+  content: "";
+  position: absolute;
+  width: 46%;
+  height: clamp(16px, 2.2vw, 32px);
+  top: -11px;
+  left: 25%;
+  background: repeating-linear-gradient(47deg, #f4b5d5df 0 5px, #ffebf4d1 5px 8px);
+  clip-path: polygon(1% 0, 100% 4%, 97% 42%, 100% 90%, 1% 100%, 3% 69%, 0 36%);
+  rotate: 11deg;
+}
+
+.about-polaroid:hover { rotate: -2deg; }
+.about-polaroid img { display: block; width: 100%; height: auto; background: #ded1f4; }
+
+.about-polaroid figcaption {
+  padding: 5px 0 1px;
+  text-align: center;
+  font: 400 clamp(24px, 3vw, 39px)/1.15 "Journal Hand", "Segoe Print", cursive;
+  overflow-wrap: anywhere;
+  color: #833f65;
+}
+
+.about-binding {
+  position: absolute;
+  z-index: 2;
+  left: 61%;
+  top: 20%;
+  bottom: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  translate: -50% 0;
+  pointer-events: none;
+}
+
+.about-binding i {
+  display: block;
+  width: clamp(19px, 3.15vw, 49px);
+  height: clamp(9px, 1.1vw, 17px);
+  border: 2px solid #bf799f;
+  border-radius: 50% 45% 40% 54%;
+  background: #f8dfed;
+  box-shadow: 0 3px 2px #4b2d631a;
+  rotate: -7deg;
+}
+
+.about-binding i:nth-child(2) { rotate: 3deg; }
+
+.about-spark,
+.about-photo-heart {
+  position: absolute;
+  pointer-events: none;
+}
+
+.about-spark-large {
+  top: 7%;
+  right: 7%;
+  color: #ba558e;
+  font-size: clamp(30px, 6.4vw, 94px);
+  line-height: 1;
+  rotate: 13deg;
+  text-shadow: 3px 4px #f2b7d7;
+}
+
+.about-spark-small {
+  left: 9%;
+  bottom: 12%;
+  color: #b95089;
+  font-size: clamp(24px, 3.6vw, 55px);
+  rotate: 10deg;
+}
+
+.about-photo-heart {
+  z-index: 2;
+  right: 9%;
+  bottom: 10%;
+  padding: .08em .25em;
+  border: 3px solid #fffafd;
+  border-radius: 46% 54% 46% 40%;
+  color: #983f73;
+  background: #f6cce4;
+  box-shadow: 1px 3px 8px #542b7135;
+  font-size: clamp(20px, 3.2vw, 44px);
+  line-height: 1.2;
+  rotate: 14deg;
+}
+
+.about-biography,
+.about-tag-board {
+  margin-top: clamp(23px, 3vw, 46px);
+  padding: clamp(18px, 3.3vw, 48px);
+  border: 1px solid var(--about-line);
+  border-radius: 15px 25px 16px 21px;
+  background: #fffafd;
+  box-shadow: 0 7px 20px #56316f1e;
+}
+
+.about-biography:empty { display: none; }
+.about-biography p + p { margin-top: 1.05em; }
+.about-biography p { color: var(--about-muted); max-width: 65ic; }
+
+.about-tag-board {
+  background:
+    radial-gradient(#d688b35c .7px, transparent .85px) 0 0 / 14px 14px,
+    #fff3f8;
+}
+
+.about-tag-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 7px 18px;
+  margin-bottom: 16px;
+}
+
+.about-tag-heading h2 {
+  margin: 0;
+  font-size: clamp(29px, 4vw, 53px);
+  line-height: 1.1;
+  color: var(--about-ink);
+}
+
+.about-tag-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.about-tag-filters button {
+  padding: 7px 11px;
+  min-height: 33px;
+  border: 1px solid #e8bdd3;
+  border-radius: 13px 16px 14px 16px;
+  background: #fffdfd;
+  color: #673a54;
+  font: inherit;
+  font-size: clamp(11px, 1.2vw, 14px);
+  line-height: 1.3;
+  cursor: pointer;
+  transition: transform .2s ease, background-color .2s ease;
+}
+
+.about-tag-filters button:hover { background: #fce2ef; transform: translateY(-2px); }
+
+.about-tag-filters button[aria-pressed="true"] {
+  border-color: #ab5d85;
+  background: #f6c8df;
+  color: #632b4c;
+  font-weight: 700;
+  box-shadow: 0 2px 0 #d593b4;
+}
+
+.about-tag-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.about-tag-group {
+  padding: 14px clamp(10px, 1.9vw, 22px) 17px;
+  margin-top: 14px;
+  border: 1px dashed #d898b9;
+  border-radius: 14px 18px 14px 21px;
+  background: #fffbfe;
+}
+
+.about-tag-group h3 {
+  margin: 0 0 13px;
+  color: #864669;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.about-tag-group ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11px 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-tag-group li {
+  --sticker-color: #e9d5f8;
+  --sticker-shadow: #ab81c87d;
+  --sticker-tilt: -2deg;
+  max-width: 100%;
+  padding: 6px 12px;
+  border: 2px solid #fff;
+  border-radius: 14px 12px 16px 11px;
+  background: var(--sticker-color);
+  box-shadow: 0 2px 0 var(--sticker-shadow), 0 0 0 1px var(--sticker-shadow);
+  color: #432e52;
+  font-size: clamp(12px, 1.25vw, 15px);
+  font-weight: 650;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  rotate: var(--sticker-tilt);
+  transition: rotate .24s ease, translate .24s ease;
+  animation: about-sticker-settle .45s var(--sticker-delay) ease-out both;
+}
+
+.about-tag-group li:nth-child(4n + 2) {
+  --sticker-color: #fde0ee;
+  --sticker-shadow: #c986a67d;
+  --sticker-tilt: 2.5deg;
+}
+
+.about-tag-group li:nth-child(4n + 3) {
+  --sticker-color: #dff0ff;
+  --sticker-shadow: #83a9ca7d;
+  --sticker-tilt: -1deg;
+}
+
+.about-tag-group li:nth-child(4n + 4) {
+  --sticker-color: #fff0ce;
+  --sticker-shadow: #bea3657d;
+  --sticker-tilt: 1.5deg;
+}
+
+@media (hover: hover) {
+  .about-tag-group li:hover { rotate: calc(var(--sticker-tilt) * -1.5); translate: 0 -3px; }
+}
+
+@keyframes about-sticker-settle {
+  from { opacity: 0; transform: translateY(5px) scale(.94); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 700px) {
+  .about-spread { grid-template-columns: minmax(0, 1fr); }
+  .about-letter { padding: 23px clamp(12px, 5vw, 35px) 22px; }
+  #about-title { font-size: clamp(28px, 7.05vw, 51px); }
+  .about-photo-page { border-top: 1px solid #e8bcd3; border-left: 0; }
+  .about-polaroid { width: min(73%, 240px); }
+  .about-spark-large { right: 10%; }
+  .about-photo-heart { right: 16%; bottom: 12%; }
+  .about-binding { display: none; }
+  .about-tag-filters { gap: 6px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-polaroid, .about-tag-filters button, .about-tag-group li { transition: none; animation: none; }
+  .about-tag-group li:hover { rotate: var(--sticker-tilt); translate: none; }
+}

@@ -3,6 +3,8 @@ import { mountCabinet } from './cabinet/cabinet.js';
 import { mountPortraitReveal } from './portrait-reveal.js';
 import { mountNameParticles } from './name-particles.js';
 import { mountHeroStickers } from './hero-stickers.js';
+import { mountAboutTags } from './about-tags.js';
+import { mountAboutInterests } from './about-interests.js';
 import { mountJournalBook } from './journal-book.js';
 import { renderLifeTimeline } from './life-timeline.js';
 import { pages, mountModuleFrame, mountPageNavigation } from './page-navigation.js';
@@ -21,14 +23,48 @@ const moduleInfo={map:{title:'猪的世界足迹',path:'modules/map.html'},music
 const contentKinds=['timeline','honors','collections','posts'];
 function validEntry(x){return x && typeof x==='object' && typeof x.id==='string' && typeof x.title==='string' && ['body','date','category','subtitle','excerpt','image','url','module'].every(k=>x[k]===undefined||typeof x[k]==='string');}
 function validContent(c){return c && typeof c==='object' && c.profile && typeof c.profile.name==='string' && contentKinds.every(k=>Array.isArray(c[k])&&c[k].length<=500&&c[k].every(validEntry)) && (c.trash===undefined||(Array.isArray(c.trash)&&c.trash.length<=2000&&c.trash.every(x=>x&&contentKinds.includes(x.kind)&&validEntry(x.entry))));}
-try{const raw=JSON.parse(localStorage.getItem(STORAGE)||'null');if(validContent(raw))content=raw;const s=JSON.parse(localStorage.getItem(STORAGE+'-saved')||'[]');if(Array.isArray(s))saved=new Set(s);}catch{ /* retain safe defaults */ }
+try {
+  const stored = JSON.parse(localStorage.getItem(STORAGE) || 'null');
+  if (validContent(stored)) {
+    const previousDefaults = {
+      intro: [
+        '在数学与感性之间，寻找自己的表达。研究量化，设计产品，也认真收藏生活里那些微小的心动。',
+        '数学教我在还没有答案的时候，把问题看久一点。我做量化研究，也设计产品，喜欢把纸上那些模糊的想法带到现实里试一试。',
+        '我读数学，也做量化。一条回测曲线看起来挺漂亮，把手续费填进去，可能就瘪了一半。我喜欢回去看亏得最难看的那几天。当时究竟发生了什么？我怎么就那么相信自己的判断？'
+      ],
+      bio: [
+        '数学与应用数学本科生，关注量化金融、金融 AI、产品设计与软件工程。我喜欢从一个问题出发，和伙伴一起把想法变成可复现的研究，或可以触摸的产品。',
+        '我也喜欢那些不急着求解的时刻。比如球拍落下前的一秒、山路转弯处的风，还有相机里舍不得删掉的光。长大以后，我还是想认真喜欢这些小事。',
+        '以前写自我介绍，恨不得把做过的事填满一页。现在写着写着，常常会删掉一句「我一直」。二十几岁，哪来那么多一直？我还想知道，如果一个下午没人等我交东西，我会怎么过。大概还是会带上相机出门。'
+      ]
+    };
+    for (const [key, values] of Object.entries(previousDefaults)) {
+      if (values.includes(stored.profile[key])) stored.profile[key] = initialContent.profile[key];
+    }
+    content = stored;
+  }
+  const storedFavorites = JSON.parse(localStorage.getItem(STORAGE + '-saved') || '[]');
+  if (Array.isArray(storedFavorites)) saved = new Set(storedFavorites);
+} catch { /* retain safe defaults */ }
 function persist(next){if(!validContent(next)){toast('未保存：每类最多 500 条内容，请检查备份格式或先整理现有内容。');return false;}try{localStorage.setItem(STORAGE,JSON.stringify(next));content=next;return true;}catch{toast('未能保存。浏览器空间可能不足，请先导出备份或减少图片大小。');return false;}}
 let toastTimer;
 function toast(message){$('#toast').textContent=message;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),3500);}
 function setFilter(group,value){$$('button',group).forEach(b=>{const on=b.dataset.filter===value;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on));});}
 function renderProfile() {
   $('[data-display-name]').textContent = content.profile.name.toUpperCase();
-  $$('[data-profile]').forEach(el => el.textContent = content.profile[el.dataset.profile] || '');
+  for (const element of $$('[data-profile]')) {
+    const text = String(content.profile[element.dataset.profile] || '');
+    if (!element.hasAttribute('data-profile-paragraphs')) {
+      element.textContent = text;
+      continue;
+    }
+    const paragraphs = text.trim().split(/\r?\n[ \t]*\r?\n/).filter(Boolean).map(value => {
+      const paragraph = document.createElement('p');
+      paragraph.textContent = value;
+      return paragraph;
+    });
+    element.replaceChildren(...paragraphs);
+  }
   $('#profile-github').href = safeURL(content.profile.github) || 'https://github.com/ThreshoLdnnis';
   if (pageNavigation) pageNavigation.refreshTitle();
   else document.title = content.profile.name;
@@ -162,6 +198,8 @@ $('#credits-button').addEventListener('click',()=>{$('#detail-content').innerHTM
 Made with curiosity, for Mofarigano.</div>`;openDialog(detailDialog);});
 $('#current-year').textContent=new Intl.DateTimeFormat('en',{year:'numeric',timeZone:'Asia/Shanghai'}).format(new Date());
 renderAll();
+mountAboutTags($('#about-tag-board'));
+mountAboutInterests($('#about-interests'));
 pageNavigation=mountPageNavigation({getName:()=>content.profile.name});
 
 function prepareJournalMedia() {

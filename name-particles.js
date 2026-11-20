@@ -48,7 +48,34 @@ export function mountNameParticles(nameSpan, hero) {
   function styleFingerprint(style) {
     return [nameSpan.textContent,style.fontFamily,style.fontSize,style.fontWeight,style.fontStyle,
       style.fontStretch,style.fontKerning,style.fontVariantCaps,style.letterSpacing,
-      style.textTransform,style.color].join('|');
+      style.textTransform,style.color,style.backgroundImage,style.backgroundSize].join('|');
+  }
+
+  function titlePaint(style, spanRect) {
+    const top = style.getPropertyValue('--name-sky-top').trim();
+    const middle = style.getPropertyValue('--name-sky-middle').trim();
+    const bottom = style.getPropertyValue('--name-sky-bottom').trim();
+    const textured = top && middle && bottom && style.backgroundImage !== 'none';
+    if (!textured) return {fill:style.color, grain:null};
+    // CSS backgrounds follow the original inline box, not the visible ink bounds.
+    // Matching that box keeps the gradient stable when the DOM becomes particles.
+    const fill = sourceCtx.createLinearGradient(0, padding, 0, padding + spanRect.height);
+    fill.addColorStop(0, top);
+    fill.addColorStop(.48, middle);
+    fill.addColorStop(1, bottom);
+    const grain = document.createElement('canvas');
+    grain.width = grain.height = 8;
+    const grainCtx = grain.getContext('2d');
+    if (!grainCtx) return {fill, grain:null};
+    grainCtx.scale(2, 2);
+    const cream = style.getPropertyValue('--name-cream-grain').trim() || 'rgba(255,244,220,.3)';
+    const fleck = grainCtx.createRadialGradient(1, 1, 0, 1, 1, .9);
+    fleck.addColorStop(0, cream);
+    fleck.addColorStop(.55 / .9, cream);
+    fleck.addColorStop(1, 'rgba(255,244,220,0)');
+    grainCtx.fillStyle = fleck;
+    grainCtx.fillRect(0, 0, 4, 4);
+    return {fill, grain};
   }
 
   function rebuild() {
@@ -88,13 +115,26 @@ export function mountNameParticles(nameSpan, hero) {
       sourceCtx.setTransform(rasterScaleX, 0, 0, rasterScaleY, 0, 0);
       sourceCtx.font = font;
       sourceCtx.textAlign = 'left'; sourceCtx.textBaseline = 'alphabetic';
-      sourceCtx.fillStyle = style.color;
+      const title = titlePaint(style, spanRect);
+      sourceCtx.fillStyle = title.fill;
       if ('letterSpacing' in sourceCtx) sourceCtx.letterSpacing = spacing;
       if ('fontKerning' in sourceCtx) sourceCtx.fontKerning = style.fontKerning;
       if ('fontStretch' in sourceCtx) sourceCtx.fontStretch = style.fontStretch;
       if ('fontVariantCaps' in sourceCtx) sourceCtx.fontVariantCaps = style.fontVariantCaps;
       const metrics = sourceCtx.measureText(text);
       sourceCtx.fillText(text, padding, baseline);
+      if (title.grain) {
+        const pattern = sourceCtx.createPattern(title.grain, 'repeat');
+        if (pattern) {
+          sourceCtx.save();
+          sourceCtx.globalCompositeOperation = 'source-atop';
+          sourceCtx.translate(padding, padding);
+          sourceCtx.scale(.5, .5);
+          sourceCtx.fillStyle = pattern;
+          sourceCtx.fillRect(0, 0, spanRect.width * 2, spanRect.height * 2);
+          sourceCtx.restore();
+        }
+      }
       ctx.setTransform(rasterScaleX, 0, 0, rasterScaleY, 0, 0);
       sampler.width = width; sampler.height = height;
       sampleCtx.drawImage(source, 0, 0, width, height);

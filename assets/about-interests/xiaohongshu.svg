@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="360" viewBox="0 0 480 360" role="img" aria-labelledby="title"><title id="title">小红书创作 · 原创兴趣插画</title><defs><pattern id="paper" width="19" height="23" patternUnits="userSpaceOnUse"><circle cx="4" cy="8" r=".8" fill="#7e7168" opacity=".08"/><circle cx="14" cy="19" r=".6" fill="#fff" opacity=".25"/></pattern></defs><path d="M0 0h480v360H0z" fill="#f6d5df"/><path d="M0 0h480v360H0z" fill="url(#paper)"/><path d="M35 40q183-25 410 2M34 322q215 18 411-4" fill="none" stroke="#fff" opacity=".24" stroke-width="2" stroke-linecap="round"/><g stroke="#3e4657" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="m170 57 145 8q18 2 17 22l-11 208q-1 20-22 19l-142-9q-17-1-17-20l13-209q1-20 17-19z" fill="#fff8eb"/>
+<path d="m168 92 145 9-10 173-145-8z" fill="#f3e6d6"/><path d="M219 76l42 3" stroke="#c39da0" stroke-width="5"/>
+<circle cx="182" cy="116" r="10" fill="#d9909e"/><path d="m201 112 54 3m-54 10 32 2" stroke="#afa0a4" stroke-width="3"/>
+<path d="m170 141 129 7-5 84-130-7z" fill="#bcd4d1"/><circle cx="267" cy="168" r="16" fill="#f9d979" stroke="none"/>
+<path d="m164 206 37-34 35 35 19-18 41 30v14l-132-8" fill="#93b293" stroke="none"/>
+<path d="m175 246 77 5m-78 9 49 4" stroke="#b99994" stroke-width="3"/><circle cx="235" cy="289" r="8" fill="#efcdcb"/>
+<path d="M103 145q-17-25-32-7-13 20 29 41 44-18 32-38-13-20-29 4" fill="#d87085"/>
+<path d="M377 198q-13-19-25-5-10 15 21 31 35-14 25-29-10-15-21 3" fill="#e197a5"/>
+<path d="m350 89 37 4-4 52-17-15-20 11z" fill="#db858b"/>
+<path d="m88 241 10-9m-3 27-17-1m259 36 13 7m5-22 12-6" fill="none" stroke="#b78696"/>
+<path d="m104 289 6-12 6 12 13 5-13 5-6 12-6-12-12-5z" fill="#f6d68b"/></g></svg>

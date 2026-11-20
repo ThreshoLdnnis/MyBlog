@@ -1,4 +1,4 @@
-/* Final navigation layer: a compact bilingual table of contents. */
+/* Final navigation layer: a compact two-line table of contents. */
 :root {
   --journal-header-height: 88px;
 }
@@ -237,6 +237,17 @@ body .site-header .top-nav a:nth-child(n):focus-visible { outline: 1px solid var
   .site-header .header-end .icon-btn { min-width: 59px; gap: 8px; padding-left: 9px; }
   body .site-header .top-nav .nav-cn { font-size: 11px; }
   body .site-header .top-nav .nav-en { font-size: 6.5px; letter-spacing: .045em; }
+}
+
+/* Chinese secondary labels need more room than the small Latin captions. */
+body .site-header .top-nav .nav-en[lang="zh-CN"] {
+  font-family: var(--font-sans, Instrument, "Microsoft YaHei", sans-serif);
+  font-size: 9px;
+  letter-spacing: .08em;
+}
+
+@media (min-width: 1400px) {
+  body .site-header .top-nav .nav-en[lang="zh-CN"] { font-size: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

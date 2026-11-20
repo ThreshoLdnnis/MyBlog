@@ -1,0 +1,109 @@
+{
+  "description": "Original code-native vector illustrations created for Mofarigano's personal-interest carousel. Decorative representations, not personal photography or evidence of ownership.",
+  "sourceType": "original-svg-illustration",
+  "externalAssets": [],
+  "dimensions": [
+    480,
+    360
+  ],
+  "files": [
+    {
+      "file": "technology.svg",
+      "title": "科技创作",
+      "width": 480,
+      "height": 360,
+      "bytes": 1807
+    },
+    {
+      "file": "vibe-coding.svg",
+      "title": "Vibe Coding",
+      "width": 480,
+      "height": 360,
+      "bytes": 1822
+    },
+    {
+      "file": "hackathon.svg",
+      "title": "Hackathon",
+      "width": 480,
+      "height": 360,
+      "bytes": 1918
+    },
+    {
+      "file": "entrepreneurship.svg",
+      "title": "创业交流",
+      "width": 480,
+      "height": 360,
+      "bytes": 1832
+    },
+    {
+      "file": "sharing.svg",
+      "title": "内容分享",
+      "width": 480,
+      "height": 360,
+      "bytes": 1702
+    },
+    {
+      "file": "xiaohongshu.svg",
+      "title": "小红书创作",
+      "width": 480,
+      "height": 360,
+      "bytes": 1761
+    },
+    {
+      "file": "tennis.svg",
+      "title": "网球",
+      "width": 480,
+      "height": 360,
+      "bytes": 1779
+    },
+    {
+      "file": "badminton.svg",
+      "title": "羽毛球",
+      "width": 480,
+      "height": 360,
+      "bytes": 1864
+    },
+    {
+      "file": "hiking.svg",
+      "title": "爬山",
+      "width": 480,
+      "height": 360,
+      "bytes": 1733
+    },
+    {
+      "file": "photography.svg",
+      "title": "摄影",
+      "width": 480,
+      "height": 360,
+      "bytes": 1889
+    },
+    {
+      "file": "travel.svg",
+      "title": "旅行",
+      "width": 480,
+      "height": 360,
+      "bytes": 2105
+    },
+    {
+      "file": "food.svg",
+      "title": "美食",
+      "width": 480,
+      "height": 360,
+      "bytes": 1890
+    },
+    {
+      "file": "pets.svg",
+      "title": "宠物",
+      "width": 480,
+      "height": 360,
+      "bytes": 2209
+    },
+    {
+      "file": "fps.svg",
+      "title": "FPS游戏",
+      "width": 480,
+      "height": 360,
+      "bytes": 1834
+    }
+  ]
+}

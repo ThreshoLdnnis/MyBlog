@@ -1,16 +1,16 @@
 export const pages = [
-  {id:'me', section:'intro', title:'我'},
+  {id:'me', section:'intro', title:'我', subtitle:'知我'},
   {id:'works', title:'奇点', subtitle:'作品'},
-  {id:'life', title:'生活', subtitle:'LIFE, UNFOLDING'},
-  {id:'journal', title:'手记', subtitle:'FIELD NOTES'},
-  {id:'travel', title:'足迹', subtitle:'SOMEWHERE ELSE', module:'map', roomTitle:'猪的世界足迹'},
+  {id:'life', title:'观我过往', subtitle:'历程'},
+  {id:'journal', title:'手账', subtitle:'随笔'},
+  {id:'travel', title:'足迹', subtitle:'地图', module:'map', roomTitle:'猪的世界足迹'},
   {id:'music', title:'音乐', subtitle:'THE SOUNDTRACK', module:'music', roomTitle:'Music of Love · 音乐墙'},
-  {id:'books', title:'阅读', subtitle:'SLOW READING CLUB', module:'books', roomTitle:'猪的读书角'},
-  {id:'collection', title:'收藏抽屉', subtitle:'THE GOOD FINDS'},
+  {id:'books', title:'阅读', subtitle:'万卷', module:'books', roomTitle:'猪的读书角'},
+  {id:'collection', title:'宝藏抽屉', subtitle:'魂器'},
   {id:'toys', title:'手办收藏', subtitle:'SMALL THINGS, BIG JOY'},
   {id:'about', title:'关于我', subtitle:'A LITTLE MORE ABOUT ME'},
   {id:'stack', title:'技术栈', subtitle:'THE TOOLBOX'},
-  {id:'honors', title:'荣誉墙', subtitle:'MILESTONES'},
+  {id:'honors', title:'战功厅', subtitle:'荣耀'},
 ];
 
 export function mountModuleFrame(shell, {module, title, subtitle, loadingText, preview = false}) {

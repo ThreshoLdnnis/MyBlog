@@ -51,3 +51,7 @@ font-weight: 400;
 `journal-intro-hand.woff2` 由 [小赖字体 v3.126 的 Xiaolai-Regular.ttf](https://github.com/lxgw/kose-font/releases/tag/v3.126) 派生，CSS 家族名为 `Journal Intro Hand`。使用 fontTools 保留首页介绍四处文案所需的 37 个字符，重命名内部字体家族后转为 WOFF2（8,288 字节），其余字符通过页面字体栈回退。源 TTF 的 SHA-256 为 `e2f68daf0e72777a8cf58bc83de1b98634b251e537ddbfca24b0ae50d1802da2`。
 
 原始许可见 [Xiaolai-OFL.txt](./Xiaolai-OFL.txt)。派生字体同样采用 SIL Open Font License 1.1。
+
+## 关于我
+
+`journal-about-hand.woff2` 使用同一份小赖字体源文件和许可。使用 fontTools 保留个人介绍页标题所需的 23 个字符，内部家族名改为 `Journal About Hand`，压缩后为 6,096 字节。

@@ -1,3 +1,26 @@
+.hero h1 [data-display-name] {
+  --name-sky-top: #548fab;
+  --name-sky-middle: #4c8ba8;
+  --name-sky-bottom: #347795;
+  --name-cream-grain: rgba(255, 244, 220, .3);
+  color: var(--name-sky-middle);
+}
+
+/* Matte sky-blue ink with a fine cream fleck, shared with the particle source. */
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  .hero h1 [data-display-name] {
+    background-image:
+      radial-gradient(circle at 1px 1px, var(--name-cream-grain) 0 .55px, rgba(255, 244, 220, 0) .9px),
+      linear-gradient(180deg, var(--name-sky-top) 0%, var(--name-sky-middle) 48%, var(--name-sky-bottom) 100%);
+    background-size: 4px 4px, 100% 100%;
+    background-position: 0 0, 0 0;
+    background-repeat: repeat, no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
 .name-particle-source.is-name-particle-active { opacity: 0; }
 .name-particle-canvas {
   position: absolute;
@@ -30,4 +53,8 @@
 @media (prefers-reduced-motion: reduce) {
   .name-particle-source.is-name-particle-active { opacity: 1; }
   .name-particle-canvas { display: none; }
+}
+
+@media (forced-colors: active) {
+  .hero h1 [data-display-name] { color: CanvasText; background-image: none; -webkit-text-fill-color: CanvasText; }
 }
