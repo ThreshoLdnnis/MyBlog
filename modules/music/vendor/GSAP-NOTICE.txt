@@ -1,0 +1,6 @@
+GSAP 3.12.5
+Copyright 2024, GreenSock. All rights reserved.
+Authored by Jack Doyle.
+
+Source: https://registry.npmjs.org/gsap/-/gsap-3.12.5.tgz
+License: https://gsap.com/standard-license
