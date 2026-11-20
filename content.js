@@ -39,10 +39,10 @@ export const journalIllustrations = [
 ];
 
 export const projects = [
-  {id:'music',title:'Music of Love',type:'生活空间',year:'2026',number:'01',image:'assets/music-preview.jpg',description:'让封面有形状，让旋律有归处。Three.js 立体唱片与歌词手记。',module:'music',tag:'INTERACTIVE / MUSIC'},
-  {id:'books',title:'猪的读书角',type:'生活空间',year:'2026',number:'02',image:'assets/books-preview.jpg',description:'51 本书，51 个可以走进去的世界。可抽取、可翻阅的立体书架。',module:'books',tag:'3D / READING'},
-  {id:'orbit',title:'Orbit · 星际漫游',type:'视觉实验',year:'2026',number:'03',image:'assets/projects/orbit.jpg',description:'将影像环绕成一颗可以触及的星球，用拖动与镜头推进探索空间。',url:'https://github.com/ThreshoLdnnis/WebDesign10-PhotoBall',tag:'EXPERIMENT / SPACE'},
-  {id:'ronin',title:'RoninX · 神经边界',type:'视觉实验',year:'2026',number:'04',image:'assets/projects/roninx.jpg',description:'机械、留白与聚光。藏在光线后面的另一种面貌。',url:'https://github.com/ThreshoLdnnis/WebDesign6-RoninX',tag:'EXPERIMENT / MOTION'},
+  {id:'music',title:'音乐光盘',type:'视觉交互',year:'2026',number:'01',image:'assets/music-preview.jpg',description:'让封面有形状，让旋律有归处。Three.js 立体唱片与歌词手记。',preview:'music',tag:'INTERACTIVE / MUSIC'},
+  {id:'books',title:'猪的读书角',type:'视觉交互',year:'2026',number:'02',image:'assets/books-preview.jpg',description:'51 本书，51 个可以走进去的世界。可抽取、可翻阅的立体书架。',preview:'books',tag:'3D / READING'},
+  {id:'orbit',title:'Orbit · 星际漫游',type:'视觉交互',year:'2026',number:'03',image:'assets/projects/orbit.jpg',description:'将影像环绕成一颗可以触及的星球，用拖动与镜头推进探索空间。',preview:'orbit',tag:'EXPERIMENT / SPACE'},
+  {id:'ronin',title:'浪人X',type:'视觉交互',year:'2026',number:'04',image:'assets/projects/roninx.jpg',description:'机械、留白与聚光。藏在光线后面的另一种面貌。',preview:'ronin',tag:'EXPERIMENT / MOTION'},
   {id:'lingyu',title:'Lingyu · 领屿',type:'产品设计',year:'持续迭代',number:'05',image:'',description:'独立设计与开发的学生成长平台。双语界面、内容管理、权限与响应式体验。',url:'https://github.com/ThreshoLdnnis/Qsinghua-TencentSmaker',tag:'PRODUCT / EDUCATION'},
   {id:'cook',title:'CookIdea',type:'产品设计',year:'持续迭代',number:'06',image:'',description:'以料理为灵感的创意工作台，把模糊的想法一步步整理成可以实现的原型。',url:'https://github.com/ThreshoLdnnis/Cook-Idea',tag:'PRODUCT / CREATIVITY'}
 ];

@@ -5,7 +5,7 @@ import { mountNameParticles } from './name-particles.js';
 import { mountHeroStickers } from './hero-stickers.js';
 import { mountJournalBook } from './journal-book.js';
 import { renderLifeTimeline } from './life-timeline.js';
-import { pages, mountPageNavigation } from './page-navigation.js';
+import { pages, mountModuleFrame, mountPageNavigation } from './page-navigation.js';
 
 const $ = (s, root=document) => root.querySelector(s);
 const $$ = (s, root=document) => [...root.querySelectorAll(s)];
@@ -33,7 +33,25 @@ function renderProfile() {
   if (pageNavigation) pageNavigation.refreshTitle();
   else document.title = content.profile.name;
 }
-function renderWorks(){const list=projects.filter(p=>workFilter==='全部'||p.type===workFilter);$('#works-grid').innerHTML=list.map(p=>`<article class="work-card"><button class="work-visual" data-project="${esc(p.id)}" aria-label="查看作品：${esc(p.title)}"><span class="work-number">${p.number} / ${esc(p.year)}</span>${p.image?`<img src="${esc(p.image)}" alt="${esc(p.title)}作品预览" loading="lazy">`:`<span class="wordmark-cover ${p.id==='cook'?'cook':''}">${p.id==='cook'?'CookIdea.':'LINGYU.'}</span>`}<span class="work-arrow" aria-hidden="true">↗</span></button><div class="work-info"><h3>${esc(p.title)}</h3><span>${esc(p.tag)}</span></div><p>${esc(p.description)}</p></article>`).join('');}
+function renderWorks() {
+  const list = projects.filter(project => workFilter === '全部' || project.type === workFilter);
+  $('#works-grid').innerHTML = list.length ? list.map(project => {
+    const {id, title, year, number, image, description, preview, tag} = project;
+    const action = preview ? '预览作品' : '查看作品';
+    const cover = image
+      ? `<img src="${esc(image)}" alt="" loading="lazy" decoding="async">`
+      : `<span class="wordmark-cover ${id === 'cook' ? 'cook' : ''}">${id === 'cook' ? 'CookIdea.' : 'LINGYU.'}</span>`;
+    return `<article class="work-card">
+      <button class="work-visual" data-project="${esc(id)}" aria-label="${action}：${esc(title)}" ${preview ? 'aria-haspopup="dialog"' : ''}>
+        <span class="work-number">${esc(number)} / ${esc(year)}</span>
+        ${cover}
+        <span class="work-arrow" aria-hidden="true">↗</span>
+      </button>
+      <div class="work-info"><h3>${esc(title)}</h3><span>${esc(tag)}</span></div>
+      <p>${esc(description)}</p>
+    </article>`;
+  }).join('') : '<p class="empty-state" role="status">暂无策略模型</p>';
+}
 function renderTimeline() {
   const entries = content.timeline.filter(entry => !initialContent.timeline.some(sample =>
     Object.keys(entry).length === Object.keys(sample).length &&
@@ -47,6 +65,27 @@ function renderHonors(){$('#honor-grid').innerHTML=content.honors.length?content
 function renderAll(postId){renderProfile();renderWorks();renderTimeline();renderCollections();renderHonors();diary.setPosts(content.posts, postId);}
 
 const detailDialog=$('#detail-dialog'), editorDialog=$('#editor-dialog');
+const projectPreview = $('#project-preview');
+const previewShell = $('.project-preview-shell', projectPreview);
+let unmountProjectPreview;
+
+function openProjectPreview(project) {
+  unmountProjectPreview?.();
+  $('#project-preview-title').textContent = project.title;
+  projectPreview.showModal();
+  unmountProjectPreview = mountModuleFrame(previewShell, {
+    module: project.preview,
+    title: project.title,
+    loadingText: '正在加载互动预览…',
+    preview: true,
+  });
+}
+
+projectPreview.addEventListener('close', () => {
+  if (projectPreview.open) return;
+  unmountProjectPreview?.();
+  unmountProjectPreview = undefined;
+});
 let dialogTrigger;
 let editorGeneration=0;
 editorDialog.addEventListener('close',()=>{editorGeneration++;});
@@ -89,7 +128,11 @@ $('#restore-entry').addEventListener('click',()=>{const next=structuredClone(con
 
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
 if(d.module)openModule(d.module);
-if(d.project){const p=projects.find(x=>x.id===d.project);if(p){if(p.module)openModule(p.module);else showArticle(p,'project');}}
+if (d.project) {
+  const project = projects.find(item => item.id === d.project);
+  if (project?.preview) openProjectPreview(project);
+  else if (project) showArticle(project, 'project');
+}
 if(d.collection){const c=content.collections.find(x=>x.id===d.collection);if(c)showArticle(c,'collections');}
 if(d.edit)openEditor(d.edit,d.id);
 if(d.managerEdit)openEditor(d.managerEdit,d.id);

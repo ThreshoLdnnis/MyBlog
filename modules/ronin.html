@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>浪人X</title>
+  <meta name="description" content="浪人X，随指针切换夜幕中的装甲形态。">
+  <link rel="stylesheet" href="./ronin/scene.css">
+  <link rel="preload" href="./ronin/nightfall.webp" as="image">
+  <link rel="preload" href="./ronin/armor.webp" as="image">
+  <script src="./ronin/scene.js" defer></script>
+</head>
+<body>
+  <main class="scene" tabindex="0" aria-labelledby="title" aria-describedby="motion-help">
+    <canvas class="stars" aria-hidden="true"></canvas>
+    <div class="figure figure-base" aria-hidden="true"></div>
+    <div class="figure figure-armor" aria-hidden="true"></div>
+    <div class="scene-ui">
+      <header class="intro">
+        <h1 id="title"><span data-copy="name">浪人X //</span><span data-copy="shadow">暗影</span><span data-copy="nightfall">夜幕</span></h1>
+        <p data-copy="description">以高解析光学与零重力机架打造，献给亲手驾驭未来的人。切换你的现实。</p>
+      </header>
+      <button class="language" type="button" aria-label="Switch to English">EN / 中文</button>
+      <p class="motion-help" id="motion-help">
+        <span class="mouse-help" data-copy="mouseHelp">移动指针或使用方向键，揭示装甲</span>
+        <span class="touch-help" data-copy="touchHelp">按住拖动，揭示装甲</span>
+      </p>
+      <section class="specs" aria-labelledby="specs-title">
+        <h2 id="specs-title" data-copy="specs">作战规格</h2>
+        <dl>
+          <div><dt data-copy="vision">视觉</dt><dd data-copy="visionValue">双 8K Pulse-OLED</dd></div>
+          <div><dt data-copy="nerve">神经</dt><dd data-copy="nerveValue">R1 · 浪人引擎</dd></div>
+          <div><dt data-copy="reflex">反射</dt><dd data-copy="reflexValue">144Hz 低延迟作战</dd></div>
+          <div><dt data-copy="armor">装甲</dt><dd data-copy="armorValue">轻量化暗影外壳</dd></div>
+        </dl>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

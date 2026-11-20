@@ -40,7 +40,7 @@
   <a class="brand" href="#/me" aria-label="Mofarigano，回到首页"><span class="brand-mark">M<span>®</span></span><span class="brand-wordmark" data-profile="name">Mofarigano</span></a>
   <nav class="top-nav" aria-label="主导航">
     <a href="#/me"><span class="nav-cn">我</span><span class="nav-en" aria-hidden="true">ME</span></a>
-    <a href="#/works"><span class="nav-cn">作品</span><span class="nav-en" aria-hidden="true">WORKS</span></a>
+    <a href="#/works"><span class="nav-cn">奇点</span><span class="nav-en" aria-hidden="true" lang="zh-CN">作品</span></a>
     <a href="#/life"><span class="nav-cn">生活</span><span class="nav-en" aria-hidden="true">LIFE</span></a>
     <a href="#/journal"><span class="nav-cn">手记</span><span class="nav-en" aria-hidden="true">NOTES</span></a>
     <a href="#/travel"><span class="nav-cn">足迹</span><span class="nav-en" aria-hidden="true">PLACES</span></a>
@@ -73,8 +73,8 @@
   </section>
 
   <section class="works section-pad" id="works" hidden>
-    <div class="section-heading"><h2>创造的<span class="serif">痕迹。</span><span class="heading-note" aria-hidden="true">Ideas, made real.</span></h2><p>产品、研究与一些不设限的视觉实验。<br>每一个，都是好奇心留下的形状。</p></div>
-    <div class="filter-row" id="work-filters" aria-label="筛选作品"><button class="active" data-filter="全部" aria-pressed="true">全部作品 <small>06</small></button><button data-filter="产品设计" aria-pressed="false">产品设计</button><button data-filter="视觉实验" aria-pressed="false">视觉实验</button><button data-filter="生活空间" aria-pressed="false">生活空间</button></div>
+    <div class="section-heading"><h2>奇点</h2></div>
+    <div class="filter-row" id="work-filters" aria-label="筛选作品"><button class="active" data-filter="全部" aria-pressed="true">全部作品</button><button data-filter="产品设计" aria-pressed="false">产品设计</button><button data-filter="视觉交互" aria-pressed="false">视觉交互</button><button data-filter="策略模型" aria-pressed="false">策略模型</button></div>
     <div class="works-grid" id="works-grid"></div>
   </section>
 
@@ -153,6 +153,13 @@
 <div id="route-status" class="sr-only" role="status" aria-live="polite"></div>
 <dialog aria-label="内容详情" id="detail-dialog" class="detail-dialog"><button class="dialog-close" aria-label="关闭详情">×</button><div id="detail-content"></div></dialog>
 <dialog aria-label="编辑个人网站内容" id="editor-dialog" class="editor-dialog"><button class="dialog-close" aria-label="关闭编辑器">×</button><div id="editor-content"></div></dialog>
+<dialog id="project-preview" class="project-preview" aria-labelledby="project-preview-title">
+  <header class="project-preview-header">
+    <h2 id="project-preview-title"></h2>
+    <form method="dialog"><button class="project-preview-close" type="submit" autofocus>关闭预览 <span aria-hidden="true">×</span></button></form>
+  </header>
+  <div class="route-room-shell project-preview-shell"></div>
+</dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <noscript><p class="noscript">请开启 JavaScript 以浏览互动内容，也可直接打开 <a href="modules/map.html">旅行地图</a>、<a href="modules/music.html">音乐墙</a> 和 <a href="modules/books.html">读书角</a>。</p></noscript>
 </body></html>
