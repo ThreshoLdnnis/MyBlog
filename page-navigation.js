@@ -14,7 +14,8 @@ export const pages = [
 ];
 
 export function mountModuleFrame(shell, {module, title, subtitle, loadingText, preview = false}) {
-  const source = `modules/${module}.html${preview ? '?preview=1' : ''}`;
+  const path = module === 'spider' ? 'welcome/index.html' : `modules/${module}.html`;
+  const source = preview ? `${path}?preview=1` : path;
   const frame = document.createElement('iframe');
   frame.title = title;
   frame.allow = 'fullscreen; autoplay';

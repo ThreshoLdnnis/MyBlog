@@ -37,16 +37,19 @@ function renderWorks() {
   const list = projects.filter(project => workFilter === '全部' || project.type === workFilter);
   $('#works-grid').innerHTML = list.length ? list.map(project => {
     const {id, title, year, number, image, description, preview, tag} = project;
-    const action = preview ? '预览作品' : '查看作品';
+    const site = safeURL(project.site);
     const cover = image
       ? `<img src="${esc(image)}" alt="" loading="lazy" decoding="async">`
-      : `<span class="wordmark-cover ${id === 'cook' ? 'cook' : ''}">${id === 'cook' ? 'CookIdea.' : 'LINGYU.'}</span>`;
+      : `<span class="wordmark-cover">${esc(title)}</span>`;
+    const visual = `
+      <span class="work-number">${esc(number)} / ${esc(year)}</span>
+      ${cover}
+      <span class="work-arrow" aria-hidden="true">↗</span>`;
+    const action = site
+      ? `<a class="work-visual" href="${esc(site)}" target="_blank" rel="noopener noreferrer" aria-label="打开官网：${esc(title)}">${visual}</a>`
+      : `<button type="button" class="work-visual" data-project="${esc(id)}" aria-label="${preview ? '预览作品' : '查看作品'}：${esc(title)}" aria-haspopup="dialog">${visual}</button>`;
     return `<article class="work-card">
-      <button class="work-visual" data-project="${esc(id)}" aria-label="${action}：${esc(title)}" ${preview ? 'aria-haspopup="dialog"' : ''}>
-        <span class="work-number">${esc(number)} / ${esc(year)}</span>
-        ${cover}
-        <span class="work-arrow" aria-hidden="true">↗</span>
-      </button>
+      ${action}
       <div class="work-info"><h3>${esc(title)}</h3><span>${esc(tag)}</span></div>
       <p>${esc(description)}</p>
     </article>`;

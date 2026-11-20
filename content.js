@@ -43,7 +43,13 @@ export const projects = [
   {id:'books',title:'猪的读书角',type:'视觉交互',year:'2026',number:'02',image:'assets/books-preview.jpg',description:'51 本书，51 个可以走进去的世界。可抽取、可翻阅的立体书架。',preview:'books',tag:'3D / READING'},
   {id:'orbit',title:'Orbit · 星际漫游',type:'视觉交互',year:'2026',number:'03',image:'assets/projects/orbit.jpg',description:'将影像环绕成一颗可以触及的星球，用拖动与镜头推进探索空间。',preview:'orbit',tag:'EXPERIMENT / SPACE'},
   {id:'ronin',title:'浪人X',type:'视觉交互',year:'2026',number:'04',image:'assets/projects/roninx.jpg',description:'机械、留白与聚光。藏在光线后面的另一种面貌。',preview:'ronin',tag:'EXPERIMENT / MOTION'},
-  {id:'lingyu',title:'Lingyu · 领屿',type:'产品设计',year:'持续迭代',number:'05',image:'',description:'独立设计与开发的学生成长平台。双语界面、内容管理、权限与响应式体验。',url:'https://github.com/ThreshoLdnnis/Qsinghua-TencentSmaker',tag:'PRODUCT / EDUCATION'},
-  {id:'cook',title:'CookIdea',type:'产品设计',year:'持续迭代',number:'06',image:'',description:'以料理为灵感的创意工作台，把模糊的想法一步步整理成可以实现的原型。',url:'https://github.com/ThreshoLdnnis/Cook-Idea',tag:'PRODUCT / CREATIVITY'}
+  {id:'spider',title:'成为蛛蛛',type:'视觉交互',year:'2026',number:'05',image:'assets/projects/spider.webp',description:'让跳蛛追着光标探路，织起蛛丝，在三种织物主题里翻看收藏。',preview:'spider',tag:'INTERACTIVE / PLAY'},
+  {id:'rider',title:'铠甲变身',type:'视觉交互',year:'2026',number:'06',image:'assets/projects/rider.webp',description:'滑过人物轮廓，以撕裂光效从半身像切换到骑手铠甲。',preview:'rider',tag:'INTERACTIVE / REVEAL'},
+  {id:'page-to-code',title:'万物溯源',type:'视觉交互',year:'2026',number:'07',image:'assets/projects/page-to-code.webp',description:'双向拖动传送带，看迷你网页穿过扫描线，在画面与 HTML 之间转换。',preview:'page-to-code',tag:'INTERACTIVE / CODE'},
+  {id:'zfy01',title:'机械Y',type:'视觉交互',year:'2026',number:'08',image:'assets/projects/zfy01.webp',description:'在冷灰色机甲之间移动光斑，揭开另一层机械造型。',preview:'zfy01',tag:'INTERACTIVE / LIGHT'},
+  {id:'meowstar',title:'喵喵派对',type:'视觉交互',year:'2026',number:'09',image:'assets/projects/meowstar.webp',description:'翻看猫咪卡片，打开每只猫的独立档案。',preview:'meowstar',tag:'INTERACTIVE / EDITORIAL'},
+  {id:'artist',title:'模特视觉',type:'视觉交互',year:'2026',number:'10',image:'assets/projects/artist.webp',description:'用滚动驱动影像序列，翻看人物肖像与模特卡片。',preview:'artist',tag:'INTERACTIVE / FASHION'},
+  {id:'lingyu',title:'Lingo资源聚合平台',type:'产品设计',year:'持续迭代',number:'11',image:'assets/projects/lingo.webp',description:'集中浏览赛事活动、学习资源、实践项目和组队机会。',site:'https://www.lingozm.cn/',tag:'PRODUCT / EDUCATION'},
+  {id:'cook',title:'CookIdea',type:'产品设计',year:'持续迭代',number:'12',image:'assets/projects/cook.webp',description:'把食材拖进锅里，调节火力，再根据手边食材生成食谱。',preview:'cook',tag:'PRODUCT / COOKING'}
 ];
 
