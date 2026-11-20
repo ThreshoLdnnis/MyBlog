@@ -11,8 +11,11 @@
   <link rel="preload" href="src/spider.js" as="script" fetchpriority="high">
   <script>
     try {
-      const requestedTheme = new URLSearchParams(location.search).get('theme');
-      const savedTheme = localStorage.getItem('movingspider-theme');
+      const params = new URLSearchParams(location.search);
+      const isPreview = params.get('preview') === '1';
+      if (isPreview) document.documentElement.dataset.projectPreview = '';
+      const requestedTheme = params.get('theme');
+      const savedTheme = localStorage.getItem(isPreview ? 'movingspider-preview-theme' : 'movingspider-theme');
       const theme = [requestedTheme, savedTheme].find(value => ['blue', 'silver', 'rose', 'original'].includes(value));
       if (theme) document.documentElement.dataset.theme = theme;
     } catch {}
@@ -110,6 +113,11 @@
     (() => {
       'use strict';
       const button = document.getElementById('enter-journal');
+      if (document.documentElement.hasAttribute('data-project-preview')) {
+        document.title = '成为蛛蛛';
+        button.remove();
+        return;
+      }
       const embedded = window.parent !== window;
       if (!embedded) button.querySelector('span').textContent = '进入主站';
       button.addEventListener('click', () => {

@@ -1,0 +1,3 @@
+GSAP 3.13.0 by Jack Doyle, GreenSock.
+Source: https://registry.npmjs.org/gsap/-/gsap-3.13.0.tgz
+License: https://gsap.com/standard-license

@@ -2,8 +2,8 @@
 (() => {
   'use strict';
   const choices = new Set(['silver', 'rose', 'blue', 'original']);
-  const storageKey = 'movingspider-theme';
   const root = document.documentElement;
+  const storageKey = root.hasAttribute('data-project-preview') ? 'movingspider-preview-theme' : 'movingspider-theme';
   const colors = {silver:'#e5e5e5', rose:'#633547', blue:'#174b9e', original:'#1129e2'};
   const requested = new URLSearchParams(location.search).get('theme');
   let saved;

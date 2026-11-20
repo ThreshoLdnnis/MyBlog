@@ -1,0 +1,627 @@
+/* new-16 · 猪肥羊 · style.css
+   Type system: DESIGN.md — Helvetica Neue (local), Inter Tight / Inter as the fallback; four sizes, tracking −8%.
+   Layers follow new-14: tokens are values, components are boxes, motion derives
+   transform/opacity/filter from 0→1 custom props written by lib/*.js. */
+@layer reset, tokens, base, components, motion;
+
+/* vertical-metric fallbacks so line boxes do not jump when the faces land
+   (Inter Tight / Inter: ascender 2728 · descender −680 on a 2816 UPM).
+   The hero waits for document.fonts.ready anyway; these cover a slow font. */
+@font-face {
+  font-family: 'Inter Tight Fallback';
+  src: local('Arial');
+  ascent-override: 96.88%;
+  descent-override: 24.15%;
+  line-gap-override: 0%;
+  size-adjust: 100%;
+}
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial');
+  ascent-override: 96.88%;
+  descent-override: 24.15%;
+  line-gap-override: 0%;
+  size-adjust: 100%;
+}
+
+@layer reset {
+  *, ::before, ::after { box-sizing: border-box; margin: 0; padding: 0; border: 0 solid; }
+  html, body { width: 100%; overscroll-behavior: none; }
+  img, svg, video, canvas { display: block; max-width: 100%; }
+  img, video { height: auto; }
+  button, input, select, textarea { font: inherit; letter-spacing: inherit; color: inherit; background: none; }
+  button { cursor: pointer; }
+  ul, ol { list-style: none; }
+  a { color: inherit; text-decoration: none; }
+  h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; }
+  :focus:not(:focus-visible) { outline: none; }
+  :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+}
+
+@layer tokens {
+  :root {
+    /* Helvetica Neue — local only (every Mac / iPhone has it, with the 500 the UI
+       needs; plain Helvetica has no Medium). Where it is missing the stack falls
+       to Inter Tight / Inter, which index.html loads from Google Fonts ONLY then
+       (html.no-helvetica). Plain 'Helvetica' is deliberately NOT in the stack:
+       Windows silently maps it to Arial, and Arial would win over Inter. */
+    --font-display: 'Helvetica Neue', 'Inter Tight', 'Inter Tight Fallback', Arial, sans-serif;
+    --font-text:    'Helvetica Neue', 'Inter', 'Inter Fallback', Arial, sans-serif;
+
+    /* the four sizes — DESIGN.md §3. Mega raised to the user's hero mock
+       (2026-10-14): the wordmark spans ~57% of the width, 256px @1680. */
+    --t-mega:    clamp(4.5rem, 1.025rem + 14.26vw, 24rem);       /* 72 @390 · 226 @1470 · 256 @1680 */
+    --t-display: 1.875rem;                                        /* 30 below 768 */
+    --t-body:    clamp(0.9375rem, 0.39rem + 0.86vw, 1.875rem);    /* 15 → 20.7 @1680 */
+    --t-small:   clamp(0.6875rem, 0.4rem + 0.35vw, 0.9375rem);    /* 11 → 12.3 @1680 */
+
+    /* tracking −8% on every size (user, 2026-10-14) */
+    --lh-mega: .9;      --ls-mega: -.08em;
+    --lh-display: 1.05; --ls-display: -.08em;
+    --lh-body: 1.3;     --ls-body: -.08em;
+    --lh-small: 1.2;    --ls-small: -.08em;
+
+    --w-text: 400;
+    --w-ui: 500;
+
+    /* colour: ink + the plate sampled from the hero backdrop (#f6f7f9), so the
+       footage has no edge against the page; one accent, sampled from her top */
+    --k: #000;
+    --w: #fff;
+    --bg: #f6f7f9;
+    --accent: #c32515;
+    --accent-hover: #a51d10;
+    --faces-plate: #dcdcde;             /* section 2: the light grey the footage dissolves into (trial, 2026-10-14) */
+    --ink-40: rgb(0 0 0 / .4);          /* the slashes between sections */
+
+    --gutter: 16px;                     /* every hero element sits 16px off the viewport edges */
+
+    /* runway lengths — written by lib/beats.js (applyBeats); these are the pre-JS defaults */
+    --run: 150svh;
+    --faces-run: 430svh;
+
+    /* header bar (Synara): the logo block's height + the bar's inset on both sides */
+    --bar-pad: 4px;
+    --logo-pad-y: .45em;
+    --bar-h: calc(var(--t-small) * (var(--lh-small) + .9) + 2 * var(--bar-pad));   /* .9 = 2 × logo-pad-y */
+
+    /* optical numbers — measured per face in the browser (canvas metrics, tracking −.08em):
+       --cap-pad   gap between a mega line box's top and its capital top at lh .9
+                   (Helvetica Neue: ascent .95 · descent .215 · cap .714 → .1035em)
+       --title-lsb the S's left side-bearing, so the title's ink sits on the gutter
+       --about-lsb the same for the copy's first letter
+       --num-rsb   the number's last digit (the 6 of «26»): right side-bearing incl. the
+                   trailing tracking (negative: at −8% the ink runs past its box).
+                   Re-measure it if the number changes. */
+    --cap-pad: .1035;
+    --title-lsb: .037em;
+    --about-lsb: .037em;
+    --num-rsb: -.043em;
+    /* the model card's «(21)» at mega: the ) runs past its box (rsb, as --num-rsb),
+       and the brackets sink below the line box by --paren-sink em (ink descent
+       .197 − box-to-baseline .0805 at lh .9) — so the ink meets both gutters */
+    --paren-rsb: -.033em;
+    --paren-sink: .1165;
+
+    --ease-magic:    cubic-bezier(.33, 0, 0, 1);    /* UI, hovers */
+    --ease-out-expo: cubic-bezier(.19, 1, .22, 1);
+    --ease-expo:     cubic-bezier(.16, 1, .3, 1);   /* blur reveals (house default) */
+    --ease-out:      cubic-bezier(0, 0, .2, 1);     /* :active */
+
+    --z-header: 60;
+    --z-model: 80;                      /* the model card covers everything, the bar included */
+
+    /* the same cap gap for a display line (lh 1.05 instead of mega's .9) */
+    --cap-pad-display: calc(var(--cap-pad) + (var(--lh-display) - var(--lh-mega)) / 2);
+  }
+  @media (min-width: 768px) {
+    :root { --t-display: clamp(2.9375rem, 1.3017rem + 2.9082vw, 6.5rem); } /* bergerfohr text-70, 70 @1680 */
+  }
+  /* the Inter fallback's own optical numbers (Inter Tight display, Inter text) */
+  html.no-helvetica {
+    --cap-pad: .0875;
+    --title-lsb: .0332em;
+    --about-lsb: .0566em;
+    --num-rsb: -.0439em;
+    --paren-rsb: .003em;
+    --paren-sink: .05;
+  }
+  /* 中文采用无衬线回退字体，小号文字使用常规字距。 */
+  html:lang(zh) {
+    --ls-body: 0;
+    --ls-small: 0;
+    --font-display: 'Helvetica Neue', 'Inter Tight', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', 'Inter Tight Fallback', Arial, sans-serif;
+    --font-text: 'Helvetica Neue', 'Inter', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', 'Inter Fallback', Arial, sans-serif;
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    background: var(--bg);
+  }
+  body {
+    font: var(--w-text) var(--t-body)/var(--lh-body) var(--font-text);
+    letter-spacing: var(--ls-body);
+    background: var(--bg);
+    color: var(--k);
+  }
+  ::selection { background: var(--k); color: var(--w); }
+
+  .t-mega    { font: 400 var(--t-mega)/var(--lh-mega) var(--font-display); letter-spacing: var(--ls-mega); }
+  .t-display { font: 400 var(--t-display)/var(--lh-display) var(--font-display); letter-spacing: var(--ls-display); }
+  .t-body    { font: 400 var(--t-body)/var(--lh-body) var(--font-text); letter-spacing: var(--ls-body); }
+  .t-small   { font: 400 var(--t-small)/var(--lh-small) var(--font-text); letter-spacing: var(--ls-small); }
+
+  /* Lenis (lenis.css 1.3.17, inlined — as new-14) */
+  html.lenis, html.lenis body { height: auto; }
+  .lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+  .lenis [data-lenis-prevent], .lenis [data-lenis-prevent-wheel], .lenis [data-lenis-prevent-touch] { overscroll-behavior: contain; }
+  .lenis.lenis-smooth iframe { pointer-events: none; }
+  .lenis.lenis-autoToggle { transition-property: overflow; transition-duration: 1ms; transition-behavior: allow-discrete; }
+}
+
+@layer components {
+  /* ── header (Synara): a white bar at the bottom centre, sharp corners,
+        content-wide. Logo = a solid accent block inset by the bar padding;
+        sections follow, split by slashes; the current one is in the accent. ── */
+  .header {
+    position: fixed; left: 50%; bottom: var(--gutter); z-index: var(--z-header);
+    translate: -50% 0;
+    font-weight: var(--w-ui);
+    white-space: nowrap;
+  }
+  .header__bar {
+    display: flex; align-items: center; gap: 3em;
+    padding: var(--bar-pad) .75em var(--bar-pad) var(--bar-pad);
+    background: var(--w);
+    color: var(--k);
+  }
+  .header__logo {
+    padding: var(--logo-pad-y) .65em;
+    background: var(--accent);
+    color: var(--w);
+  }
+  .header__nav { display: flex; align-items: center; }
+  .header__nav li + li::before {
+    content: '/';
+    margin-inline: .85em;
+    color: var(--ink-40);
+  }
+  .header__nav a { transition: color .3s var(--ease-magic); }
+  .header__nav a[aria-current="page"] { color: var(--accent); }
+  @media (hover: hover) and (pointer: fine) {
+    .header__nav a:hover { color: var(--accent); }
+    .header__logo { transition: background-color .3s var(--ease-magic); }
+    .header__logo:hover { background: var(--accent-hover); }
+  }
+
+  /* ── hero: .hero is only the scroll runway — 100svh + --run, the clip plays
+        across --run (lib/sequence.js). Everything visible lives in .hero__stage,
+        one fixed layer (design-dna P28): the canvas and the blended type share its
+        stacking context, so the blend sees the footage. No overflow / will-change /
+        isolation on the stage — the crop lives on .hero__media only (P13). ── */
+  .hero { height: calc(100svh + var(--run)); }            /* --run: lib/beats.js (heroRun·H) */
+  /* the stage is its own stacking context, so the blended type only sees what is
+     painted inside it — the plate colour gives it a backdrop where the footage
+     is not (the phone's copy panel under the 62svh clip) */
+  .hero__stage { position: fixed; inset: 0; background: var(--bg); }
+  .hero__media { position: absolute; inset: 0; overflow: hidden; background: var(--bg); }
+  .hero__media canvas { width: 100%; height: 100%; }
+  /* film grain over the footage — new-7's tile, verbatim: feTurbulence in a data
+     URI (no request), desaturated (raw feTurbulence is coloured speckle), contrast
+     pushed by feComponentTransfer. Drawn at 200% and jogged by transform only, so
+     the 20 Hz flicker stays on the compositor; .hero__media clips it. */
+  .hero__grain {
+    position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    pointer-events: none;
+    opacity: var(--noise-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='3.5' intercept='-1.48'/%3E%3CfeFuncG type='linear' slope='3.5' intercept='-1.48'/%3E%3CfeFuncB type='linear' slope='3.5' intercept='-1.48'/%3E%3CfeFuncA type='linear' slope='0' intercept='1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+  .hero { --noise-opacity: .08; }      /* new-7: .08 ≈ 2% modulation — grain without milking the blacks */
+
+  /* a 5% veil over the footage (user, 2026-10-14). Under the type, so the
+     blended title still inverts against it. */
+  .hero__media::after { content: ''; position: absolute; inset: 0; background: rgb(0 0 0 / var(--veil)); pointer-events: none; }
+  .hero { --veil: .05; }
+
+  /* the blended type: white + difference, like «Ear (stick)» — dark on the
+     backdrop, white on the hair */
+  .hero__title, .hero__num, .hero__about { color: var(--w); mix-blend-mode: difference; }
+  /* set type, never a target: once it has left it still lies over the row and
+     would swallow the clicks meant for the cards (the model card) */
+  .hero__title, .hero__num, .hero__about { pointer-events: none; }
+
+  /* wordmark: top-left corner, capitals 16px off the top and the left */
+  .hero__title {
+    font-size: clamp(2.75rem, 10.5vw, 11.5rem);
+    line-height: 1.05;
+    position: absolute;
+    top: var(--gutter);
+    left: var(--gutter);
+    margin-left: 0;   /* 中文标题使用字面边界对齐。 */
+    white-space: nowrap;
+  }
+
+  /* the number: right edge, capitals starting just above the middle (mock: 49%) */
+  .hero__num {
+    position: absolute;
+    top: calc(49% - var(--cap-pad) * 1em);
+    right: var(--gutter);
+    margin-right: calc(-1 * var(--num-rsb));    /* optical: the last digit's side-bearing + trailing tracking */
+    white-space: nowrap;
+  }
+
+  /* description: left edge, centred on the middle of the screen; three set lines */
+  .hero__about {
+    position: absolute; left: var(--gutter); top: 50%;
+    translate: 0 -50%;
+    margin-left: calc(-1 * var(--about-lsb));   /* optical: the first letter's side-bearing — its ink meets the title's S on 16px */
+    line-height: 1.3;
+  }
+  .hero__about .line { display: block; white-space: nowrap; }
+
+  /* ── widget (Synara): top-right; flat blocks of one width (the widest label
+        sets it), stacked with a hairline gap, sharp corners, centred labels ── */
+  .hero__widget {
+    position: absolute; top: var(--gutter); right: var(--gutter);
+    display: grid; gap: 4px;
+  }
+  .btn {
+    display: block;
+    padding: .6em 1.6em;
+    text-align: center;
+    font-weight: var(--w-ui);
+    color: var(--w);
+    transition: background-color .3s var(--ease-magic), transform .2s var(--ease-out);
+  }
+  .btn--accent { background: var(--accent); }
+  .btn--ink { background: var(--k); }
+  .btn:active { transform: scale(.98); }
+  @media (hover: hover) and (pointer: fine) {
+    .btn--accent:hover { background: var(--accent-hover); }
+    .btn--ink:hover { background: #222; }
+  }
+
+  /* ── section 2 · faces (lib/faces.js). .faces is only its runway; the layers
+        below live on the hero stage, between the footage and the hero type. ── */
+  .faces { height: var(--faces-run); }
+
+  /* the plate the footage dissolves into: flat light grey over the whole stage,
+     with its own grain; it fades in over the blurring footage */
+  .faces__haze { position: absolute; inset: 0; overflow: hidden; visibility: hidden; background: var(--faces-plate); }
+  .faces__haze.is-on { visibility: visible; }
+
+  /* the ring: cards are absolutely placed at 0,0 and moved by transform alone */
+  /* z-index 0: its own stacking context, so the cards' slot z-indexes stay inside
+     the ring and the statement always paints over them */
+  .faces__ring { position: absolute; inset: 0; z-index: 0; pointer-events: none; visibility: hidden; }
+  .faces__ring.is-on { visibility: visible; }
+  .face-card {
+    position: absolute; left: 0; top: 0; margin: 0;
+    width: var(--card-w, 347px); height: var(--card-h, 463px);
+    opacity: 0;
+    transform-origin: 50% 50%;
+    will-change: transform, opacity;
+    pointer-events: auto;
+  }
+  /* the image carries the ring's square clip (lib/faces.js) and the dark plate
+     until it lands — the card itself stays unclipped, so its caption shows */
+  .face-card img { width: 100%; height: 100%; object-fit: cover; background: #1a1414; }
+
+  /* the row's title — section 2's H2: display, Medium (the statement's weight),
+     cap tops on the gutter at the top-left, where the hero's H1 sits */
+  .faces__title {
+    position: absolute; left: var(--gutter); top: var(--gutter);
+    margin-top: calc(var(--cap-pad-display) * -1em);
+    font-weight: var(--w-ui);
+    line-height: 1.02;
+    white-space: nowrap;
+    color: var(--k);
+  }
+
+  /* the caption, as on an agency board: the name left, the age in brackets
+     right, one small line under the card; it rides with the card along the row */
+  .face-card__cap {
+    position: absolute; left: 0; right: 0; top: calc(100% + .65em);
+    display: flex; justify-content: space-between; gap: 1em;
+    white-space: nowrap;
+    color: var(--k);
+    pointer-events: none;
+  }
+  .face-card__cap > span + span { font-variant-numeric: tabular-nums; }
+
+  /* the statement, set like the KI/KI poster: every line one size, Medium,
+     tight leading, centred, set lines (no wrapping); the name, a pause of about
+     one line, a three-line block, a half-line pause, a two-line block. Red
+     printed INTO the plate (multiply), so the grain shows through the letters
+     the way the hair does on the poster. Widest line ≈ 661px @63px — inside the
+     ring by the time it appears. */
+  .faces__text {
+    position: absolute; left: 50%; top: 50%;
+    font-weight: var(--w-ui);
+    line-height: 1.02;
+    text-align: center;
+    white-space: nowrap;
+    color: var(--accent);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+  .faces__logo, .faces__block { display: block; }
+  .faces__logo + .faces__block { margin-top: 1em; }      /* ≈ one empty line, as after KI/KI */
+  .faces__block + .faces__block { margin-top: .45em; }   /* half a line between the blocks */
+  .faces__mark { margin-inline: .2em; }                  /* air around the dash, as in «Lilen  –  Zpectrum» */
+
+  /* ── the model card (lib/model.js): fixed over everything. Plate = section 2's
+        grey with its grain, so the white panel reads as a card. One scroll
+        container, three columns: [16 + card] [1fr] [16 + card] — symmetric, so
+        the frames sit dead centre, next to the panel, and never meet it.
+        Fibonacci rhythm inside the panel: 8 · 13 · 21 · 34 · 55. ── */
+  .model {
+    position: fixed; inset: 0; z-index: var(--z-model);
+    --noise-opacity: .08;
+    --pw: 347px;                                    /* a row card's width — lib/model.js writes the measured one */
+    --frame-h: calc(100svh - 2 * var(--gutter));
+  }
+  .model[hidden] { display: none; }
+  .model__plate { position: absolute; inset: 0; overflow: hidden; background: var(--faces-plate); }
+  .model__scroll {
+    position: absolute; inset: 0;
+    display: grid;
+    grid-template-columns: calc(var(--gutter) + var(--pw)) minmax(0, 1fr) calc(var(--gutter) + var(--pw));
+    /* desktop: lib/model.js drives scrollTop — a smooth, endless strip (the real
+       set between two copies, the position wraps); native scroll on phones */
+    overflow-y: hidden; overscroll-behavior: contain;
+    scrollbar-width: none;
+    outline: none;
+  }
+  .model__scroll::-webkit-scrollbar { display: none; }
+
+  /* the panel: a row card stretched to full height — x and width are the row's
+     first column; its rows split the height by the golden ratio */
+  .model__panel {
+    grid-column: 1; grid-row: 1;
+    position: sticky; top: var(--gutter); align-self: start;
+    margin-left: var(--gutter);
+    height: var(--frame-h);
+    display: grid; grid-template-rows: minmax(min-content, 38.2fr) minmax(min-content, 61.8fr);
+    padding: 21px;
+    overflow-y: auto; scrollbar-width: none;        /* low windows only */
+    background: var(--w);
+  }
+  /* head: the name and the age, two lines set like the statement before the
+     ring — Medium, tight leading; cap tops on the panel's 21px line */
+  .model__name {
+    align-self: start;
+    margin-top: calc(var(--cap-pad-display) * -1em);
+    font-weight: var(--w-ui);
+    line-height: 1.02;
+    white-space: nowrap;
+  }
+  .model__name .line { display: block; }
+  /* the age in brackets, as under her card, at the hero H1's size (mega, set
+     like «26»: white + difference, so it reads dark on the plate and inverts
+     where it crosses the frame) — the screen's bottom-right corner, across the
+     diagonal from the name; the close keeps the top-right. Ink on both gutters. */
+  .model__num {
+    position: absolute; z-index: 1;
+    right: var(--gutter);
+    bottom: calc(var(--gutter) + var(--paren-sink) * 1em);
+    margin-right: calc(-1 * var(--paren-rsb));
+    color: var(--w); mix-blend-mode: difference;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .model__num .line { display: block; }
+  .model__body { display: flex; flex-direction: column; }
+  .model__label { margin-bottom: 8px; }
+  .model__bio { margin-bottom: 55px; }
+  /* stats: the buttons' size, one hairline-ruled row each — label left, value
+     right, as under the cards */
+  .model__specs > div {
+    display: flex; justify-content: space-between; gap: 1em;
+    padding-block: 8px;
+    border-top: 1px solid rgb(0 0 0 / .1);
+  }
+  .model__specs > div:last-child { border-bottom: 1px solid rgb(0 0 0 / .1); }
+  .model__specs dd { font-weight: var(--w-ui); font-variant-numeric: tabular-nums; }
+  .model__actions { display: grid; gap: 4px; margin-top: auto; padding-top: 34px; font-weight: var(--w-ui); }
+  .model__actions .btn { width: 100%; }
+
+  .model__frames {
+    grid-column: 2; grid-row: 1;
+    display: flex; flex-direction: column; align-items: center; gap: var(--gutter);
+    padding-block: var(--gutter);
+  }
+  .model__frame {
+    width: min(100%, var(--frame-h) * 3 / 4); height: auto; aspect-ratio: 3 / 4;
+    object-fit: cover;
+    background: #1a1414;
+  }
+
+  /* close: a square block in the top-right corner, the ink button's look; hover
+     goes accent like the bar's logo block */
+  .model__close {
+    position: absolute; top: var(--gutter); right: var(--gutter); z-index: 1;
+    width: 44px; height: 44px;
+    background: var(--k); color: var(--w);
+    transition: background-color .3s var(--ease-magic), scale .2s var(--ease-out);
+  }
+  .model__close::before, .model__close::after {
+    content: ''; position: absolute; left: 50%; top: 50%;
+    width: 16px; height: 1.5px; background: currentColor;
+    translate: -50% -50%; rotate: 45deg;
+  }
+  .model__close::after { rotate: -45deg; }
+  .model__close:active { scale: .97; }
+  @media (hover: hover) and (pointer: fine) {
+    .model__close:hover { background: var(--accent); }
+  }
+
+  /* ── mobile: same DOM, one column — the first frame, the panel, the rest ── */
+  @media (max-width: 767px) {
+    .model__scroll { grid-template-columns: minmax(0, 1fr); overflow-y: auto; scroll-snap-type: y proximity; scroll-padding-block: var(--gutter); }
+    .model__frames { display: contents; }
+    .model__frame { order: 2; width: calc(100% - 2 * var(--gutter)); margin: 0 var(--gutter) var(--gutter); justify-self: center; scroll-snap-align: start; }
+    .model__frame.is-clone { display: none; }    /* the endless loop is desktop only */
+    .model__frame:not(.is-clone):first-child,
+    .model__frame.is-clone + .model__frame:not(.is-clone) { order: 0; margin-top: var(--gutter); }
+    .model__panel {
+      order: 1; grid-column: 1; grid-row: auto;
+      position: static; height: auto; overflow: visible;
+      margin: 0 var(--gutter) var(--gutter);
+      display: block;
+    }
+    .model__name { margin-bottom: 55px; }
+    .model__num { display: none; }               /* the height is in the stats on a phone */
+  }
+
+  /* ── mobile: same DOM. The footage is the top 62svh (a full-bleed portrait crop
+        would put the copy on the red top); under it, a grid: copy | number, then
+        the two blocks full width. The bar stays at the bottom, condensed. ── */
+  @media (max-width: 767px) {
+    .header__bar { gap: 1.5em; }
+    .header__nav .is-wide { display: none; }   /* its slash goes with it */
+    .hero__stage {
+      display: grid; grid-template-columns: 1fr auto; align-content: start;
+      column-gap: 1rem; row-gap: 1.5rem;
+      padding: calc(62svh + 1.25rem) var(--gutter) 0;
+    }
+    .hero__media { inset: 0 0 auto 0; height: 62svh; }
+    .hero__about, .hero__num, .hero__widget { position: static; translate: none; margin: 0; }
+    .hero__about { grid-area: 1 / 1; align-self: center; }
+    .hero__num { grid-area: 1 / 2; line-height: .8; }
+    .hero__widget { grid-area: 2 / 1 / 3 / -1; }
+    .btn { display: grid; place-items: center; min-height: 2.75rem; }   /* full-width blocks, 44px touch targets */
+  }
+
+}
+
+@layer motion {
+  /* ── hero intro / exit: JS tweens --in on each element (lib/hero.js); CSS turns
+        it into opacity/translate/scale. Blur exists only under .is-anim, removed
+        when a tween ends — a permanent blur(0) keeps a render surface alive.
+        Before the intro the chrome is held hidden (html.js), released by JS. ── */
+  html.js .header, html.js .hero { visibility: hidden; }
+
+  [data-hero-media] { --in: 1; }
+  [data-hero-media] canvas {
+    opacity: var(--in);
+    scale: calc(1.06 - .06 * var(--in));
+    transform-origin: 50% 0;
+  }
+
+  .hero__title .char, .hero__num .char {
+    --in: 1; display: inline-block;
+    opacity: var(--in);
+    translate: 0 calc((1 - var(--in)) * .15em);
+  }
+  .hero__title.is-anim .char, .hero__num.is-anim .char { filter: blur(calc((1 - var(--in)) * 12px)); }
+
+  /* ── section 2: the footage blurs (≤16px — Emil: heavier is expensive, worst in
+        Safari) and zooms 1 → 1.4 from the centre while the grey plate fades in over
+        it. Blur only under .is-blurring; once the plate fully covers it the sharp
+        canvas is hidden, so no filter surface is kept alive. ── */
+  .hero__media { scale: var(--zoom, 1); transform-origin: 50% 50%; }
+  [data-seq].is-blurring { filter: blur(calc(var(--b) * 16px)); }
+  [data-seq].is-covered { visibility: hidden; }
+  .faces__haze { opacity: var(--haze, 0); }
+
+  /* the statement, word by word (new-14's words, retuned): word i owns the front
+     f = p·(n + skips + 4) − (i − 1 + skip). It develops from blur over 2 steps of
+     the front IN BLACK, then fills to red over the next 3 — a red wave following
+     the black one; all red exactly at p = 1. The poster's pauses are also pauses
+     in TIME: 2 empty steps after the name (its blank line), 5 more before the
+     second block (which also lets the ring grow past the widest line first).
+     --out fades + lifts + blurs the whole block. (--wp, not --w: --w is white.) */
+  [data-words] { --p: 0; --out: 0; --n: 14; --skip: 0; --skips: 7; opacity: calc(1 - var(--out)); translate: -50% calc(-50% - var(--out) * 16px); }
+  .faces__block { --skip: 2; }
+  .faces__block + .faces__block { --skip: 7; }
+  [data-words].is-anim { filter: blur(calc(var(--out) * 10px)); }
+  [data-words] .word {
+    display: inline-block;
+    --f: calc(var(--p) * (var(--n) + var(--skips) + 4) - (var(--word, 1) - 1 + var(--skip)));
+    --wp: clamp(0, calc(var(--f) / 2), 1);
+    --fill: clamp(0, calc((var(--f) - 2) / 3), 1);
+    opacity: var(--wp);
+    translate: 0 calc((1 - var(--wp)) * .35em);
+    color: color-mix(in srgb, var(--k), var(--accent) calc(var(--fill) * 100%));
+  }
+  [data-words].is-words .word { filter: blur(calc((1 - var(--wp)) * 8px)); }
+  [data-words].is-hidden { visibility: hidden; }
+
+  /* the captions: once the row has landed (.is-captioned) they rise and develop
+     from blur, one card after another left to right (--slot, written by
+     lib/faces.js), the height 70ms after the name — .9s expo. Leaving is quick
+     and all at once (.3s, no delay). The blur is armed only near the end of the
+     fold (.is-row) and is `none` at rest — no filter surface on the ring. */
+  .face-card__cap > span {
+    display: inline-block;
+    opacity: 0;
+    translate: 0 .6em;
+    transition: opacity .3s var(--ease-out), translate .3s var(--ease-out), filter .3s var(--ease-out);
+  }
+  .face-card__cap > span + span { --side: 1; }
+  .faces__ring.is-row .face-card__cap > span { filter: blur(6px); }
+
+  /* the row's title comes in with them, like the hero title: rise .15em, blur 12px */
+  .faces__title {
+    opacity: 0; translate: 0 .15em;
+    transition: opacity .3s var(--ease-out), translate .3s var(--ease-out), filter .3s var(--ease-out);
+  }
+  .faces__ring.is-row .faces__title { filter: blur(12px); }
+  .faces__ring.is-captioned .faces__title {
+    opacity: 1; translate: 0 0; filter: none;
+    transition-duration: 1.1s; transition-timing-function: var(--ease-expo);
+  }
+  .faces__ring.is-captioned .face-card__cap > span {
+    opacity: 1; translate: 0 0; filter: none;
+    transition-duration: .9s;
+    transition-timing-function: var(--ease-expo);
+    transition-delay: calc(var(--slot, 0) * 100ms + var(--side, 0) * 70ms);
+  }
+
+  /* the cards that open a model card: pointer + the caption goes accent, as a
+     menu item does — only once the row has landed, only with a real pointer */
+  .face-card__cap { transition: color .3s var(--ease-magic); }
+  @media (hover: hover) and (pointer: fine) {
+    .faces__ring.is-captioned [data-model-open] { cursor: pointer; }
+    .faces__ring.is-captioned [data-model-open]:hover .face-card__cap { color: var(--accent); }
+  }
+
+  /* ── the model card's contents (lib/model.js tweens --in 0 → 1): the name, the
+        age and the height come in like the hero title (rise .15em, blur 12px);
+        the label, the bio lines and the stat rows like the statement words
+        (rise 16px, blur 6px). Blur only while .is-anim is on the dialog. ── */
+  .model__name .line, .model__num .line { --in: 1; opacity: var(--in); translate: 0 calc((1 - var(--in)) * .15em); }
+  .model.is-anim .model__name .line, .model.is-anim .model__num .line { filter: blur(calc((1 - var(--in)) * 12px)); }
+  [data-model-item], .model__ln { --in: 1; opacity: var(--in); translate: 0 calc((1 - var(--in)) * 16px); }
+  .model.is-anim [data-model-item], .model.is-anim .model__ln { filter: blur(calc((1 - var(--in)) * 6px)); }
+
+  /* grain: 10 held offsets per cycle = 20 Hz; steps(1) snaps rather than glides,
+     and that snap is the whole film-grain read (new-7) */
+  .hero__grain { animation: grain 500ms steps(1) infinite; }
+  @keyframes grain {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-4%, -6%); }
+    20% { transform: translate(-8%,  3%); }
+    30% { transform: translate( 4%, -8%); }
+    40% { transform: translate(-6%,  6%); }
+    50% { transform: translate(-9%, -3%); }
+    60% { transform: translate( 6%,  4%); }
+    70% { transform: translate(-3%,  8%); }
+    80% { transform: translate( 7%, -5%); }
+    90% { transform: translate(-4%,  7%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn, .header__nav a, .header__logo { transition: none; }
+    .hero__grain { animation: none; }   /* a flickering layer is exactly this rule's target */
+    .face-card__cap > span, .faces__title { transition: none; }   /* property none — the longhands above can't revive it */
+  }
+}

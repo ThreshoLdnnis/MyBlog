@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>模特视觉</title>
+<link rel="icon" href="data:,">
+<meta name="description" content="猪肥羊，为独特面孔而生的模特经纪机构。发掘街头真实，不加修饰，面向世界。">
+<meta name="theme-color" content="#f6f7f9">
+
+<!-- Set before first paint, inline (a deferred module would run too late and flash):
+     1. .js — the hidden/rested states key off it;
+     2. the typeface (DESIGN.md §2): Helvetica Neue is local-only. If this device
+        has it, nothing is downloaded. If not, html.no-helvetica switches the
+        optical numbers and Inter Tight / Inter are fetched from Google Fonts —
+        the CSS stack already falls to them. Detection: a test string's width in
+        "Helvetica Neue" vs the generic monospace it would fall back to. -->
+<script>
+(function () {
+  var d = document.documentElement;
+  d.classList.add('js');
+  /* the page always starts at the top: set before the first paint — Safari restores
+     the old scroll on reload otherwise, after main.js has already scrolled to 0 */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  var c = document.createElement('canvas').getContext('2d'), t = 'mmmmmlliiWWQ@';
+  c.font = '72px monospace';
+  var base = c.measureText(t).width;
+  c.font = '72px "Helvetica Neue", monospace';
+  if (c.measureText(t).width !== base) return;
+  d.classList.add('no-helvetica');
+  var l = document.createElement('link');
+  l.rel = 'stylesheet';
+  l.href = './artist/vendor/font-fallback.css';
+  document.head.appendChild(l);
+})();
+</script>
+<link rel="stylesheet" href="./artist/style.css">
+<!-- the poster: frame 0 of the hero sequence, desktop set (the phone set loads its own) —
+     CDN build: every still is on Higgsfield storage (lib/media.js, media-manifest.json) -->
+<link rel="preload" as="image" href="./artist/assets/d-00.webp" media="(min-width: 768px)">
+<link rel="preload" as="image" href="./artist/assets/m-00.webp" media="(max-width: 767px)">
+
+<!-- engine: GSAP 3.13 + Locomotive Scroll 5 (Lenis inside) — the new-14 stack.
+     Plain deferred scripts execute in order, before the module below. -->
+<script defer src="./artist/vendor/gsap.min.js"></script>
+<script defer src="./artist/vendor/ScrollTrigger.min.js"></script>
+<script defer src="./artist/vendor/SplitText.min.js"></script>
+<script defer src="./artist/vendor/CustomEase.min.js"></script>
+<script defer src="./artist/vendor/locomotive-scroll.min.js"></script>
+<script type="module" src="./artist/main.js"></script>
+</head>
+<body>
+
+<!-- ── header (Synara): a white bar at the bottom centre, sharp corners — the logo
+        as a solid accent block, then the sections split by slashes, the current one
+        in the accent. One plate, so it reads on the footage without any blending. ── -->
+<header class="header t-small" data-header>
+  <div class="header__bar" data-header-item>
+    <a class="header__logo" href="#top" aria-label="猪肥羊 — 首页">猪肥羊®</a>
+    <nav aria-label="主导航">
+      <ul class="header__nav">
+        <li><a href="#new-faces" aria-current="page">新面孔 (6)</a></li>
+        <li class="is-wide"><a href="#models">模特 (24)</a></li>
+        <li class="is-wide"><a href="#casting">成为模特</a></li>
+        <li><a href="#shortlist">候选名单 (0)</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- ── hero: the section is only a scroll runway (100svh + --run); everything you
+          see lives in one fixed stage (design-dna P28), so the title's blend and
+          the canvas share a stacking context. The clip plays with the scroll
+          (lib/sequence.js); title, number and copy leave at the middle of it. ── -->
+  <section class="hero" data-hero aria-label="新面孔">
+    <div class="hero__stage">
+      <div class="hero__media" data-hero-media>
+        <canvas data-seq role="img" aria-label="猪肥羊模特伊娃身穿红色上衣，镜头从上方向下移至她的面孔"></canvas>
+        <div class="hero__grain" aria-hidden="true"></div>
+      </div>
+
+      <!-- ── section 2 on the same stage (lib/faces.js) ──
+           the plate the footage dissolves into: flat light grey with its own
+           grain, over the whole stage, phone panel included -->
+      <div class="faces__haze" data-haze aria-hidden="true">
+        <div class="hero__grain"></div>
+      </div>
+
+      <!-- the ring: cards laid out at their row size, scaled down on the ring.
+           Three faces, several angles each, round the ring as M W M W A M W A — of the
+           seven orders with no face next to itself, the one whose row can always be
+           kept free of repeats with the widest gaps (lib/faces.js rowOrder): the hero
+           model (two frames of the clip) and two more generated in her shoot —
+           Nano Banana 1k with the hero frame as reference (2026-10-14, LEDGER.md),
+           then the hero's "magazine scan" print added, luminance only
+           (refs/faces-scan.py; sources in refs/faces-src).
+           data-focus: where the ring's square sits in the portrait (0 top · .5 · 1 bottom).
+           Captions, as on an agency board: the name | the age in brackets — they
+           come in one by one once the ring has laid out its row (lib/faces.js). -->
+      <div class="faces__ring" data-ring>
+        <!-- the row's title, one word in brackets — the site's caption language.
+             Display, Medium, top-left on the gutter like the hero's H1; in with the captions. -->
+        <h2 class="faces__title t-display">（面孔）</h2>
+        <figure class="face-card" data-person="malick" data-focus="0"><img src="./artist/assets/portrait-07.webp" alt="剃着短发、身穿灰色破洞毛衣的模特，俯身靠近镜头" decoding="async"><figcaption class="face-card__cap t-small"><span>马利克</span><span>(24)</span></figcaption></figure>
+        <figure class="face-card" data-person="liv" data-focus=".3"><img src="./artist/assets/portrait-05.webp" alt="留着铂金色短发的模特，肤色白皙、面带雀斑，涂着红唇，身穿红色吊带上衣" decoding="async"><figcaption class="face-card__cap t-small"><span>莉芙</span><span>(22)</span></figcaption></figure>
+        <figure class="face-card" data-person="malick" data-focus="0"><img src="./artist/assets/portrait-06.webp" alt="身穿灰色破洞毛衣的模特侧脸，红色小耳环朝向镜头" decoding="async"><figcaption class="face-card__cap t-small"><span>马利克</span><span>(24)</span></figcaption></figure>
+        <figure class="face-card" data-person="liv" data-focus="0"><img src="./artist/assets/portrait-02.webp" alt="铂金色头发的模特，露着肩膀回望镜头" decoding="async"><figcaption class="face-card__cap t-small"><span>莉芙</span><span>(22)</span></figcaption></figure>
+        <figure class="face-card" data-person="eva" data-model-open="eva" role="button" tabindex="0" aria-label="打开伊娃的模特资料" data-focus=".5"><img src="./artist/assets/m-00.webp" alt="身穿红色上衣的伊娃，俯拍视角" decoding="async"><figcaption class="face-card__cap t-small"><span>伊娃</span><span>(21)</span></figcaption></figure>
+        <figure class="face-card" data-person="malick" data-focus=".15"><img src="./artist/assets/portrait-03.webp" alt="身穿灰色破洞毛衣的模特蹲在地上，双手伸向镜头" decoding="async"><figcaption class="face-card__cap t-small"><span>马利克</span><span>(24)</span></figcaption></figure>
+        <figure class="face-card" data-person="liv" data-focus=".25"><img src="./artist/assets/portrait-01.webp" alt="铂金色头发的模特坐在地上，双手抱膝" decoding="async"><figcaption class="face-card__cap t-small"><span>莉芙</span><span>(22)</span></figcaption></figure>
+        <figure class="face-card" data-person="eva" data-model-open="eva" role="button" tabindex="0" aria-label="打开伊娃的模特资料" data-focus=".5"><img src="./artist/assets/m-40.webp" alt="身穿红色高领上衣的伊娃，正对镜头" decoding="async"><figcaption class="face-card__cap t-small"><span>伊娃</span><span>(21)</span></figcaption></figure>
+      </div>
+
+      <!-- the statement, set like the KI/KI poster: the name; a three-line block
+           (two words · two longer words · one in caps); a two-line block held
+           together by text marks (× · –). Word by word (lib/words.js). -->
+      <p class="faces__text t-display" data-words>
+        <span class="faces__logo">猪肥羊</span>
+        <span class="faces__block">赤裸肌肤<br>不对称的面孔<br>未经雕琢</span>
+        <span class="faces__block">骨相 × 光影<br>被看见 <span class="faces__mark">—</span> 被记住</span>
+      </p>
+
+      <!-- the wordmark: white + difference, like «Ear (stick)» — dark on the
+           backdrop, white on the hair; «(face)» lands on her face -->
+      <h1 class="hero__title t-mega" data-hero-title>励志成为艺术家</h1>
+
+      <span class="hero__num t-mega" data-hero-num aria-hidden="true">26</span>
+
+      <p class="hero__about t-body" data-hero-about>
+        <span class="line">肌肤，记录着一切。</span>
+        <span class="line">我们读懂街头未曾修饰的真实，</span>
+        <span class="line">让独特，留在表面。</span>
+      </p>
+
+      <!-- widget (Synara): two flat blocks of one width, stacked — accent over ink -->
+      <nav class="hero__widget t-small" aria-label="下一步" data-hero-widget>
+        <a class="btn btn--accent" href="#new-faces">探索新面孔</a>
+        <a class="btn btn--ink" href="#about">了解猪肥羊</a>
+      </nav>
+    </div>
+  </section>
+
+  <!-- section 2 runway: starts where the clip ends; its height comes from
+       lib/beats.js (--faces-run). What you see of it lives on the hero stage. -->
+  <section class="faces" id="new-faces" data-faces aria-label="新面孔"></section>
+</main>
+
+<!-- ── the model card (lib/model.js) — Eva, opened from her cards once the row has
+        landed. The photo grows out of the card into the centre of the screen, full
+        height; the white panel is the row's first card stretched to full height
+        (its width IS a row card's). Head: the name and the age, two lines set like
+        the statement before the ring; the age in brackets sits in the screen's
+        bottom-right corner at the hero H1's size, as under the card (two digits —
+        three don't fit at mega). One scroll container:
+        16+card | 1fr | 16+card — the frames sit dead centre, next to the panel,
+        and step one by one (lib/model.js); the panel is sticky in the left column. ── -->
+<div class="model" id="model-eva" data-model hidden role="dialog" aria-modal="true" aria-labelledby="model-eva-title">
+  <div class="model__plate" aria-hidden="true"><div class="hero__grain"></div></div>
+  <div class="model__scroll" data-model-scroll data-lenis-prevent tabindex="-1">
+    <aside class="model__panel" data-model-panel>
+      <h2 class="model__name t-display" id="model-eva-title"><span class="line">伊娃</span><span class="line">21岁</span></h2>
+      <div class="model__body t-body">
+        <p class="model__label" data-model-item>（ 新面孔 ）</p>
+        <p class="model__bio" data-model-bio>夜班结束后，在街头被发掘。自己修剪刘海。凝视总比别人多停留一瞬。</p>
+        <dl class="model__specs t-small">
+          <div data-model-item><dt>身高</dt><dd>174</dd></div>
+          <div data-model-item><dt>胸围</dt><dd>80</dd></div>
+          <div data-model-item><dt>腰围</dt><dd>59</dd></div>
+          <div data-model-item><dt>臀围</dt><dd>86</dd></div>
+          <div data-model-item><dt>鞋码</dt><dd>38</dd></div>
+          <div data-model-item><dt>发色</dt><dd>黑色</dd></div>
+          <div data-model-item><dt>瞳色</dt><dd>棕色</dd></div>
+        </dl>
+        <div class="model__actions t-small">
+          <a class="btn btn--accent" href="#contact" data-model-btn>联系经纪人</a>
+          <button class="btn btn--ink" type="button" data-model-btn data-shortlist aria-pressed="false">加入候选名单</button>
+        </div>
+      </div>
+    </aside>
+    <div class="model__frames">
+      <img class="model__frame" src="./artist/assets/m-00.webp" alt="身穿红色上衣的伊娃，俯拍视角" width="808" height="1078" decoding="async">
+      <img class="model__frame" src="./artist/assets/portrait-04.webp" alt="伊娃正对镜头" width="808" height="1078" decoding="async" loading="lazy">
+      <img class="model__frame" src="./artist/assets/m-40.webp" alt="身穿红色高领上衣的伊娃，正对镜头" width="808" height="1078" decoding="async">
+    </div>
+  </div>
+  <!-- the age, as under her card — at the hero H1's size (mega, like «26»), in the screen's free corner -->
+  <p class="model__num t-mega" aria-label="21岁"><span class="line">(21)</span></p>
+  <button class="model__close" type="button" data-model-close aria-label="关闭伊娃的模特资料"></button>
+</div>
+
+</body>
+</html>
