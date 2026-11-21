@@ -1,13 +1,13 @@
-import { initialContent, journalIllustrations, projects } from './content.js';
+import { initialContent, journalIllustrations, projects } from './content.js?v=20261121.2';
 import { mountCabinet } from './cabinet/cabinet.js';
 import { mountPortraitReveal } from './portrait-reveal.js';
-import { mountNameParticles } from './name-particles.js';
+import { mountNameParticles } from './name-particles.js?v=20261121.2';
 import { mountHeroStickers } from './hero-stickers.js';
 import { mountAboutTags } from './about-tags.js';
 import { mountAboutInterests } from './about-interests.js';
 import { mountJournalBook } from './journal-book.js';
 import { renderLifeTimeline } from './life-timeline.js';
-import { pages, mountModuleFrame, mountPageNavigation } from './page-navigation.js';
+import { pages, mountModuleFrame, mountPageNavigation } from './page-navigation.js?v=20261121.2';
 
 const $ = (s, root=document) => root.querySelector(s);
 const $$ = (s, root=document) => [...root.querySelectorAll(s)];
