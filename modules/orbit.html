@@ -73,6 +73,9 @@
       transition: opacity .8s ease;
     }
     .card img.ok { opacity: 1; }
+    .card img.portrait { object-position: center 36%; }
+    .card.active { background: #2b1c26; }
+    .card.active img { object-fit: contain; object-position: center; }
     .card::after {
       content: "";
       position: absolute;
@@ -141,7 +144,7 @@
   <div class="stage" id="stage" role="group" aria-label="三维照片球" aria-describedby="photo-help"><div class="world" id="world"></div></div>
   <div class="ui" id="ui">
     <p class="lede" lang="en">A little world of my life, my friends, and our memories.</p>
-    <span class="sr-only" id="counter" role="status" aria-live="polite" aria-atomic="true">照片球，共 12 张照片</span>
+    <span class="sr-only" id="counter" role="status" aria-live="polite" aria-atomic="true">照片球</span>
     <nav class="controls" aria-label="照片操作">
       <button id="home" type="button" aria-label="返回照片球" title="返回照片球">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><ellipse cx="12" cy="12" rx="4" ry="8.5"/><path d="M3.5 12h17"/></svg>
@@ -162,26 +165,14 @@
     (() => {
       'use strict';
 
-      // The twelve original Orbit photos, resized for this embedded preview.
-      const IMAGES = [
-        ['helmet-portrait.webp', 'Helmet Portrait'],
-        ['orbital-shuttle.webp', 'Orbital Shuttle'],
-        ['ember-crystal.webp', 'Ember Crystal'],
-        ['ringed-dunes.webp', 'Ringed Dunes'],
-        ['flight-console.webp', 'Flight Console'],
-        ['lunar-surface.webp', 'Lunar Surface'],
-        ['station-module.webp', 'Station Module'],
-        ['gold-visor.webp', 'Gold Visor'],
-        ['weightless-cabin.webp', 'Weightless Cabin'],
-        ['dusk-launch.webp', 'Dusk Launch'],
-        ['lunar-rover.webp', 'Lunar Rover'],
-        ['spiral-nebula.webp', 'Spiral Nebula'],
-      ].map(([file, name]) => ({ src: 'orbit/' + file, name }));
       const RINGS = [[-68, 4], [-41, 9], [-13.5, 12], [13.5, 12], [41, 9], [68, 4]];
+      const photoCount = RINGS.reduce((total, [, count]) => total + count, 0);
+      const albumStatus = `照片球，共 ${photoCount} 张照片`;
       const stage = document.getElementById('stage');
       const world = document.getElementById('world');
       const ui = document.getElementById('ui');
       const counter = document.getElementById('counter');
+      counter.textContent = albumStatus;
       const rotate = document.getElementById('rotate');
       let autoRotate = true;
       const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -190,25 +181,28 @@
 
       RINGS.forEach(([lat, count], ri) => {
         for (let i = 0; i < count; i++) {
-          const n = cards.length;
+          const index = cards.length;
+          const photoNumber = String(index + 1).padStart(2, '0');
           const lon = (360 / count) * i + (ri % 2 ? 180 / count : 0);
-          const img = IMAGES[(n * 5 + ri) % IMAGES.length];
           const el = document.createElement('div');
           el.className = 'card';
-          el.dataset.i = n;
+          el.dataset.i = index;
           el.tabIndex = 0;
           el.setAttribute('role', 'button');
           el.setAttribute('aria-pressed', 'false');
-          el.setAttribute('aria-label', '查看照片：' + img.name);
+          el.setAttribute('aria-label', `查看照片 ${photoNumber}`);
           const image = document.createElement('img');
-          image.alt = img.name;
+          image.alt = `照片 ${photoNumber}`;
           image.decoding = 'async';
           image.draggable = false;
-          image.onload = () => image.classList.add('ok');
-          image.src = img.src;
+          image.onload = () => {
+            image.classList.toggle('portrait', image.naturalHeight > image.naturalWidth);
+            image.classList.add('ok');
+          };
+          image.src = `orbit/photos/${photoNumber}.webp`;
           el.appendChild(image);
           fragment.appendChild(el);
-          cards.push({ el, lat, lon, img });
+          cards.push({ el, lat, lon, index });
         }
       });
       world.appendChild(fragment);
@@ -220,8 +214,7 @@
       let vx = 0, vy = 0;
       let mx = 0, my = 0, pmx = 0, pmy = 0;
       let pointerId = null, lastX = 0, lastY = 0, moved = 0;
-      let tripIndex = -1;
-      const equator = cards.filter(c => Math.abs(c.lat) < 20);
+      let nextPhoto = 0;
 
       const focusWidth = () => Math.min(innerWidth * (innerWidth < 640 ? .86 : .62), innerHeight * .62 / .75);
       const idleZoom = () => P - K * P;
@@ -266,11 +259,12 @@
           ryT = nearest(ry, -c.lon);
           rxT = -c.lat;
           zoomT = focusZoom();
-          counter.textContent = '照片 ' + (IMAGES.indexOf(c.img) + 1) + '，共 ' + IMAGES.length + ' 张';
+          nextPhoto = (c.index + 1) % photoCount;
+          counter.textContent = `照片 ${c.index + 1}，共 ${photoCount} 张`;
         } else {
           rxT = -10;
           zoomT = idleZoom();
-          counter.textContent = '照片球，共 ' + IMAGES.length + ' 张照片';
+          counter.textContent = albumStatus;
         }
         document.body.classList.toggle('focused', Boolean(c));
         ui.classList.toggle('focused-ui', Boolean(c));
@@ -370,11 +364,7 @@
       });
 
       document.getElementById('home').addEventListener('click', () => setFocus(null));
-      document.getElementById('trip').addEventListener('click', () => {
-        const current = equator.indexOf(focus);
-        tripIndex = ((current >= 0 ? current : tripIndex) + 1) % equator.length;
-        setFocus(equator[tripIndex]);
-      });
+      document.getElementById('trip').addEventListener('click', () => setFocus(cards[nextPhoto]));
       document.getElementById('launch').addEventListener('click', () => {
         const choices = cards.filter(c => c !== focus);
         setFocus(choices[Math.floor(Math.random() * choices.length)]);
