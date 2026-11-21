@@ -9,7 +9,10 @@ import { mountJournalBook } from './journal-book.js';
 import { mountCollectionTin } from './collection-tin.js?v=20261121.1';
 import { renderLifeTimeline } from './life-timeline.js?v=20261121.5';
 import { mountTextParticles } from './text-particles.js';
-import { pages, mountModuleFrame, mountPageNavigation } from './page-navigation.js?v=20261121.2';
+import { pages, mountModuleFrame, mountPageNavigation } from './page-navigation.js?v=20261121.7';
+import { renderHonorsGallery } from './honors-gallery.js';
+import { defaultHonors } from './honors-data.js';
+import { defaultLifeEntries } from './life-entries.js';
 
 const $ = (s, root=document) => root.querySelector(s);
 const $$ = (s, root=document) => [...root.querySelectorAll(s)];
@@ -18,14 +21,29 @@ const esc=escapeHTML;
 const STORAGE='feiyang-journal-v1';
 const safeURL = url => {if(typeof url!=='string'||!url.trim())return '';try{const u=new URL(url,location.href);return ['http:','https:'].includes(u.protocol)?u.href:'';}catch{return '';}};
 const safeImage = value => typeof value==='string' && (/^data:image\/(jpeg|png|webp);base64,[a-zA-Z0-9+/=]+$/.test(value)||/^assets\/[a-zA-Z0-9_./-]+$/.test(value)) ? value : '';
-let content=structuredClone(initialContent), saved=new Set(), workFilter='全部', timeFilter='全部', collectFilter='全部';
+const contentKinds=['timeline','honors','collections','posts'];
+const newSiteRecords = {honors: defaultHonors, timeline: defaultLifeEntries};
+const SITE_RECORDS_VERSION = 1;
+let content=includeSiteRecords(structuredClone(initialContent)), saved=new Set(), workFilter='全部', timeFilter='全部', collectFilter='全部';
 let pageNavigation;
 const diary = mountJournalBook($('#journal'), journalIllustrations);
 const collectionTin = mountCollectionTin($('#collection'));
 const moduleInfo={map:{title:'猪的世界足迹',path:'modules/map.html'},music:{title:'Music of Love · 音乐墙',path:'modules/music.html'},books:{title:'猪的读书角',path:'modules/books.html'}};
-const contentKinds=['timeline','honors','collections','posts'];
-function validEntry(x){return x && typeof x==='object' && typeof x.id==='string' && typeof x.title==='string' && ['body','date','category','subtitle','excerpt','image','url','module'].every(k=>x[k]===undefined||typeof x[k]==='string');}
+function validEntry(x){return x && typeof x==='object' && typeof x.id==='string' && typeof x.title==='string' && ['body','date','category','subtitle','excerpt','image','url','module'].every(k=>x[k]===undefined||typeof x[k]==='string') && (x.award===undefined||typeof x.award==='string'||(Array.isArray(x.award)&&x.award.every(award=>typeof award==='string')));}
 function validContent(c){return c && typeof c==='object' && c.profile && typeof c.profile.name==='string' && contentKinds.every(k=>Array.isArray(c[k])&&c[k].length<=500&&c[k].every(validEntry)) && (c.trash===undefined||(Array.isArray(c.trash)&&c.trash.length<=2000&&c.trash.every(x=>x&&contentKinds.includes(x.kind)&&validEntry(x.entry))));}
+function includeSiteRecords(snapshot) {
+  if (snapshot.siteRecordsVersion === SITE_RECORDS_VERSION) return snapshot;
+  for (const [kind, records] of Object.entries(newSiteRecords)) {
+    const knownIds = new Set(snapshot[kind].map(entry => entry.id));
+    for (const removed of snapshot.trash ?? []) {
+      if (removed.kind === kind) knownIds.add(removed.entry.id);
+    }
+    const missing = records.filter(entry => !knownIds.has(entry.id));
+    snapshot[kind].push(...structuredClone(missing.slice(0, 500 - snapshot[kind].length)));
+  }
+  snapshot.siteRecordsVersion = SITE_RECORDS_VERSION;
+  return snapshot;
+}
 try {
   const stored = JSON.parse(localStorage.getItem(STORAGE) || 'null');
   if (validContent(stored)) {
@@ -44,7 +62,7 @@ try {
     for (const [key, values] of Object.entries(previousDefaults)) {
       if (values.includes(stored.profile[key])) stored.profile[key] = initialContent.profile[key];
     }
-    content = stored;
+    content = includeSiteRecords(stored);
   }
   const storedFavorites = JSON.parse(localStorage.getItem(STORAGE + '-saved') || '[]');
   if (Array.isArray(storedFavorites)) saved = new Set(storedFavorites);
@@ -110,7 +128,7 @@ function renderCollections() {
   );
   collectionTin.render(list, {saved, safeImage, query});
 }
-function renderHonors(){$('#honor-grid').innerHTML=content.honors.length?content.honors.map(x=>`<article class="honor-card"><span>${esc(x.date)} / ${esc(x.category||'荣誉')}</span><h3>${esc(x.title)}</h3><p>${esc(x.subtitle)}</p><p>${esc(x.body)}</p><button class="text-button" data-edit="honors" data-id="${esc(x.id)}">编辑荣誉 ↗</button></article>`).join(''):`<div class="honor-empty"><strong>01.</strong><div><h3>把努力的回响，收藏在这里。</h3><p>这里留给真实的奖项、证书与里程碑。<br>第一份荣誉，由你亲自写下。</p></div><button class="underlined-link" data-edit="honors">记录我的第一份荣誉 ↗</button></div>`;}
+function renderHonors(){renderHonorsGallery($('#honors'), content.honors);}
 function renderAll(postId){renderProfile();renderWorks();renderTimeline();renderCollections();renderHonors();diary.setPosts(content.posts, postId);}
 
 const detailDialog=$('#detail-dialog'), editorDialog=$('#editor-dialog');
@@ -154,15 +172,15 @@ function showArticle(x,kind){const link=safeURL(x.url);$('#detail-content').inne
 
 const schemas={
   timeline:{name:'人生篇章',fields:[['date','时间','text'],['category','篇章类别',['生活','学习','工作','创业']],['title','篇章标题','text'],['subtitle','一句话说明','text'],['body','这一段的故事','textarea']]},
-  honors:{name:'个人荣誉',fields:[['date','获奖时间','text'],['category','荣誉类别',['奖项','证书','里程碑']],['title','荣誉名称','text'],['subtitle','颁发机构 / 场合','text'],['body','补充说明','textarea']]},
+  honors:{name:'个人荣誉',fields:[['date','获奖时间','text'],['category','荣誉类别',['奖项','证书','里程碑','荣誉','入围','排名','参赛记录']],['title','荣誉名称','text'],['award','奖项或名次（多项可分行）','textarea'],['subtitle','颁发机构 / 场合','text'],['body','补充说明','textarea']]},
   collections:{name:'宝藏收藏',fields:[['category','收藏类别',['探店','工具','地点','物品','语录','说说','音乐']],['title','收藏名称','text'],['subtitle','一句话推荐','text'],['url','相关网址（可选）','url'],['body','为什么喜欢 / 地址 / 使用心得','textarea'],['image','配图（可选，JPG / PNG / WebP，2 MB 以内）','file']]},
   posts:{name:'生活手记',fields:[['date','日期','text'],['category','主题','text'],['title','文章标题','text'],['excerpt','简短介绍','text'],['body','正文','textarea']]},
   profile:{name:'个人资料',fields:[['name','英文姓名','text'],['chineseName','中文姓名','text'],['alias','昵称','text'],['intro','个人介绍','textarea'],['bio','详细介绍','textarea'],['github','GitHub 链接','url']]}
 };
 function openEditor(kind,id){const generation=++editorGeneration;const schema=schemas[kind];if(!schema)return;const current=kind==='profile'?content.profile:content[kind].find(x=>x.id===id)||{date:new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Shanghai'}).format(new Date()).replaceAll('-','.'),category:kind==='posts'?'生活手记':(kind==='timeline'&&timeFilter!=='全部'?timeFilter:undefined)};
-$('#editor-content').innerHTML=`<span class="eyebrow">MAKE IT YOURS / 写下自己的版本</span><h2>${id?'编辑':'记录'}${schema.name}</h2><p>修改保存在当前浏览器。可在「内容管理」导出备份，或导入到其他设备。</p><form class="editor-form" id="content-form">${schema.fields.map(([key,label,type])=>`<label>${esc(label)}${Array.isArray(type)?`<select name="${key}">${type.map(v=>`<option ${current[key]===v?'selected':''}>${esc(v)}</option>`).join('')}</select>`:type==='textarea'?`<textarea name="${key}" maxlength="50000" ${key==='body'&&kind==='posts'?'required':''}>${esc(current[key]||'')}</textarea>`:type==='file'?`<input name="${key}" type="file" accept="image/jpeg,image/png,image/webp">`:`<input name="${key}" type="${type}" maxlength="${key==='url'?1500:500}" value="${esc(current[key]||'')}" ${['title','name','chineseName'].includes(key)?'required':''}>`}</label>`).join('')}<div class="form-buttons"><button class="primary-button" type="submit">保存${schema.name} ↗</button>${id?'<button class="delete-button" type="button" id="delete-entry">移到回收站</button>':''}</div></form>`;
+$('#editor-content').innerHTML=`<span class="eyebrow">MAKE IT YOURS / 写下自己的版本</span><h2>${id?'编辑':'记录'}${schema.name}</h2><p>修改保存在当前浏览器。可在「内容管理」导出备份，或导入到其他设备。</p><form class="editor-form" id="content-form">${schema.fields.map(([key,label,type])=>`<label>${esc(label)}${Array.isArray(type)?`<select name="${key}">${type.map(v=>`<option ${current[key]===v?'selected':''}>${esc(v)}</option>`).join('')}</select>`:type==='textarea'?`<textarea name="${key}" maxlength="50000" ${key==='body'&&kind==='posts'?'required':''}>${esc(Array.isArray(current[key]) ? current[key].join('\n') : current[key] || '')}</textarea>`:type==='file'?`<input name="${key}" type="file" accept="image/jpeg,image/png,image/webp">`:`<input name="${key}" type="${type}" maxlength="${key==='url'?1500:500}" value="${esc(current[key]||'')}" ${['title','name','chineseName'].includes(key)?'required':''}>`}</label>`).join('')}<div class="form-buttons"><button class="primary-button" type="submit">保存${schema.name} ↗</button>${id?'<button class="delete-button" type="button" id="delete-entry">移到回收站</button>':''}</div></form>`;
 if(editorDialog.open)editorDialog.scrollTop=0;else openDialog(editorDialog);
-$('#content-form').addEventListener('submit',async e=>{e.preventDefault();const form=e.currentTarget;const data=new FormData(form);const value={...current};for(const [key,,type] of schema.fields){if(type!=='file')value[key]=String(data.get(key)||'').trim();}if(value.title!==undefined&&!value.title){toast('请填写标题。');return;}if(value.url && !/^https?:\/\//i.test(value.url)){toast('请使用以 https:// 或 http:// 开头的网址。');return;}if(kind==='profile'&&value.github&&!/^https?:\/\//i.test(value.github)){toast('请输入完整 GitHub 网址。');return;}
+$('#content-form').addEventListener('submit',async e=>{e.preventDefault();const form=e.currentTarget;const data=new FormData(form);const value={...current};for(const [key,,type] of schema.fields){if(type==='file')continue;const text=String(data.get(key)||'').trim();value[key]=key==='award'?text.split(/\r?\n/).map(line=>line.trim()).filter(Boolean):text;}if(value.title!==undefined&&!value.title){toast('请填写标题。');return;}if(value.url && !/^https?:\/\//i.test(value.url)){toast('请使用以 https:// 或 http:// 开头的网址。');return;}if(kind==='profile'&&value.github&&!/^https?:\/\//i.test(value.github)){toast('请输入完整 GitHub 网址。');return;}
 const file=data.get('image');if(file instanceof File&&file.size){if(file.size>2*1024*1024||!['image/jpeg','image/png','image/webp'].includes(file.type)){toast('请选择 2 MB 以内的 JPG、PNG 或 WebP 图片。');return;}try{value.image=await readImage(file);}catch{toast('图片无法读取，请换一张图片。');return;}}
 if(generation!==editorGeneration||!editorDialog.open)return;const next=structuredClone(content);if(kind==='profile')next.profile=value;else{value.id=id||crypto.randomUUID();const index=next[kind].findIndex(x=>x.id===id);if(index>=0)next[kind][index]=value;else next[kind].unshift(value);}if(persist(next)){renderAll(kind==='posts'?value.id:undefined);closeDialog(editorDialog);toast('已保存，新的故事已经在这里。');}});
 $('#delete-entry')?.addEventListener('click',()=>{const next=structuredClone(content);const entry=next[kind].find(x=>x.id===id);next.trash=[...(next.trash||[]),{kind,entry}];next[kind]=next[kind].filter(x=>x.id!==id);if(persist(next)){renderAll();closeDialog(editorDialog);toast('已移到回收站，可在内容管理中恢复。');}});
@@ -171,7 +189,7 @@ function readImage(file){return new Promise((resolve,reject)=>{const r=new FileR
 function downloadContent(data,filename){const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const link=document.createElement('a');link.href=url;link.download=filename;link.click();setTimeout(()=>URL.revokeObjectURL(url),1500);}
 function openManager(){editorGeneration++;$('#editor-content').innerHTML=`<span class="eyebrow">YOUR JOURNAL, YOUR WAY.</span><h2>让它慢慢，变成你的样子。</h2><p>个人资料、时间轴、文章、收藏与荣誉保存在这个浏览器中。导出文件可以备份和迁移这些内容；书架和手办使用各自的备份入口；地图与音乐保留原模块的内容管理方式。导入会替换主站内容，并自动下载导入前的备份。</p><div class="manager-grid">${Object.entries(schemas).map(([k,v])=>`<button data-manager-edit="${k}">${v.name} ＋</button>`).join('')}<button id="restore-entry" ${(content.trash||[]).length?'':'disabled'}>恢复上次移除的内容</button></div><div class="manager-tools"><button class="underlined-link" id="export-data">导出内容备份 ↓</button><label class="underlined-link" style="cursor:pointer">导入内容备份 ↑<input id="import-data" type="file" accept="application/json,.json" hidden></label></div><div class="manager-list">${['posts','collections','timeline','honors'].flatMap(kind=>content[kind].map(x=>`<button data-manager-edit="${kind}" data-id="${esc(x.id)}"><span>${esc(x.title)}</span><small>${schemas[kind].name} ↗</small></button>`)).join('')}</div>`;openDialog(editorDialog);
 $('#export-data').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(content,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='feiyang-journal-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);toast('内容备份已导出。');});
-$('#import-data').addEventListener('change',async e=>{const file=e.target.files[0];const generation=editorGeneration;if(!file)return;try{if(file.size>12*1024*1024)throw Error('oversize');const incoming=JSON.parse(await file.text());if(generation!==editorGeneration||!editorDialog.open)return;if(!validContent(incoming))throw Error('invalid');downloadContent(content,'mofarigano-before-import.json');delete incoming.previousImport;if(persist(incoming)){renderAll();closeDialog(editorDialog);toast('导入成功，导入前的内容备份已下载。');}}catch{toast('无法导入，请选择本网站导出的 JSON 备份（不超过 12 MB）。');}});
+$('#import-data').addEventListener('change',async e=>{const file=e.target.files[0];const generation=editorGeneration;if(!file)return;try{if(file.size>12*1024*1024)throw Error('oversize');const incoming=JSON.parse(await file.text());if(generation!==editorGeneration||!editorDialog.open)return;if(!validContent(incoming))throw Error('invalid');downloadContent(content,'mofarigano-before-import.json');delete incoming.previousImport;if(persist(includeSiteRecords(incoming))){renderAll();closeDialog(editorDialog);toast('导入成功，导入前的内容备份已下载。');}}catch{toast('无法导入，请选择本网站导出的 JSON 备份（不超过 12 MB）。');}});
 $('#restore-entry').addEventListener('click',()=>{const next=structuredClone(content);const item=next.trash?.pop();if(item&&schemas[item.kind]&&Array.isArray(next[item.kind])){if(!next[item.kind].some(x=>x.id===item.entry.id))next[item.kind].unshift(item.entry);if(persist(next)){renderAll();closeDialog(editorDialog);toast('已恢复上次移除的内容。');}}});
 }
 
@@ -202,7 +220,7 @@ document.addEventListener('click',e=>{if(!e.target.closest('#index-panel,#index-
 $('#credits-button').addEventListener('click',()=>{$('#detail-content').innerHTML=`<h2>关于本站</h2><div class="credit-text">设计融合已有 Fashion Web 系列的大字排版、本人造型切换，以及 Orbit 的空间感与纸张质感。
 欢迎页复用 <a href="https://github.com/ThreshoLdnnis/MovingSpider" target="_blank" rel="noopener noreferrer">MovingSpider</a> 的跳蛛收藏场景。素材与字体声明见 <a href="welcome/THIRD_PARTY_NOTICES.md" target="_blank" rel="noopener noreferrer">欢迎页来源说明</a>。
 旅行地图、音乐墙和读书角直接集成原作。音乐墙预置封面与歌词；播放需要添加你自己的音频。
-个人介绍与经历依据已有个人资料整理；荣誉未虚构，手办默认展示灵感样例。两篇站点手记为本次网站制作撰写的开场内容，可自行编辑。
+个人介绍、经历与荣誉依据已有个人资料整理。手办默认展示灵感样例。两篇站点手记为本次网站制作撰写的开场内容，可自行编辑。
 主站内容保存在当前浏览器，不会自动同步到其他设备。内容管理支持导出和导入。
 字体：Anton、Instrument Sans、Noto Serif SC、Instrument Serif、Caveat 与小赖字体；自托管字库与许可见 <a href="assets/fonts/README.md" target="_blank" rel="noopener noreferrer">字体说明</a>。图片与素材来源保存在 <a href="assets/sources.json" target="_blank" rel="noopener noreferrer">素材来源清单</a>；手办图片为 POP MART 官方商品参考图，原作者及品牌保留权利。
 Made with curiosity, for Mofarigano.</div>`;openDialog(detailDialog);});

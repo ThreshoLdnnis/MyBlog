@@ -1,0 +1,436 @@
+body[data-page="honors"] main#page-content {
+  border-color: #6a566a;
+  background: #151321;
+}
+
+#honors {
+  --honor-ink: #fff6e5;
+  --honor-amber: #e8c594;
+  --honor-muted: #c1b3bf;
+  --honor-rule: #b79a8c47;
+  position: relative;
+  isolation: isolate;
+  color: var(--honor-ink);
+  background:
+    radial-gradient(ellipse at 48% -20%, #7851478c, transparent 61%),
+    radial-gradient(ellipse at 0 58%, #63457450, transparent 59%),
+    radial-gradient(ellipse at 91% 68%, #282c5a, transparent 66%),
+    linear-gradient(145deg, #1a1425, #171626 58%, #100f1c);
+}
+
+#honors::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 15px;
+  border: 1px solid #e8c5942b;
+  border-radius: 3px;
+  pointer-events: none;
+  background: repeating-linear-gradient(90deg, transparent 0, transparent calc(25% - 1px), #fbe0bc09 25%);
+}
+
+#honors > .section-heading {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: clamp(18px, 3vw, 46px) 36px clamp(22px, 2.6vw, 38px);
+  margin: 0;
+  text-align: center;
+}
+
+#honors > .section-heading::before,
+#honors > .section-heading::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+#honors > .section-heading::before {
+  inset: 0 0 auto;
+  top: 48%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #f2c99c72 17%, transparent 37% 63%, #f2c99c72 83%, transparent);
+}
+
+#honors > .section-heading::after {
+  left: 50%;
+  bottom: 10px;
+  width: 4px;
+  height: 4px;
+  background: var(--honor-amber);
+  box-shadow: 0 0 16px 2px #f1be8ca6;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+#honors > .section-heading h2 {
+  margin: 0;
+  color: var(--honor-ink);
+  font-family: var(--font-serif);
+  font-size: clamp(42px, 6vw, 78px);
+  font-weight: 600;
+  line-height: 1.14;
+  letter-spacing: -.035em;
+  text-shadow: 0 4px 40px #e6b2855e;
+}
+
+#honors > .section-heading .heading-note {
+  display: block;
+  margin: 12px auto 0;
+  color: var(--honor-amber);
+  font: 500 10px/1.5 var(--font-label);
+  letter-spacing: .32em;
+  text-transform: uppercase;
+}
+
+#honors > .section-heading > p {
+  margin: 0;
+  color: var(--honor-muted);
+  font-size: clamp(12px, 1.25vw, 16px);
+  line-height: 1.6;
+}
+
+#honors > .section-heading > button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  min-height: 38px;
+  margin: 0;
+  padding: 7px 12px;
+  color: #f7dbb3;
+  background: #271e2d;
+  border: 1px solid #baa08c68;
+  border-radius: 3px;
+  letter-spacing: .02em;
+}
+
+#honor-grid {
+  display: block;
+  --honor-columns: 4;
+  --honor-card-gap: clamp(13px, 1.6vw, 25px);
+}
+
+.honor-gallery-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-block: 1px solid var(--honor-rule);
+  padding: 9px 0;
+}
+
+#honors :is(.honor-gallery-toolbar, .honor-gallery-browse, .honor-gallery-progress)[hidden] { display: none; }
+
+.honor-gallery-total {
+  color: var(--honor-amber);
+  font: 500 12px/1.4 var(--font-label);
+  letter-spacing: .08em;
+}
+
+.honor-gallery-browse {
+  display: flex;
+  align-items: center;
+  gap: clamp(5px, 1vw, 13px);
+}
+
+.honor-gallery-hint,
+.honor-gallery-counter {
+  white-space: nowrap;
+  color: var(--honor-muted);
+  font: 400 11px/1.4 var(--font-label);
+  font-variant-numeric: tabular-nums;
+}
+
+.honor-gallery-counter { min-width: 31px; text-align: center; }
+
+.honor-gallery-arrow {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 38px;
+  border: 1px solid #ba9b7a81;
+  border-radius: 3px;
+  color: #ffe5bd;
+  background: #4f3b453e;
+  font-size: 19px;
+  transition: background .2s, border-color .2s;
+}
+
+.honor-gallery-arrow:disabled { opacity: .38; cursor: default; }
+#honors > .section-heading > button:hover,
+.honor-gallery-arrow:hover:enabled { background: #644c51; border-color: #ffe1afa8; }
+#honors :is(button, .honor-gallery-track):focus-visible { outline: 2px solid #ffdfab; outline-offset: 3px; }
+
+.honor-gallery-track {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: var(--honor-card-gap);
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-block: var(--honor-card-gap) 21px;
+}
+
+.honor-gallery-track::-webkit-scrollbar { display: none; }
+.honor-gallery-track.is-dragging { scroll-snap-type: none; user-select: none; }
+.honor-gallery-track:not(.is-empty)[tabindex="0"] { cursor: grab; }
+.honor-gallery-track.is-dragging[tabindex="0"] { cursor: grabbing; }
+
+.honor-gallery-panel {
+  display: grid;
+  flex: 0 0 100%;
+  min-width: 0;
+  grid-template-columns: repeat(var(--honor-columns), minmax(0, 1fr));
+  align-content: start;
+  gap: var(--honor-card-gap);
+  scroll-snap-align: start;
+}
+
+.honor-gallery-empty {
+  width: 100%;
+  margin: 14px auto 22px;
+  padding: 27px;
+  text-align: center;
+  border: 1px solid var(--honor-rule);
+  color: var(--honor-muted);
+}
+
+.honor-gallery-progress { height: 2px; background: #c9a38529; overflow: hidden; }
+.honor-gallery-progress-fill {
+  display: block;
+  width: calc(100% / var(--pages, 1));
+  height: 100%;
+  background: linear-gradient(90deg, #815b83, #f2ce96);
+  transform: translateX(calc(var(--page, 0) * 100%));
+  transition: transform .45s cubic-bezier(.2, .7, .1, 1);
+}
+
+.honor-plaque {
+  --plate-color: #f0cd93;
+  --plate-fill: #443344;
+  --plate-corner: 14px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+  min-height: clamp(232px, 23vw, 321px);
+  overflow: hidden;
+  padding: clamp(18px, 1.8vw, 28px);
+  color: var(--honor-ink);
+  border: 1px solid color-mix(in srgb, var(--plate-color) 57%, #42384a);
+  border-radius: var(--plate-corner);
+  background:
+    linear-gradient(137deg, #ffffff29, transparent 22% 72%, #debcad12),
+    linear-gradient(152deg, var(--plate-fill), #211b2a 84%);
+  box-shadow: inset 0 0 0 3px #dccbe42c, inset 1px 1px 0 1px #fff4d96d,
+    inset -3px -3px 4px #04030c76, 0 5px 0 #0b0813, 0 12px 18px #07050c4f;
+}
+
+.honor-plaque[data-tone="jade"] { --plate-color: #b8d8b4; --plate-fill: #34474a; }
+.honor-plaque[data-tone="violet"] { --plate-color: #d9c0f3; --plate-fill: #504165; }
+.honor-plaque[data-tone="silver"] { --plate-color: #d4dfeb; --plate-fill: #394353; }
+.honor-plaque[data-tone="rose"] { --plate-color: #f4bdc7; --plate-fill: #573746; }
+.honor-plaque[data-tone="blue"] { --plate-color: #a9d6f0; --plate-fill: #364963; }
+
+.honor-plaque::before,
+.honor-plaque::after {
+  position: absolute;
+  content: "";
+  inset: 6px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.honor-plaque::before {
+  border: 1px solid color-mix(in srgb, var(--plate-color) 30%, transparent);
+  border-radius: 8px;
+  background:
+    linear-gradient(130deg, #fff8ea12 0 31%, transparent 32% 35%, #fff8ea07 36% 43%, transparent 44%),
+    repeating-linear-gradient(0deg, #fff1e003 0 1px, transparent 1px 4px);
+}
+
+.honor-plaque::after {
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  background: radial-gradient(ellipse 170px 130px at var(--plate-x, 50%) var(--plate-y, 0%), #ffece92a, transparent);
+  transition: opacity .25s;
+}
+
+.honor-plaque.is-lit::after { opacity: 1; }
+
+.honor-plaque-gleam {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(116deg, transparent 38%, #ffffff00 41%, #fff2d827 50%, #fff7e908 60%, transparent 62%);
+  transform: translateX(-130%);
+}
+
+#honors:not([hidden]) .honor-plaque-gleam {
+  animation: honor-plate-gleam 12s ease-in-out infinite;
+  animation-delay: calc(1.2s + var(--plaque-order) * -2.15s);
+}
+
+@keyframes honor-plate-gleam {
+  0%, 70% { transform: translateX(-130%); }
+  91%, 100% { transform: translateX(135%); }
+}
+
+#honors:not([hidden]) .honor-plaque {
+  animation: honor-plate-emerge .5s cubic-bezier(.2,.75,.25,1) both;
+  animation-delay: calc(var(--plaque-order) * 40ms);
+}
+
+@keyframes honor-plate-emerge {
+  from { opacity: .25; transform: translateX(18px) translateY(6px); }
+  to { opacity: 1; transform: translateX(0) translateY(0); }
+}
+
+.honor-plaque-mark {
+  position: absolute;
+  right: clamp(14px, 1.6vw, 23px);
+  top: clamp(14px, 1.6vw, 23px);
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  color: var(--plate-color);
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px #120d1d66, inset 0 0 0 3px #f0d9ee26, 0 0 15px color-mix(in srgb, var(--plate-color) 29%, transparent);
+  opacity: .78;
+}
+
+.honor-plaque-mark::after {
+  content: "✦";
+  font-size: 17px;
+  line-height: 1;
+  text-shadow: 0 0 10px currentColor;
+}
+
+.honor-plaque-source {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 9px;
+  align-items: baseline;
+  min-height: 34px;
+  padding-right: 38px;
+  color: #f2e9ef;
+  overflow-wrap: anywhere;
+}
+
+.honor-plaque-issuer,
+.honor-plaque-date {
+  margin: 0;
+  font: 500 11px/1.55 var(--font-label);
+}
+
+.honor-plaque-date { color: var(--honor-muted); font-variant-numeric: tabular-nums; }
+.honor-plaque-title {
+  margin: 9px 0 10px;
+  font: 600 clamp(17px, 1.53vw, 24px)/1.31 var(--font-serif);
+  letter-spacing: -.014em;
+  color: #fff9ef;
+  overflow-wrap: anywhere;
+}
+
+.honor-plaque-distinction {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px 8px;
+  margin: 0 0 9px;
+  color: var(--plate-color);
+  overflow-wrap: anywhere;
+}
+
+.honor-distinction-main {
+  font: 650 clamp(19px, 1.95vw, 33px)/1.08 var(--font-serif);
+  text-shadow: 0 1px 0 #fff0dc39, 0 0 20px color-mix(in srgb, var(--plate-color) 22%, transparent);
+}
+
+.honor-distinction-secondary {
+  padding: 3px 6px;
+  border: 1px solid color-mix(in srgb, var(--plate-color) 42%, transparent);
+  border-radius: 3px;
+  font: 500 10px/1.2 var(--font-label);
+}
+
+.honor-plaque-footer {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 9px;
+  border-top: 1px solid color-mix(in srgb, var(--plate-color) 27%, transparent);
+}
+
+.honor-plaque-note {
+  margin: 0;
+  color: #e0d3e2;
+  font: 400 11px/1.6 var(--font-sans);
+  overflow-wrap: anywhere;
+}
+
+.honor-plaque-edit {
+  flex: none;
+  min-height: 28px;
+  padding: 3px 5px;
+  margin-left: auto;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  color: var(--plate-color);
+  font: 400 10px/1.3 var(--font-label);
+}
+
+.honor-plaque-edit:hover { border-color: currentColor; }
+
+.honor-plaque[data-layout="duet"] .honor-plaque-title { font-size: clamp(17px, 1.42vw, 22px); }
+.honor-plaque[data-layout="duet"] .honor-plaque-distinction {
+  padding-block: 9px;
+  border-block: 1px solid color-mix(in srgb, var(--plate-color) 29%, transparent);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--plate-color) 12%, transparent), transparent 78%);
+}
+.honor-plaque[data-layout="vertical"] .honor-plaque-title { margin-left: 0; padding-left: 10px; border-left: 2px solid var(--plate-color); }
+.honor-plaque[data-layout="vertical"] .honor-plaque-distinction { justify-content: flex-end; text-align: right; }
+.honor-plaque[data-layout="vertical"] .honor-plaque-mark { transform: rotate(45deg); border-radius: 4px; width: 24px; height: 24px; }
+.honor-plaque[data-layout="vertical"] .honor-plaque-mark::after { transform: rotate(-45deg); font-size: 12px; }
+.honor-plaque[data-layout="edition"] .honor-plaque-mark { border-radius: 5px 18px 18px 18px; }
+.honor-plaque[data-layout="edition"] .honor-distinction-main {
+  padding-block: 4px;
+  border-block: 1px solid color-mix(in srgb, var(--plate-color) 46%, transparent);
+  font-size: clamp(16px, 1.6vw, 26px);
+}
+.honor-plaque[data-layout="rank"] .honor-plaque-mark::after { content: "↑"; font-size: 18px; }
+.honor-plaque[data-layout="rank"] .honor-distinction-main { font-variant-numeric: tabular-nums; }
+.honor-plaque[data-layout="record"]::before { border-style: dashed; }
+.honor-plaque[data-layout="record"] .honor-plaque-mark { border-radius: 4px; box-shadow: none; }
+.honor-plaque[data-layout="record"] .honor-plaque-mark::after { content: "○"; }
+.honor-plaque[data-layout="record"] .honor-distinction-main { font: 500 14px/1.4 var(--font-label); }
+
+@media (min-width: 1100px) {
+  body[data-page="honors"] #page-content > #honors > .section-heading { margin-bottom: 7px; }
+}
+
+@media (max-width: 579px) {
+  #honors::before { inset: 8px; }
+  #honors > .section-heading { padding: 8px 2px 23px; }
+  #honors > .section-heading::before { display: none; }
+  #honors > .section-heading::after { bottom: 8px; }
+  #honors > .section-heading > button { position: static; order: 2; font-size: 11px; }
+  .honor-plaque { min-height: 207px; }
+  .honor-plaque-title { font-size: 19px; }
+  .honor-plaque-mark { top: 15px; right: 15px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #honors:not([hidden]) .honor-plaque,
+  #honors:not([hidden]) .honor-plaque-gleam { animation: none; }
+  #honors .honor-plaque::after,
+  #honors :is(.honor-gallery-progress-fill, .honor-gallery-arrow) { transition: none; }
+}

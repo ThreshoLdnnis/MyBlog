@@ -5,7 +5,7 @@
   <meta name="theme-color" content="#17223a">
   <meta name="description" content="朱飞阳的个人网站。量化研究、产品设计、旅行足迹、音乐、书籍与收藏。">
   <title>Mofarigano</title>
-  <link rel="icon" href="assets/portrait.jpg">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-m.png">
   <script>
     try {
       const savedTheme = localStorage.getItem('movingspider-theme');
@@ -13,7 +13,7 @@
     } catch {}
   </script>
   <link rel="stylesheet" href="welcome/texture-previews.css">
-  <script type="module" src="welcome-gate.js?v=20261121.6"></script>
+  <script type="module" src="welcome-gate.js?v=20261121.7"></script>
   <link rel="stylesheet" href="welcome-gate.css">
   <template id="journal-styles">
     <link rel="stylesheet" href="styles.css">
@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="about-interests.css">
     <link rel="stylesheet" href="works-glitch.css?v=20261121.6">
     <link rel="stylesheet" href="collection-tin.css?v=20261121.5">
+    <link rel="stylesheet" href="honors-gallery.css">
   </template>
 </head>
 <body id="home">
@@ -50,8 +51,8 @@
     <a href="#/travel"><span class="nav-cn">足迹</span><span class="nav-en" aria-hidden="true" lang="zh-CN">地图</span></a>
     <a href="#/music"><span class="nav-cn">音乐</span><span class="nav-en" aria-hidden="true">MUSIC</span></a>
     <a href="#/books"><span class="nav-cn">阅读</span><span class="nav-en" aria-hidden="true" lang="zh-CN">万卷</span></a>
-    <a href="#/collection"><span class="nav-cn">宝藏抽屉</span><span class="nav-en" aria-hidden="true" lang="zh-CN">魂器</span></a>
-    <a href="#/honors"><span class="nav-cn">战功厅</span><span class="nav-en" aria-hidden="true" lang="zh-CN">荣耀</span></a>
+    <a href="#/collection"><span class="nav-cn">宝藏抽屉</span><span class="nav-en" aria-hidden="true" lang="zh-CN">铁盒</span></a>
+    <a href="#/honors"><span class="nav-cn">荣誉墙</span><span class="nav-en" aria-hidden="true" lang="zh-CN">荣耀</span></a>
   </nav>
   <div class="header-end"><button class="icon-btn" id="index-toggle" aria-expanded="false" aria-controls="index-panel" aria-label="打开全部章节"><span class="more-label" aria-hidden="true">INDEX</span><span class="menu-lines"></span></button></div>
 </header>
@@ -153,7 +154,13 @@
     <div class="toolbox-layout"><h2>好奇心是引擎。<br><span class="serif">这些是工具。</span></h2><div class="tool-groups"><div><span>01 / RESEARCH</span><h3>用数据，寻找答案。</h3><p>Python / SQL / pandas / DuckDB<br>scikit-learn / LightGBM / SHAP</p></div><div><span>02 / BUILD</span><h3>用代码，构建体验。</h3><p>TypeScript / React / Next.js / Three.js<br>FastAPI / PostgreSQL / Tailwind CSS</p></div><div><span>03 / COLLABORATE</span><h3>和团队，一起做好。</h3><p>研究设计 / 任务规划 / PR Review<br>可复现实验 / 测试与交付 / 技术文档</p></div></div></div>
   </section>
 
-  <section class="honors section-pad" id="honors" hidden><div class="section-heading"><h2>每一步，<span class="serif">都有回响。</span><span class="heading-note" aria-hidden="true">The little wins.</span></h2><button class="text-button" data-edit="honors">添加一份荣誉 ＋</button></div><div id="honor-grid"></div></section>
+  <section class="honors section-pad" id="honors" aria-labelledby="honors-title" hidden>
+    <div class="section-heading">
+      <h2 id="honors-title">荣誉墙</h2>
+      <button class="text-button" type="button" data-edit="honors">添加一份荣誉 ＋</button>
+    </div>
+    <div id="honor-grid"></div>
+  </section>
 
   <section class="diary" id="journal" aria-label="手记" data-diary-state="closed" hidden>
     <div class="diary-closed" data-diary-closed>

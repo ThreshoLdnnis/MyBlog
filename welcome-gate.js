@@ -19,7 +19,7 @@ function mountWelcomeGate(dialog) {
       link.addEventListener('error', resolve, {once:true});
     }));
     document.head.append(styles);
-    journalReady = Promise.allSettled([...styleLoads, import('./app.js?v=20261121.6')]);
+    journalReady = Promise.allSettled([...styleLoads, import('./app.js?v=20261121.7')]);
     return journalReady;
   }
 

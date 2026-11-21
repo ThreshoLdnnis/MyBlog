@@ -6,11 +6,11 @@ export const pages = [
   {id:'travel', title:'足迹', subtitle:'地图', module:'map', roomTitle:'猪的世界足迹'},
   {id:'music', title:'音乐', subtitle:'THE SOUNDTRACK', module:'music', roomTitle:'Music of Love · 音乐墙'},
   {id:'books', title:'阅读', subtitle:'万卷', module:'books', roomTitle:'猪的读书角'},
-  {id:'collection', title:'宝藏抽屉', subtitle:'魂器'},
+  {id:'collection', title:'宝藏抽屉', subtitle:'铁盒'},
   {id:'toys', title:'手办收藏', subtitle:'SMALL THINGS, BIG JOY'},
   {id:'about', title:'关于我', subtitle:'A LITTLE MORE ABOUT ME'},
   {id:'stack', title:'技术栈', subtitle:'THE TOOLBOX'},
-  {id:'honors', title:'战功厅', subtitle:'荣耀'},
+  {id:'honors', title:'荣誉墙', subtitle:'荣耀'},
 ];
 
 export function mountModuleFrame(shell, {module, title, subtitle, loadingText, preview = false}) {
