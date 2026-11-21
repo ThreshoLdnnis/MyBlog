@@ -135,6 +135,8 @@ body[data-page="life"] main#page-content {
 
 .life-stage { position: relative; min-width: 0; padding: 0 0 45px; }
 .life-line { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; opacity: 0; }
+/* The galaxy's drawing viewport moves with scroll. Anchoring to it feeds that movement back into the page. */
+.life-line { overflow-anchor: none; }
 .life-timeline.life-has-line .life-line { opacity: 1; }
 .life-line path { fill: none; stroke-linecap: round; }
 
