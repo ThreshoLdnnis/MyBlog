@@ -13,7 +13,7 @@
     } catch {}
   </script>
   <link rel="stylesheet" href="welcome/texture-previews.css">
-  <script type="module" src="welcome-gate.js?v=20261121.2"></script>
+  <script type="module" src="welcome-gate.js?v=20261121.5"></script>
   <link rel="stylesheet" href="welcome-gate.css">
   <template id="journal-styles">
     <link rel="stylesheet" href="styles.css">
@@ -27,9 +27,11 @@
     <link rel="stylesheet" href="hero-stickers.css?v=20261121.2">
     <link rel="stylesheet" href="journal-book.css">
     <link rel="stylesheet" href="journal-book-interaction.css">
-    <link rel="stylesheet" href="life-timeline.css">
+    <link rel="stylesheet" href="life-timeline.css?v=20261121.5">
     <link rel="stylesheet" href="about-scrapbook.css">
     <link rel="stylesheet" href="about-interests.css">
+    <link rel="stylesheet" href="works-glitch.css?v=20261121.4">
+    <link rel="stylesheet" href="collection-tin.css?v=20261121.5">
   </template>
 </head>
 <body id="home">
@@ -101,14 +103,26 @@
     <section class="about-interests" id="about-interests" aria-label="个人兴趣与表达"></section>
   </section>
 
-  <section class="works section-pad" id="works" hidden>
-    <div class="section-heading"><h2>奇点</h2></div>
-    <div class="filter-row" id="work-filters" aria-label="筛选作品"><button class="active" data-filter="全部" aria-pressed="true">全部作品</button><button data-filter="产品设计" aria-pressed="false">产品设计</button><button data-filter="视觉交互" aria-pressed="false">视觉交互</button><button data-filter="策略模型" aria-pressed="false">策略模型</button></div>
+  <section class="works section-pad" id="works" aria-labelledby="works-title" hidden>
+    <div class="works-glitch-header">
+      <h2 id="works-title" class="works-glitch-title">
+        <span class="works-glitch-text">奇点<span class="works-glitch-slices" data-text="奇点" aria-hidden="true"></span></span>
+      </h2>
+      <div class="filter-row" id="work-filters" role="group" aria-label="筛选作品">
+        <button class="active" data-filter="全部" aria-pressed="true"><span class="works-glitch-text">全部作品<span class="works-glitch-slices" data-text="全部作品" aria-hidden="true"></span></span></button>
+        <button data-filter="产品设计" aria-pressed="false"><span class="works-glitch-text">产品设计<span class="works-glitch-slices" data-text="产品设计" aria-hidden="true"></span></span></button>
+        <button data-filter="视觉交互" aria-pressed="false"><span class="works-glitch-text">视觉交互<span class="works-glitch-slices" data-text="视觉交互" aria-hidden="true"></span></span></button>
+        <button data-filter="策略模型" aria-pressed="false"><span class="works-glitch-text">策略模型<span class="works-glitch-slices" data-text="策略模型" aria-hidden="true"></span></span></button>
+      </div>
+    </div>
     <div class="works-grid" id="works-grid"></div>
   </section>
 
-  <section class="life section-pad" id="life" hidden>
-    <div class="section-heading life-intro"><h2>生活</h2><button class="text-button" data-edit="timeline">记下一段 ＋</button></div>
+  <section class="life section-pad" id="life" aria-labelledby="life-quote" hidden>
+    <div class="section-heading life-intro">
+      <h2 class="life-quote" id="life-quote"><span class="life-quote-text">那途中的一切，有些与我擦肩而过从此天各一方，有些便永远驻进我的心魂，雕琢我，塑造我,锤炼我,融入我而成为我。</span></h2>
+      <button class="text-button" data-edit="timeline">记下一段 ＋</button>
+    </div>
     <div class="filter-row" id="timeline-filters" aria-label="筛选时间轴" hidden><button class="active" data-filter="全部" aria-pressed="true">全部</button><button data-filter="生活" aria-pressed="false">生活</button><button data-filter="学习" aria-pressed="false">学习</button><button data-filter="工作" aria-pressed="false">工作</button><button data-filter="创业" aria-pressed="false">创业</button></div>
     <div id="timeline-list"></div>
   </section>
@@ -124,10 +138,15 @@
     <div id="cabinet"></div>
   </section>
 
-  <section class="collection section-pad" id="collection" hidden>
-    <div class="section-heading"><h2>我的<span class="serif">宝藏抽屉。</span></h2><button class="primary-button light" data-edit="collections">收藏一份心动 <span>＋</span></button></div>
+  <section class="collection section-pad" id="collection" aria-label="我的宝藏铁盒" hidden>
+    <div class="tin-workbench">
+    <div class="section-heading"><h2>我的<span class="serif">宝藏抽屉。</span><span class="tin-heading-note">A little tin of favourite things.</span></h2><button class="tin-add" type="button" data-edit="collections">收藏一份心动 ＋</button></div>
     <div class="collection-toolbar"><div class="filter-row" id="collection-filters" aria-label="筛选收藏"><button class="active" data-filter="全部" aria-pressed="true">全部</button><button data-filter="探店" aria-pressed="false">宝藏探店</button><button data-filter="工具" aria-pressed="false">实用工具</button><button data-filter="地点" aria-pressed="false">地点</button><button data-filter="物品" aria-pressed="false">物品</button><button data-filter="语录" aria-pressed="false">语录</button><button data-filter="说说" aria-pressed="false">说说</button><button data-filter="音乐" aria-pressed="false">音乐</button></div><label class="search-field"><span>搜索</span><input id="collection-search" type="search" placeholder="找一份喜欢…" aria-label="搜索收藏"></label></div>
+    <div class="tin-bar"><span data-tin-count></span><div class="tin-bar-end"><span class="tin-bar-label">A PERSONAL KEEPSAKE TIN</span><button type="button" data-tin-close hidden>合上铁盒</button></div></div>
+    </div>
     <div class="collection-grid" id="collection-grid"></div>
+    <nav class="tin-pager" data-tin-pager aria-label="翻看更多收藏" hidden><button type="button" data-tin-prev>上一层</button><span data-tin-page></span><button type="button" data-tin-next>下一层</button></nav>
+    <p class="sr-only" data-tin-status role="status" aria-live="polite"></p>
   </section>
 
   <section class="tools section-pad" id="stack" hidden>

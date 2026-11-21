@@ -1,7 +1,9 @@
-/* A quiet, scroll-grown year line. Content and editing remain owned by app.js. */
+import { createLifeGalaxy, galaxyAxis } from './life-galaxy.js?v=20261121.5';
+
+/* A scroll-grown galaxy. Content and editing remain owned by app.js. */
 const mounted = new WeakMap();
-const FIRST_YEAR = 2004;
-const LAST_YEAR = 2026;
+const EARLIEST_YEAR = 2004;
+const LATEST_YEAR = 2026;
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const clamp = value => Math.min(1, Math.max(0, value));
 
@@ -31,39 +33,43 @@ export function renderLifeTimeline(root, entries, filter = '全部') {
 
 export function mountLifeTimeline(root) {
   const section = root.closest('section');
+  const entrance = document.querySelector('#welcome-gate');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let frame = 0, previousTime = 0, dirty = true, destroyed = false;
   let onScreen = false, progress = 0, target = 0, length = 0;
   let nodes = [], positions = [], firstY = 0, lastY = 1, headerHeight = 80;
   let lastActiveYear = null;
+  let currentRow = null;
+  let lastReachedIndex = -1;
+  let animationTime = 0, lastPaint = 0, intendedYear = null, intentTimer = 0;
 
   root.classList.add('life-timeline');
   root.classList.remove('life-has-line');
   const rail = element('aside', 'life-rail');
   rail.setAttribute('aria-label', '时间轴当前年份');
-  const liveYear = element('span', 'life-rail-year', FIRST_YEAR);
+  const liveYear = element('span', 'life-rail-year', LATEST_YEAR);
   liveYear.setAttribute('aria-hidden', 'true');
-  rail.append(liveYear);
+  const navigation = element('div', 'life-rail-nav');
+  const previous = element('button', 'life-year-step', '↓');
+  const next = element('button', 'life-year-step', '↑');
+  previous.type = next.type = 'button';
+  previous.dataset.lifeStep = '-1'; next.dataset.lifeStep = '1';
+  previous.setAttribute('aria-label', '上一年'); next.setAttribute('aria-label', '下一年');
+  next.disabled = true;
+  navigation.append(next, previous);
+  const yearStatus = element('span', 'sr-only');
+  yearStatus.setAttribute('role', 'status');
+  yearStatus.setAttribute('aria-atomic', 'true');
+  rail.append(liveYear, navigation, yearStatus);
 
   const stage = element('div', 'life-stage');
   const drawing = document.createElementNS(SVG_NS, 'svg');
   drawing.classList.add('life-line');
   drawing.setAttribute('aria-hidden', 'true');
   drawing.setAttribute('focusable', 'false');
-  const track = document.createElementNS(SVG_NS, 'path');
-  track.classList.add('life-line-track');
-  const growing = document.createElementNS(SVG_NS, 'path');
-  growing.classList.add('life-line-growing');
-  growing.setAttribute('pathLength', '1');
-  const tipHalo = document.createElementNS(SVG_NS, 'circle');
-  tipHalo.classList.add('life-line-halo');
-  tipHalo.setAttribute('r', '10');
-  const tip = document.createElementNS(SVG_NS, 'circle');
-  tip.classList.add('life-line-tip');
-  tip.setAttribute('r', '3.5');
-  drawing.append(track, growing, tipHalo, tip);
+  const galaxy = createLifeGalaxy(drawing);
   const years = element('ol', 'life-years');
-  years.setAttribute('aria-label', '2004 至 2026 的生活时间轴');
+  years.setAttribute('aria-label', '从 2026 回到 2004 的生活时间轴');
   stage.append(drawing, years);
   const loose = element('div', 'life-loose');
   root.replaceChildren(rail, stage, loose);
@@ -96,7 +102,7 @@ export function mountLifeTimeline(root) {
     for (const entry of Array.isArray(entries) ? entries : []) {
       if (!entry || (filter !== '全部' && entry.category !== filter)) continue;
       const year = timelineYear(entry.date);
-      if (year === null || year < FIRST_YEAR || year > LAST_YEAR) other.push(entry);
+      if (year === null || year < EARLIEST_YEAR || year > LATEST_YEAR) other.push(entry);
       else {
         if (!groups.has(year)) groups.set(year, []);
         groups.get(year).push(entry);
@@ -104,18 +110,19 @@ export function mountLifeTimeline(root) {
     }
     const fragment = document.createDocumentFragment();
     nodes = [];
-    for (let year = FIRST_YEAR; year <= LAST_YEAR; year++) {
+    for (let year = LATEST_YEAR; year >= EARLIEST_YEAR; year--) {
       const row = element('li', 'life-year');
       row.dataset.year = String(year);
+      setAxis(row, LATEST_YEAR - year);
       const label = element('span', 'life-year-label', year);
       const tick = element('span', 'life-year-tick');
       tick.setAttribute('aria-hidden', 'true');
       row.append(label, tick);
       const content = element('div', 'life-year-content');
-      if (year === FIRST_YEAR || year === LAST_YEAR) {
+      if (year === EARLIEST_YEAR || year === LATEST_YEAR) {
         row.classList.add('life-year-endpoint');
         const endpoint = element('div', 'life-endpoint');
-        endpoint.append(element('h3', '', year === FIRST_YEAR ? '出生' : '现在'));
+        endpoint.append(element('h3', '', year === EARLIEST_YEAR ? '出生' : '现在'));
         content.append(endpoint);
       }
       for (const entry of groups.get(year) || []) content.append(memory(entry, openIds));
@@ -127,6 +134,8 @@ export function mountLifeTimeline(root) {
       nodes.push({year, row, tick});
     }
     years.replaceChildren(fragment);
+    currentRow = null;
+    lastReachedIndex = -1;
     loose.replaceChildren();
     loose.hidden = !other.length;
     if (other.length) {
@@ -138,8 +147,16 @@ export function mountLifeTimeline(root) {
     invalidate();
   }
 
+  function setAxis(row, index) {
+    const compact = innerWidth <= 700;
+    const axis = galaxyAxis(index, LATEST_YEAR - EARLIEST_YEAR + 1, compact);
+    row.style.setProperty('--life-axis', `${axis.toFixed(3)}%`);
+    row.dataset.lifeSide = compact || axis <= 50 ? 'right' : 'left';
+  }
+
   function active() {
-    return !destroyed && !document.hidden && !section?.hidden && onScreen;
+    const covered = entrance?.open && !entrance.classList.contains('is-entering');
+    return !destroyed && !document.hidden && !section?.hidden && !covered && onScreen;
   }
 
   function schedule() {
@@ -152,25 +169,17 @@ export function mountLifeTimeline(root) {
   }
 
   function measure() {
+    nodes.forEach(({row}, index) => setAxis(row, index));
     const bounds = stage.getBoundingClientRect();
     if (!bounds.width || !bounds.height || !nodes.length) return false;
     headerHeight = document.querySelector('.site-header')?.getBoundingClientRect().height || 80;
-    drawing.setAttribute('viewBox', `0 0 ${bounds.width} ${bounds.height}`);
     positions = nodes.map(({tick}) => {
       const r = tick.getBoundingClientRect();
       return {x:r.left + r.width / 2 - bounds.left, y:r.top + r.height / 2 - bounds.top};
     });
     firstY = positions[0].y;
     lastY = positions.at(-1).y;
-    let path = `M ${positions[0].x} ${firstY}`;
-    for (let i = 1; i < positions.length; i++) {
-      const a = positions[i - 1], b = positions[i], dy = b.y - a.y;
-      const bend = Math.min(12, bounds.width * .035) * (i % 2 ? 1 : -1);
-      path += ` C ${a.x + bend} ${a.y + dy / 3}, ${b.x - bend} ${b.y - dy / 3}, ${b.x} ${b.y}`;
-    }
-    track.setAttribute('d', path);
-    growing.setAttribute('d', path);
-    length = growing.getTotalLength();
+    length = galaxy.setGeometry(positions, bounds.width, bounds.height);
     root.classList.add('life-has-line');
     dirty = false;
     return true;
@@ -189,30 +198,78 @@ export function mountLifeTimeline(root) {
       document.documentElement.scrollHeight - innerHeight,
       stageTop + lastY - readingLine
     );
-    target = clamp((scrollY - scrollStart) / Math.max(1, scrollEnd - scrollStart));
+    const scrollProgress = clamp((scrollY - scrollStart) / Math.max(1, scrollEnd - scrollStart));
+    target = galaxy.progressAtY(firstY + (lastY - firstY) * scrollProgress);
+    // Use the display's frame rate while scrolling and a lighter cadence at rest.
+    if (!reduced.matches && progress === target && now - lastPaint < 32) { schedule(); return; }
     const dt = previousTime ? Math.min(64, now - previousTime) : 16;
     previousTime = now;
+    lastPaint = now;
+    const stageVisible = bounds.bottom > headerHeight && bounds.top < innerHeight;
+    if (stageVisible && !reduced.matches) animationTime += dt / 1000;
     progress = reduced.matches ? target : progress + (target - progress) * (1 - Math.exp(-dt / 100));
     if (Math.abs(progress - target) < .0002) progress = target;
-    growing.style.strokeDashoffset = String(1 - (reduced.matches ? 1 : progress));
-    const point = growing.getPointAtLength(length * progress);
-    for (const dot of [tipHalo, tip]) {
-      dot.setAttribute('cx', String(point.x));
-      dot.setAttribute('cy', String(point.y));
+    const point = galaxy.paint(progress, animationTime, {reduced:reduced.matches, top:headerHeight - bounds.top, bottom:innerHeight - bounds.top});
+    if (!point) return;
+    const currentIndex = Math.max(0, positions.findLastIndex(({y}) => y <= point.y + 2));
+    const reachedIndex = reduced.matches ? nodes.length - 1 : currentIndex;
+    if (reachedIndex !== lastReachedIndex) {
+      nodes.forEach(({row}, index) => row.classList.toggle('is-reached', index <= reachedIndex));
+      lastReachedIndex = reachedIndex;
     }
-    let current = FIRST_YEAR;
-    nodes.forEach(({year, row}, index) => {
-      const reached = positions[index].y <= point.y + 2;
-      row.classList.toggle('is-reached', reached || reduced.matches);
-      if (reached) current = year;
-    });
+    const current = nodes[currentIndex].year;
+    if (currentRow !== nodes[currentIndex].row) {
+      currentRow?.removeAttribute('aria-current');
+      currentRow = nodes[currentIndex].row;
+      currentRow.setAttribute('aria-current', 'date');
+    }
     if (current !== lastActiveYear) {
       liveYear.textContent = String(current);
+      rail.setAttribute('aria-label', `时间轴当前年份：${current}`);
       lastActiveYear = current;
+      updateNavigation();
     }
-    if (progress !== target) schedule();
+    if (stageVisible && (!reduced.matches || progress !== target)) schedule();
     else previousTime = 0;
   }
+
+  function updateNavigation() {
+    const year = intendedYear ?? lastActiveYear ?? LATEST_YEAR;
+    previous.disabled = year <= EARLIEST_YEAR;
+    next.disabled = year >= LATEST_YEAR;
+  }
+
+  function releaseJump() {
+    clearTimeout(intentTimer);
+    intendedYear = null;
+    updateNavigation();
+  }
+
+  function jumpYear(delta) {
+    if (dirty && !measure()) return;
+    if (!positions.length) return;
+    intendedYear = Math.max(EARLIEST_YEAR, Math.min(LATEST_YEAR, (intendedYear ?? lastActiveYear ?? LATEST_YEAR) + delta));
+    yearStatus.textContent = `前往 ${intendedYear} 年`;
+    updateNavigation();
+    const bounds = stage.getBoundingClientRect();
+    const readingLine = headerHeight + (innerHeight - headerHeight) * .62;
+    const start = Math.max(0, bounds.top + scrollY + firstY - readingLine);
+    const end = Math.min(document.documentElement.scrollHeight - innerHeight, bounds.top + scrollY + lastY - readingLine);
+    const fraction = (positions[LATEST_YEAR - intendedYear].y - firstY) / Math.max(1, lastY - firstY);
+    scrollTo({top:start + fraction * Math.max(0, end - start), behavior:reduced.matches ? 'instant' : 'smooth'});
+    clearTimeout(intentTimer);
+    intentTimer = setTimeout(releaseJump, 1400);
+    schedule();
+  }
+
+  const previousYear = () => jumpYear(-1);
+  const nextYear = () => jumpYear(1);
+  const manualScroll = event => {
+    if (event.type === 'touchstart' && event.target.closest?.('.life-rail-nav')) return;
+    if (intendedYear !== null) releaseJump();
+  };
+  previous.addEventListener('click', previousYear);
+  next.addEventListener('click', nextYear);
 
   function visibilityChanged() {
     if (!active()) {
@@ -233,8 +290,11 @@ export function mountLifeTimeline(root) {
   if (header) resize.observe(header);
   const route = new MutationObserver(visibilityChanged);
   if (section) route.observe(section, {attributes:true, attributeFilter:['hidden']});
+  if (entrance) route.observe(entrance, {attributes:true, attributeFilter:['open','class']});
   root.addEventListener('toggle', invalidate, true);
   addEventListener('scroll', schedule, {passive:true});
+  addEventListener('wheel', manualScroll, {passive:true});
+  addEventListener('touchstart', manualScroll, {passive:true});
   addEventListener('resize', invalidate, {passive:true});
   document.addEventListener('visibilitychange', visibilityChanged);
   reduced.addEventListener('change', invalidate);
@@ -246,9 +306,14 @@ export function mountLifeTimeline(root) {
     destroy() {
       destroyed = true;
       cancelAnimationFrame(frame);
+      clearTimeout(intentTimer);
       intersection.disconnect(); resize.disconnect(); route.disconnect();
       root.removeEventListener('toggle', invalidate, true);
       removeEventListener('scroll', schedule);
+      removeEventListener('wheel', manualScroll);
+      removeEventListener('touchstart', manualScroll);
+      previous.removeEventListener('click', previousYear);
+      next.removeEventListener('click', nextYear);
       removeEventListener('resize', invalidate);
       document.removeEventListener('visibilitychange', visibilityChanged);
       reduced.removeEventListener('change', invalidate);

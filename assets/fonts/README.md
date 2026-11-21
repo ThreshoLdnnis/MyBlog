@@ -55,3 +55,11 @@ font-weight: 400;
 ## 关于我
 
 `journal-about-hand.woff2` 使用同一份小赖字体源文件和许可。使用 fontTools 保留个人介绍页标题所需的 23 个字符，内部家族名改为 `Journal About Hand`，压缩后为 6,096 字节。
+
+## 奇点
+
+`journal-singularity-black.woff2` 是 [Noto Sans SC](https://fonts.google.com/noto/specimen/Noto+Sans+SC) 900 字重的子集，由 Google Fonts CSS API 的 `text=奇点全部作品产品设计视觉交互策略模型` 参数生成，文件为 3,584 字节。CSS 家族名为 `Journal Singularity`，故障断层和色差由 CSS 绘制。原始许可见 [NotoSansSC-OFL.txt](./NotoSansSC-OFL.txt)。
+
+## 观我过往
+
+`journal-journey-quote.woff2` 是 [ZCOOL QingKe HuangYou](https://fonts.google.com/specimen/ZCOOL+QingKe+HuangYou) 的引文子集，由 Google Fonts CSS API 的 `text=` 参数生成，文件为 12,676 字节。CSS 家族名为 `Journal Journey Quote`。原始许可见 [ZCOOLQingKeHuangYou-OFL.txt](./ZCOOLQingKeHuangYou-OFL.txt)。

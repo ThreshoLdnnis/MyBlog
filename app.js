@@ -1,4 +1,4 @@
-import { initialContent, journalIllustrations, projects } from './content.js?v=20261121.2';
+import { initialContent, journalIllustrations, projects } from './content.js?v=20261121.4';
 import { mountCabinet } from './cabinet/cabinet.js';
 import { mountPortraitReveal } from './portrait-reveal.js';
 import { mountNameParticles } from './name-particles.js?v=20261121.2';
@@ -6,7 +6,9 @@ import { mountHeroStickers } from './hero-stickers.js';
 import { mountAboutTags } from './about-tags.js';
 import { mountAboutInterests } from './about-interests.js';
 import { mountJournalBook } from './journal-book.js';
-import { renderLifeTimeline } from './life-timeline.js';
+import { mountCollectionTin } from './collection-tin.js?v=20261121.1';
+import { renderLifeTimeline } from './life-timeline.js?v=20261121.5';
+import { mountTextParticles } from './text-particles.js';
 import { pages, mountModuleFrame, mountPageNavigation } from './page-navigation.js?v=20261121.2';
 
 const $ = (s, root=document) => root.querySelector(s);
@@ -19,6 +21,7 @@ const safeImage = value => typeof value==='string' && (/^data:image\/(jpeg|png|w
 let content=structuredClone(initialContent), saved=new Set(), workFilter='全部', timeFilter='全部', collectFilter='全部';
 let pageNavigation;
 const diary = mountJournalBook($('#journal'), journalIllustrations);
+const collectionTin = mountCollectionTin($('#collection'));
 const moduleInfo={map:{title:'猪的世界足迹',path:'modules/map.html'},music:{title:'Music of Love · 音乐墙',path:'modules/music.html'},books:{title:'猪的读书角',path:'modules/books.html'}};
 const contentKinds=['timeline','honors','collections','posts'];
 function validEntry(x){return x && typeof x==='object' && typeof x.id==='string' && typeof x.title==='string' && ['body','date','category','subtitle','excerpt','image','url','module'].every(k=>x[k]===undefined||typeof x[k]==='string');}
@@ -99,7 +102,14 @@ function renderTimeline() {
   $('#timeline-filters').hidden = !entries.length;
   renderLifeTimeline($('#timeline-list'), entries, timeFilter);
 }
-function renderCollections(){const q=$('#collection-search').value.trim().toLocaleLowerCase();const list=content.collections.filter(x=>(collectFilter==='全部'||x.category===collectFilter)&&`${x.title} ${x.subtitle} ${x.body}`.toLocaleLowerCase().includes(q));$('#collection-grid').innerHTML=list.length?list.map(x=>{const img=safeImage(x.image);return `<article class="find-card ${img?'':'textual'}">${img?`<img src="${esc(img)}" alt="${esc(x.title)}" loading="lazy">`:''}<span class="find-category">${esc(x.category)} / GOOD FIND</span><h3>${esc(x.title)}</h3><p>${esc(x.subtitle)}</p><div class="find-footer"><button data-collection="${esc(x.id)}">打开收藏 ↗</button><button data-save="${esc(x.id)}" class="${saved.has(x.id)?'saved':''}" aria-label="${saved.has(x.id)?'取消标记':'标记喜欢'}：${esc(x.title)}" aria-pressed="${saved.has(x.id)}">${saved.has(x.id)?'已喜欢':'喜欢 ＋'}</button></div></article>`;}).join(''):`<div class="empty-state"><h3>${q?'没有找到这份收藏。':'这个抽屉，等一份新的心动。'}</h3><p>${q?'试试其他关键词，或者切换分类。':'探店、地点、物品或一句话，都值得被好好留下。'}</p><button class="text-button" data-edit="collections">添加收藏 ＋</button></div>`;}
+function renderCollections() {
+  const query = $('#collection-search').value.trim().toLocaleLowerCase();
+  const list = content.collections.filter(entry =>
+    (collectFilter === '全部' || entry.category === collectFilter) &&
+    `${entry.title} ${entry.subtitle || ''} ${entry.body || ''}`.toLocaleLowerCase().includes(query)
+  );
+  collectionTin.render(list, {saved, safeImage, query});
+}
 function renderHonors(){$('#honor-grid').innerHTML=content.honors.length?content.honors.map(x=>`<article class="honor-card"><span>${esc(x.date)} / ${esc(x.category||'荣誉')}</span><h3>${esc(x.title)}</h3><p>${esc(x.subtitle)}</p><p>${esc(x.body)}</p><button class="text-button" data-edit="honors" data-id="${esc(x.id)}">编辑荣誉 ↗</button></article>`).join(''):`<div class="honor-empty"><strong>01.</strong><div><h3>把努力的回响，收藏在这里。</h3><p>这里留给真实的奖项、证书与里程碑。<br>第一份荣誉，由你亲自写下。</p></div><button class="underlined-link" data-edit="honors">记录我的第一份荣誉 ↗</button></div>`;}
 function renderAll(postId){renderProfile();renderWorks();renderTimeline();renderCollections();renderHonors();diary.setPosts(content.posts, postId);}
 
@@ -200,6 +210,8 @@ $('#current-year').textContent=new Intl.DateTimeFormat('en',{year:'numeric',time
 renderAll();
 mountAboutTags($('#about-tag-board'));
 mountAboutInterests($('#about-interests'));
+mountTextParticles($('.life-quote'), '.life-quote-text');
+mountTextParticles($('#works-title'), '.works-glitch-text', {reach: 1.45});
 pageNavigation=mountPageNavigation({getName:()=>content.profile.name});
 
 function prepareJournalMedia() {

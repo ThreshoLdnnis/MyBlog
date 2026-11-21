@@ -45,7 +45,7 @@ export const journalIllustrations = [
 export const projects = [
   {id:'music',title:'音乐光盘',type:'视觉交互',year:'2026',number:'01',image:'assets/music-preview.jpg',description:'让封面有形状，让旋律有归处。Three.js 立体唱片与歌词手记。',preview:'music',tag:'INTERACTIVE / MUSIC'},
   {id:'books',title:'猪的读书角',type:'视觉交互',year:'2026',number:'02',image:'assets/books-preview.jpg',description:'51 本书，51 个可以走进去的世界。可抽取、可翻阅的立体书架。',preview:'books',tag:'3D / READING'},
-  {id:'orbit',title:'Orbit · 星际漫游',type:'视觉交互',year:'2026',number:'03',image:'assets/projects/orbit.jpg',description:'将影像环绕成一颗可以触及的星球，用拖动与镜头推进探索空间。',preview:'orbit',tag:'EXPERIMENT / SPACE'},
+  {id:'orbit',title:'照片球',type:'视觉交互',year:'2026',number:'03',image:'assets/projects/orbit.jpg',description:'将影像环绕成一颗可以触及的星球，用拖动与镜头推进探索空间。',preview:'orbit',tag:'EXPERIMENT / SPACE'},
   {id:'ronin',title:'浪人X',type:'视觉交互',year:'2026',number:'04',image:'assets/projects/roninx.jpg',description:'机械、留白与聚光。藏在光线后面的另一种面貌。',preview:'ronin',tag:'EXPERIMENT / MOTION'},
   {id:'spider',title:'成为蛛蛛',type:'视觉交互',year:'2026',number:'05',image:'assets/projects/spider.webp',description:'让跳蛛追着光标探路，织起蛛丝，在三种织物主题里翻看收藏。',preview:'spider',tag:'INTERACTIVE / PLAY'},
   {id:'rider',title:'铠甲变身',type:'视觉交互',year:'2026',number:'06',image:'assets/projects/rider.webp',description:'滑过人物轮廓，以撕裂光效从半身像切换到骑手铠甲。',preview:'rider',tag:'INTERACTIVE / REVEAL'},

@@ -8,6 +8,7 @@
   <meta name="description" content="Brush to reveal electric blue armor with lightning and sparks.">
   <link rel="preload" as="image" href="rider/portrait.webp">
   <link rel="preload" as="image" href="rider/armor.webp">
+  <link rel="preload" as="image" href="rider/spider-man-collage.jpg">
   <style>
     @font-face {
       font-family: "Inter Tight";
@@ -17,8 +18,7 @@
       font-display: swap;
     }
     :root {
-      --bg: #fdeef3;
-      --bg-2: #fbe3eb;
+      --bg: #2d2124;
       --ink: #141114;
       --muted: #7a6870;
       --ghost: #d6c3ca;
@@ -99,9 +99,7 @@
       overflow: hidden;
       touch-action: pan-y;
       cursor: none;
-      background:
-        radial-gradient(60% 55% at 50% 45%, #fff6f9 0%, rgba(255,246,249,0) 70%),
-        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+      background: var(--bg) url("rider/spider-man-collage.jpg") center / cover no-repeat;
     }
     .marquees {
       position: absolute;
