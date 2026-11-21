@@ -1,6 +1,24 @@
 {
-  "note": "现有项目封面与已署名参考风景；风景不代表本人拍摄。只进行等比缩小及 JPEG 压缩。",
+  "note": "现有项目封面与已署名参考风景；风景不代表本人拍摄。素材按展示需要等比缩小及压缩。",
   "projects": [
+    {
+      "file": "projects/orbit-cover.webp",
+      "title": "照片球",
+      "sourceType": "user-provided-project-screenshot",
+      "changes": "等比缩小至宽度 1440 px，WebP 质量 88"
+    },
+    {
+      "file": "projects/rider-cover.webp",
+      "title": "铠甲变身",
+      "sourceType": "user-provided-project-screenshot",
+      "changes": "等比缩小至宽度 1440 px，WebP 质量 88"
+    },
+    {
+      "file": "projects/page-to-code-cover.webp",
+      "title": "万物溯源",
+      "sourceType": "user-provided-project-screenshot",
+      "changes": "等比缩小至宽度 1440 px，WebP 质量 88"
+    },
     {
       "file": "projects/roninx.jpg",
       "title": "RoninX · 神经边界",

@@ -110,6 +110,9 @@
 #work-filters button:hover { border-color: var(--glitch-magenta); color: var(--glitch-ink); }
 #work-filters button:focus-visible { outline: 2px solid var(--glitch-ink); outline-offset: 3px; }
 
+.work-visual[data-project="page-to-code"] img { object-position: left center; }
+.work-visual[data-project="page-to-code"] .work-number { top: auto; bottom: 15px; }
+
 @media (forced-colors: active) {
   .works-glitch-header, #work-filters button { border-color: CanvasText; }
   .works-glitch-text { transform: none; text-shadow: none; }

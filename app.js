@@ -1,4 +1,4 @@
-import { initialContent, journalIllustrations, projects } from './content.js?v=20261121.4';
+import { initialContent, journalIllustrations, projects } from './content.js?v=20261121.6';
 import { mountCabinet } from './cabinet/cabinet.js';
 import { mountPortraitReveal } from './portrait-reveal.js';
 import { mountNameParticles } from './name-particles.js?v=20261121.2';

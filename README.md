@@ -52,11 +52,11 @@ Mofarigano（朱飞阳 / Timofey ）的个人博客与生活收藏空间。把 F
 欢迎页复用 [MovingSpider](https://github.com/ThreshoLdnnis/MovingSpider) 的蓝色织物、收藏物件、跳蛛与蛛丝场景，并保留三主题切换。欢迎页独立运行，进入后卸载其动画。每次刷新仍需手动点击进入，站内切换页面不会重复出现。入口支持键盘操作，减少动态效果模式也保留进入按钮。来源与素材说明见[欢迎页文档](./welcome/README.md)。
 
 <details>
-<summary>看一眼欢迎页和星际漫游</summary>
+<summary>看一眼欢迎页和照片球</summary>
 
-| 成为蛛蛛 | Orbit · 星际漫游 |
+| 成为蛛蛛 | 照片球 |
 | --- | --- |
-| ![蓝色织物主题的 MovingSpider 欢迎页](./assets/projects/spider.webp) | ![Orbit 三维照片球的项目预览](./assets/projects/orbit.jpg) |
+| ![蓝色织物主题的 MovingSpider 欢迎页](./assets/projects/spider.webp) | ![粉色闪粉背景的三维照片球](./assets/projects/orbit-cover.webp) |
 
 </details>
 
